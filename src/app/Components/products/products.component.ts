@@ -4,15 +4,21 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  styleUrl: './products.component.css'
+  styleUrls: ['./products.component.css']
 })
 export class ProductsComponent {
 
-  constructor(private route:Router){
+  constructor(private route: Router) {}
 
+  ngOnInit() {}
+
+  showAllProduct: boolean = false;
+
+  toggleAllProducts() {
+    this.showAllProduct = !this.showAllProduct;
   }
-  showallproducts(url:string)
-{
-  this.route.navigateByUrl(`/products/${url}`)
-}
+
+  showAllProducts(url: string) {
+    this.route.navigateByUrl(`/products/${url}`);
+  }
 }
