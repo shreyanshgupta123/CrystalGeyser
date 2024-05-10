@@ -3,12 +3,20 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProductsComponent } from './Components/products/products.component';
 import { HomeComponent } from './Components/home/home.component';
 import { AllProductsComponent } from './Components/all-products/all-products.component';
+import { OurSourcesComponent } from './Components/our-sources/our-sources.component';
+import { SustainabilityComponent } from './Components/sustainability/sustainability.component';
+import { OurPromisesComponent } from './Components/our-promises/our-promises.component';
+import { CareersComponent } from './Components/careers/careers.component';
 
 const routes: Routes = [
-  {path:'', component:HomeComponent},
   {path:'home', component:HomeComponent},
-  {path:'Products', component:ProductsComponent},
-  {path:'home/allproducts', component:AllProductsComponent}
+  {path:'products', component:ProductsComponent},
+  {path:'products/allproducts', component:AllProductsComponent},
+  {path:'our-sources', component:OurSourcesComponent},
+  {path:'sustainability', component:SustainabilityComponent},
+  {path:'our-promises', component:OurPromisesComponent},
+  {path:'careers', component:CareersComponent},
+  { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 
 @NgModule({

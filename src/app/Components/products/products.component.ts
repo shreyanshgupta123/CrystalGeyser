@@ -11,8 +11,8 @@ export class ProductsComponent {
   constructor(private route:Router){
 
   }
-  showallproducts()
+  showallproducts(url:string)
 {
-  this.route.navigate(['allproducts'])
+  this.route.navigateByUrl(`/products/${url}`)
 }
 }

@@ -5,8 +5,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
       </div>
       <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-        <li (click)="Products('Products')" ><a >Products</a></li>
-
+        <li><a routerLink="/products" routerLinkActive="active">Products</a></li>
         <li>
           <a>Hover</a>
           <ul class="p-2">
@@ -14,36 +13,24 @@
             <li><a>Submenu 2</a></li>
           </ul>
         </li>
-        <li><a>Our Sources</a></li>
-        <li><a>Sustainability</a></li>
-        <li><a>Our Promises</a></li>
-        <li><a>Careers</a></li>
+
+        <li><a routerLink="/our-sources" routerLinkActive="active">Our Sources</a></li>
+        <li><a routerLink="/sustainability" routerLinkActive="active">Sustainability</a></li>
+        <li><a routerLink="/our-promises" routerLinkActive="active">Our Promises</a></li>
+        <li><a routerLink="/careers" routerLinkActive="active">Careers</a></li>
       </ul>
     </div>
-    <a routerLink="home" class="btn btn-ghost text-xl">CrystalGeyser</a>
+    <a routerLink="/home" class="btn btn-ghost text-xl">CrystalGeyser</a>
   </div>
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal px-1">
-      <li>
-        <a routerLink="home">Home</a>
-      </li>
-      <li (click)="Products('Products')" ><a >Products</a></li>
-      <li class="-mt-4">
-       <a>
-        <div class="dropdown dropdown-hover">
-          <div tabindex="0">Hover</div>
-          <ul tabindex="0" class="dropdown-content z-[1] menu p-5 shadow bg-base-100 rounded-box w-60" style="top: 50px;">
-            <li><a>Item 1</a></li>
-            <li><a>Item 2</a></li>
-          </ul>
-        </div>
-
-       </a>
-      </li>
-      <li><a>Our Sources</a></li>
-        <li><a>Sustainability</a></li>
-        <li><a>Our Promises</a></li>
-        <li><a>Careers</a></li>
+      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+      <li><a routerLink="/products" routerLinkActive="active">Products</a></li>
+      <li><a routerLink="/our-sources" routerLinkActive="active">Our Sources</a></li>
+      <li><a routerLink="/sustainability" routerLinkActive="active">Sustainability</a></li>
+      <li><a routerLink="/our-promises" routerLinkActive="active">Our Promises</a></li>
+      <li><a routerLink="/careers"routerLinkActive="active">Careers</a></li>
+   
     </ul>
   </div>
   <div class="navbar-end">

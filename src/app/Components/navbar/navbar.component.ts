@@ -10,8 +10,10 @@ export class NavbarComponent {
 constructor(private route:Router) {
 
 }
-Products(product:string):void{
-  this.route.navigate([`${product}`])
+navigate(url:string):void{
+  if(url=='Products'){
+    this.route.navigateByUrl(`home/${url}`)
+  }
 }
 
 

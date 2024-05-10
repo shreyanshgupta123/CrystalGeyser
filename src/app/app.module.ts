@@ -7,6 +7,10 @@ import { ProductsComponent } from './Components/products/products.component';
 import { HomeComponent } from './Components/home/home.component';
 import { AllProductsComponent } from './Components/all-products/all-products.component';
 import { NavbarComponent } from './Components/navbar/navbar.component';
+import { OurSourcesComponent } from './Components/our-sources/our-sources.component';
+import { SustainabilityComponent } from './Components/sustainability/sustainability.component';
+import { OurPromisesComponent } from './Components/our-promises/our-promises.component';
+import { CareersComponent } from './Components/careers/careers.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +18,11 @@ import { NavbarComponent } from './Components/navbar/navbar.component';
     ProductsComponent,
     HomeComponent,
     AllProductsComponent,
-    NavbarComponent
+    NavbarComponent,
+    OurSourcesComponent,
+    SustainabilityComponent,
+    OurPromisesComponent,
+    CareersComponent
   ],
   imports: [
     BrowserModule,
