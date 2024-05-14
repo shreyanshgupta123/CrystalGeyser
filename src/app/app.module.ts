@@ -11,6 +11,9 @@ import { OurSourcesComponent } from './Components/our-sources/our-sources.compon
 import { SustainabilityComponent } from './Components/sustainability/sustainability.component';
 import { OurPromisesComponent } from './Components/our-promises/our-promises.component';
 import { CareersComponent } from './Components/careers/careers.component';
+import { CartComponent } from './Components/cart/cart.component';
+import { ShowselectedProductComponent } from './Components/showselected-product/showselected-product.component';
+import { RelatedProductsComponent } from './Components/related-products/related-products.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { CareersComponent } from './Components/careers/careers.component';
     OurSourcesComponent,
     SustainabilityComponent,
     OurPromisesComponent,
-    CareersComponent
+    CareersComponent,
+    CartComponent,
+    ShowselectedProductComponent,
+    RelatedProductsComponent
   ],
   imports: [
     BrowserModule,

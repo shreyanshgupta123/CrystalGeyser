@@ -7,6 +7,7 @@ import { OurSourcesComponent } from './Components/our-sources/our-sources.compon
 import { SustainabilityComponent } from './Components/sustainability/sustainability.component';
 import { OurPromisesComponent } from './Components/our-promises/our-promises.component';
 import { CareersComponent } from './Components/careers/careers.component';
+import { ShowselectedProductComponent } from './Components/showselected-product/showselected-product.component';
 
 const routes: Routes = [
   {path:'home', component:HomeComponent},
@@ -16,6 +17,7 @@ const routes: Routes = [
   {path:'sustainability', component:SustainabilityComponent},
   {path:'our-promises', component:OurPromisesComponent},
   {path:'careers', component:CareersComponent},
+  {path:'selecteditem', component:ShowselectedProductComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 

@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-all-products',
-  templateUrl: './all-products.component.html',
-  styleUrl: './all-products.component.css'
+  selector: 'app-related-products',
+  templateUrl: './related-products.component.html',
+  styleUrl: './related-products.component.css'
 })
-export class AllProductsComponent {
+export class RelatedProductsComponent {
   constructor(private router: Router) {}
 products:any[]=[
   {

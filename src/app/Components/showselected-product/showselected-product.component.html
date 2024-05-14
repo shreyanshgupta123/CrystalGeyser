@@ -1,0 +1,150 @@
+<div class="grid grid-cols-1 md:grid-cols-2">
+  <div style="background-color: rgb(209, 242, 255)" class="mt-10">
+    <div class="grid gap-4 mt-10">
+      <div style="display: flex; justify-content: center;">
+        <img
+          style="border-radius: 60px; width: 100%; max-width: 400px;"
+          src="{{ product.image }}"
+          alt=""
+        />
+      </div>
+
+      <div class="grid grid-cols-5 gap-4 m-8 ">
+        <div>
+          <img
+            class="h-auto max-w-full rounded-xl"
+            src="{{ product.image }}"
+            alt=""
+          />
+        </div>
+        <div>
+          <img
+            class="h-auto max-w-full rounded-lg"
+            src="{{ product.image }}"
+            alt=""
+          />
+        </div>
+        <div>
+          <img
+            class="h-auto max-w-full rounded-lg"
+            src="{{ product.image }}"
+            alt=""
+          />
+        </div>
+        <div>
+          <img
+            class="h-auto max-w-full rounded-lg"
+            src="{{ product.image }}"
+            alt=""
+          />
+        </div>
+        <div>
+          <img
+            class="h-auto max-w-full rounded-lg"
+            src="{{ product.image }}"
+            alt=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="border-l-4 mt-10">
+    <h3
+      class="text-sm bold m-8"
+      style="color: rgb(194, 189, 189); font-weight: bold"
+    >
+      CrystalGeyser
+    </h3>
+    <h1 class="text-5xl m-8">{{ product.productname }}</h1>
+    <div class="flex items-center m-8">
+      <ng-container
+        *ngFor="let star of [].constructor(fullStars); let i = index"
+      >
+        <svg
+          class="w-8 h-8 ms-3 text-yellow-300"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 22 20"
+        >
+          <path
+            d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+          />
+        </svg>
+      </ng-container>
+      <ng-container
+        *ngFor="let star of [].constructor(halfStars); let i = index"
+      >
+        <svg
+          class="w-8 h-8 ms-3 text-yellow-300"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 22 20"
+        >
+          <defs>
+            <linearGradient id="half-star">
+              <stop offset="50%" stop-color="currentColor" />
+              <stop offset="50%" stop-color="transparent" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+            fill="url(#half-star)"
+          />
+        </svg>
+      </ng-container>
+      <ng-container
+        *ngFor="let star of [].constructor(emptyStars); let i = index"
+      >
+        <svg
+          class="w-8 h-8 ms-3 text-gray-300"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 22 20"
+        >
+          <path
+            d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+          />
+        </svg>
+      </ng-container>
+    </div>
+    <h3 class="bg-grey text-lg m-8" style="color: grey">
+      {{ product.description }}
+    </h3>
+    <h1 class="text-6xl m-8">
+      ${{ product.price }}/-<span class="text-lg" style="font-weight: bold"
+        >per bottle</span
+      >
+    </h1>
+    <span style="color: grey" class="m-8">(inclusive all taxes)</span>
+    <div class="flex flex-row ...">
+      <h1 style="color: grey" class="m-8 text-xl">Select Quantity</h1>
+      <div
+        class="quantity m-8"
+        style="justify-content: center"
+        #quantityContainer
+      >
+        <button class="minus" #minusBtn>-</button>
+        <input
+          type="number"
+          class="input-box"
+          #inputBox
+          value="1"
+          min="1"
+          max="10"
+        />
+        <button class="plus" #plusBtn>+</button>
+      </div>
+    </div>
+
+  <button class="btn btn-active btn-neutral m-8 center"> <svg style="color: white;" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"/>
+  </svg>
+   Add To cart</button>
+  </div>
+
+</div>
+<app-related-products></app-related-products>
+
