@@ -334,7 +334,10 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
       ]
     }
   ]
-
+cart()
+{
+  this.router.navigate(['/cart'])
+}
   showProducts() {
     console.log(this.products);
   }
