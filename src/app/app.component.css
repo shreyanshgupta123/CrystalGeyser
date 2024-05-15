@@ -1,0 +1,8 @@
+#speed-dial-menu-vertical {
+  display: none; /* Initially hide the menu */
+}
+
+/* Show the menu when hovering over its parent */
+#speed-dial-menu-vertical:hover {
+  display: flex;
+}
