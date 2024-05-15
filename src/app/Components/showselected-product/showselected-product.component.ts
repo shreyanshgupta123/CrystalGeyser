@@ -12,7 +12,7 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
   halfStars: number | undefined;
   emptyStars: number | undefined;
   averageRating: number = 0;
-
+  bigImageUrl: string = '';
   @ViewChild('quantityContainer', { static: false }) quantityContainer!: ElementRef;
   @ViewChild('minusBtn', { static: false }) minusBtn!: ElementRef<HTMLButtonElement>;
   @ViewChild('plusBtn', { static: false }) plusBtn!: ElementRef<HTMLButtonElement>;
@@ -31,7 +31,7 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
     this.calculateAverageRating();
     this.viewProduct();
     this.showProducts();
-
+    this.bigImageUrl = this.products[0]?.image;
   }
 
   ngAfterViewInit() {
@@ -334,6 +334,11 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
       ]
     }
   ]
+
+  updateBigImage(imageUrl: string): void {
+    this.bigImageUrl = imageUrl;
+  }
+
 cart()
 {
   this.router.navigate(['/cart'])
