@@ -9,6 +9,7 @@ import { OurPromisesComponent } from './Components/our-promises/our-promises.com
 import { CareersComponent } from './Components/careers/careers.component';
 import { ShowselectedProductComponent } from './Components/showselected-product/showselected-product.component';
 import { CartComponent } from './Components/cart/cart.component';
+import { CheckoutComponent } from './Components/checkout/checkout.component';
 
 const routes: Routes = [
   {path:'home', component:HomeComponent},
@@ -20,6 +21,7 @@ const routes: Routes = [
   {path:'careers', component:CareersComponent},
   {path:'selecteditem', component:ShowselectedProductComponent},
   {path:'cart', component:CartComponent},
+  {path:'checkout', component:CheckoutComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 
