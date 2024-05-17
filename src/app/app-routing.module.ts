@@ -10,6 +10,7 @@ import { CareersComponent } from './Components/careers/careers.component';
 import { ShowselectedProductComponent } from './Components/showselected-product/showselected-product.component';
 import { CartComponent } from './Components/cart/cart.component';
 import { CheckoutComponent } from './Components/checkout/checkout.component';
+import { EditDeliveryDetailsComponent } from './Components/edit-delivery-details/edit-delivery-details.component';
 
 const routes: Routes = [
   {path:'home', component:HomeComponent},
@@ -22,6 +23,7 @@ const routes: Routes = [
   {path:'selecteditem', component:ShowselectedProductComponent},
   {path:'cart', component:CartComponent},
   {path:'checkout', component:CheckoutComponent},
+  {path:'editDetails', component:EditDeliveryDetailsComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 
