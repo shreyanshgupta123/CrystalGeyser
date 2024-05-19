@@ -11,9 +11,11 @@ import { ShowselectedProductComponent } from './Components/showselected-product/
 import { CartComponent } from './Components/cart/cart.component';
 import { CheckoutComponent } from './Components/checkout/checkout.component';
 import { EditDeliveryDetailsComponent } from './Components/edit-delivery-details/edit-delivery-details.component';
+import { UserLoginComponent } from './Components/user-login/user-login.component';
 
 const routes: Routes = [
   {path:'home', component:HomeComponent},
+  {path:'userlogin', component:UserLoginComponent},
   {path:'products', component:ProductsComponent},
   {path:'products/allproducts', component:AllProductsComponent},
   {path:'our-sources', component:OurSourcesComponent},
