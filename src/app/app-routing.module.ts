@@ -10,8 +10,9 @@ import { CareersComponent } from './Components/careers/careers.component';
 import { ShowselectedProductComponent } from './Components/showselected-product/showselected-product.component';
 import { CartComponent } from './Components/cart/cart.component';
 import { CheckoutComponent } from './Components/checkout/checkout.component';
-import { EditDeliveryDetailsComponent } from './Components/edit-delivery-details/edit-delivery-details.component';
 import { UserLoginComponent } from './Components/user-login/user-login.component';
+import { ManageAddressComponent } from './auth-login/manage-address/manage-address.component';
+import { UserSettingComponent } from './auth-login/user-setting/user-setting.component';
 
 const routes: Routes = [
   {path:'home', component:HomeComponent},
@@ -25,7 +26,9 @@ const routes: Routes = [
   {path:'selecteditem', component:ShowselectedProductComponent},
   {path:'cart', component:CartComponent},
   {path:'checkout', component:CheckoutComponent},
-  {path:'editDetails', component:EditDeliveryDetailsComponent},
+  {path:'manageaddress', component:ManageAddressComponent},
+  {path:'usersettings', component:UserSettingComponent},
+  {path:'usersettings/manageAddress', component:ManageAddressComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 

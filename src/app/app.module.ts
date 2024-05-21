@@ -15,8 +15,12 @@ import { CartComponent } from './Components/cart/cart.component';
 import { ShowselectedProductComponent } from './Components/showselected-product/showselected-product.component';
 import { RelatedProductsComponent } from './Components/related-products/related-products.component';
 import { CheckoutComponent } from './Components/checkout/checkout.component';
-import { EditDeliveryDetailsComponent } from './Components/edit-delivery-details/edit-delivery-details.component';
+
 import { UserLoginComponent } from './Components/user-login/user-login.component';
+import { HttpClientModule } from '@angular/common/http';
+import { AuthLoginModule } from './auth-login/auth-login.module';
+
+
 
 @NgModule({
   declarations: [
@@ -33,12 +37,15 @@ import { UserLoginComponent } from './Components/user-login/user-login.component
     ShowselectedProductComponent,
     RelatedProductsComponent,
     CheckoutComponent,
-    EditDeliveryDetailsComponent,
-    UserLoginComponent
+    UserLoginComponent,
+
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    AuthLoginModule
+
   ],
   providers: [
     provideClientHydration()

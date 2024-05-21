@@ -1,6 +1,6 @@
-<div class="grid grid-cols-1 mt-3 ml-8 md:grid-cols-5 md:gap-8">
+<div class="grid grid-cols-1 mt-3 ml-2 md:grid-cols-5 md:gap-8">
   <div *ngFor="let product of products" class="card bg-base-100 shadow-xl transition duration-300 ease-in-out transform hover:bg-gray-200 hover:shadow-2xl" (click)="storeProduct(product)">
-    <figure><img src="{{product.image}}" alt="CrystalGeyser" /></figure>
+    <figure><img [src]="product.image"/></figure>
     <div class="card-body">
       <h2 class="card-title">{{product.productname}}</h2>
       <p class="text-l text-center">Case of {{product.bottles}} bottles</p>
