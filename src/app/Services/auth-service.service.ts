@@ -20,7 +20,7 @@ export class AuthServiceService {
   }
 
   private handleError(error: any): Observable<never> {
-    console.error('An error occurred:', error); // Log to console or send to logging infrastructure
+    console.error('An error occurred:', error);
     return throwError('Something went wrong; please try again later.');
   }
 }
