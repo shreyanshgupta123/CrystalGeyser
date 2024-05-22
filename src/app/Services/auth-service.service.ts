@@ -12,7 +12,7 @@ export class AuthServiceService {
 
   constructor(private http: HttpClient) { }
 
-  userLogin(data: LoginData): Observable<any> {
+  userLogin(data:any): Observable<any> {
     console.log('in server');
     return this.http.post<any>(`${this.baseUrl}/user`, data).pipe(
       catchError(this.handleError)

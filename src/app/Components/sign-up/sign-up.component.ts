@@ -10,49 +10,51 @@ import { AuthServiceService } from '../../Services/auth-service.service';
 export class SignUpComponent implements OnInit {
   formGroup!: FormGroup;
 
-  constructor( private authservice:AuthServiceService) {
+  constructor(private authservice: AuthServiceService) {}
 
-  }
-initForm()
-{
-  this.formGroup = new FormGroup({
-    firstName: new FormControl('', [Validators.required]),
-    lastName: new FormControl('', [Validators.required]),
-    middleName: new FormControl('', [Validators.required]),
-    age: new FormControl('', [Validators.required]),
-    gender: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required]),
-    phone: new FormControl('', [Validators.required]),
-    phone2: new FormControl('', [Validators.required]),
-    username: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required]),
-    birthDate: new FormControl('', [Validators.required]),
-    image: new FormControl('', [Validators.required]),
-    userId: new FormControl('', [Validators.required]),
-    country: new FormControl('', [Validators.required]),
-    state: new FormControl('', [Validators.required]),
-    city: new FormControl('', [Validators.required]),
-    street: new FormControl('', [Validators.required]),
-    landMark: new FormControl('', [Validators.required]),
-    houseNumber: new FormControl('', [Validators.required]),
-    pinCode: new FormControl('', [Validators.required])
-  });
-}
   ngOnInit(): void {
-
+    this.initForm();
   }
-  onSubmit(){
-    if(this.formGroup.valid)
-      {
-        this.authservice.userLogin(this.formGroup.value).subscribe(result=>{
-          if(result.success)
-            {
-              console.log(result);
-              alert(result.message)
-            }else{
-              alert(result.message)
-            }
-        })
-      }
+
+  initForm() {
+    this.formGroup = new FormGroup({
+      firstName: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
+      middleName: new FormControl(''),
+      age: new FormControl('', [Validators.required]),
+      gender: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      phone: new FormControl('', [Validators.required]),
+      phone2: new FormControl(''),
+      username: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      birthDate: new FormControl('', [Validators.required]),
+      image: new FormControl('', [Validators.required]),
+      userId: new FormControl('', [Validators.required]),
+      country: new FormControl('', [Validators.required]),
+      state: new FormControl('', [Validators.required]),
+      city: new FormControl('', [Validators.required]),
+      street: new FormControl('', [Validators.required]),
+      landMark: new FormControl(''),
+      houseNumber: new FormControl('', [Validators.required]),
+      pinCode: new FormControl('', [Validators.required])
+    });
+  }
+
+  onSubmit() {
+    if (this.formGroup.valid) {
+      this.authservice.userLogin(this.formGroup.value).subscribe(
+        result => {
+          console.log(result);
+          alert(result.message);
+        },
+        error => {
+          console.error('Login failed', error);
+          alert('Login failed. Please try again later.');
+        }
+      );
+    } else {
+      alert('Please fill in all required fields.');
+    }
   }
 }
