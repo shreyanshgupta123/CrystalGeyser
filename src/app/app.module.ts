@@ -23,6 +23,8 @@ import { MineralWaterComponent } from './Components/CategorywiseProducts/mineral
 import { SpringWaterComponent } from './Components/CategorywiseProducts/spring-water/spring-water.component';
 import { AlkalineWaterComponent } from './Components/CategorywiseProducts/alkaline-water/alkaline-water.component';
 import { IonizedWaterComponent } from './Components/CategorywiseProducts/ionized-water/ionized-water.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SignUpComponent } from './Components/sign-up/sign-up.component';
 
 
 
@@ -47,7 +49,8 @@ import { IonizedWaterComponent } from './Components/CategorywiseProducts/ionized
     MineralWaterComponent,
     SpringWaterComponent,
     AlkalineWaterComponent,
-    IonizedWaterComponent
+    IonizedWaterComponent,
+    SignUpComponent
 
 
   ],
@@ -55,7 +58,9 @@ import { IonizedWaterComponent } from './Components/CategorywiseProducts/ionized
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    AuthLoginModule
+    AuthLoginModule,
+    ReactiveFormsModule,
+    FormsModule
 
   ],
   providers: [
