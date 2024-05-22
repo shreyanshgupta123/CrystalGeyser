@@ -18,3 +18,9 @@ export interface Product {
   category_id: string | null;
   reviews: Review[];
 }
+
+export interface Category {
+  id: string;
+  category_name: string;
+
+}

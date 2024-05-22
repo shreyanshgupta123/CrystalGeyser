@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ProductsService } from '../../Services/products.service';
 
 @Component({
@@ -7,25 +7,37 @@ import { ProductsService } from '../../Services/products.service';
   templateUrl: './all-products.component.html',
   styleUrls: ['./all-products.component.css']
 })
-export class AllProductsComponent implements OnInit {  
+export class AllProductsComponent implements OnInit {
   products: any[] = [];
+  isLoading: boolean = false;
 
-  constructor(private router: Router, private productsService: ProductsService) {}
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,  // Inject ActivatedRoute
+    private productsService: ProductsService
+  ) {}
 
   ngOnInit(): void {
-    this.showProducts();
+    this.isLoading = true;
+
+    // Access and log the 'category_name' query parameter
+    this.activatedRoute.queryParams.subscribe(params => {
+      const category_id = params['category_id'];
+      if (category_id) {
+        console.log('Category Name:', category_id);
+      }
+    });
+
     this.productsService.allProducts().subscribe(
       data => {
         this.products = data;
+        this.isLoading = false;
       },
       error => {
         console.error('Error fetching products', error);
+        this.isLoading = false;
       }
     );
-  }
-
-  showProducts() {
-    console.log(this.products);
   }
 
   storeProduct(product: any) {

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductsComponent } from './Components/products/products.component';
@@ -19,6 +18,12 @@ import { CheckoutComponent } from './Components/checkout/checkout.component';
 import { UserLoginComponent } from './Components/user-login/user-login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthLoginModule } from './auth-login/auth-login.module';
+import { DistilledWaterComponent } from './Components/CategorywiseProducts/distilled-water/distilled-water.component';
+import { MineralWaterComponent } from './Components/CategorywiseProducts/mineral-water/mineral-water.component';
+import { SpringWaterComponent } from './Components/CategorywiseProducts/spring-water/spring-water.component';
+import { AlkalineWaterComponent } from './Components/CategorywiseProducts/alkaline-water/alkaline-water.component';
+import { IonizedWaterComponent } from './Components/CategorywiseProducts/ionized-water/ionized-water.component';
+
 
 
 
@@ -38,6 +43,12 @@ import { AuthLoginModule } from './auth-login/auth-login.module';
     RelatedProductsComponent,
     CheckoutComponent,
     UserLoginComponent,
+    DistilledWaterComponent,
+    MineralWaterComponent,
+    SpringWaterComponent,
+    AlkalineWaterComponent,
+    IonizedWaterComponent
+
 
   ],
   imports: [

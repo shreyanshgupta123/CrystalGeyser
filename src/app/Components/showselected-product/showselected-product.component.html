@@ -48,27 +48,9 @@
         </div>
       </div>
     </div>
-    <!-- <div class="flex flex-wrap lg:flex-nowrap gap-4 mt-10">
-      <div class="flex flex-col gap-4 flex-1 lg:ml-3">
-        <img class="w-24 h-auto rounded-lg" src="{{ product.image }}" alt="Small Image 1" />
-        <img class="w-24 h-auto rounded-lg" src="{{ product.image }}" alt="Small Image 2" />
-        <img class="w-24 h-auto rounded-lg" src="{{ product.image }}" alt="Small Image 3" />
-        <img class="w-24 h-auto rounded-lg" src="{{ product.image }}" alt="Small Image 4" />
-        <img class="w-24 h-auto rounded-lg" src="{{ product.image }}" alt="Small Image 5" />
-      </div>
-      <div class="lg:mr-20">
-        <img class="rounded-2xl" src="{{ product.image }}" alt="Big Image" />
-      </div>
-    </div>
- <div class="flex flex-wrap lg:flex-nowrap gap-4 mt-10">
-  <div class="flex flex-col gap-4 flex-1 lg:ml-3">
-    <img class="w-24 h-auto rounded-lg small-image" *ngFor="let product of products" [src]="product.image" alt="Small Image" (click)="updateBigImage(product.image)" />
+
   </div>
-  <div class="lg:mr-20">
-    <img class="rounded-2xl big-image" [src]="bigImageUrl" alt="Big Image" />
-  </div>
-</div> -->
-  </div>
+  <div class="aspect-square">
   <div class="border-l-4 mb-10">
     <h3
       class="text-sm bold m-8"
@@ -167,5 +149,7 @@
   </div>
 
 </div>
+</div>
+
 <app-related-products></app-related-products>
 

@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent {
-
+  activeComponent: string = '';
   constructor(private route: Router) {}
 
   ngOnInit() {}
@@ -18,6 +18,10 @@ export class ProductsComponent {
     this.showAllProduct = !this.showAllProduct;
   }
 
+  setActiveComponent(componentName:string)
+  {
+    this.activeComponent = componentName;
+  }
   showAllProducts(url: string) {
     this.route.navigateByUrl(`/products/${url}`);
   }
