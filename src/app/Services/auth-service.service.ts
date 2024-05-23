@@ -23,4 +23,11 @@ export class AuthServiceService {
     console.error('An error occurred:', error);
     return throwError('Something went wrong; please try again later.');
   }
+ Cart(data:any): Observable<any> {
+    console.log('in server');
+    return this.http.post<any>(`${this.baseUrl}cart`, data).pipe(
+      catchError(this.handleError)
+    );
+  }
+
 }

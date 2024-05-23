@@ -24,7 +24,7 @@ export class AllProductsComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       const category_id = params['category_id'];
       if (category_id) {
-        console.log('Category Name:', category_id);
+        // console.log('Category Name:', category_id);
       }
     });
 
@@ -42,7 +42,7 @@ export class AllProductsComponent implements OnInit {
 
   storeProduct(product: any) {
     localStorage.setItem('selectedProduct', JSON.stringify(product));
-    console.log('Product stored in localStorage:', product);
+    // console.log('Product stored in localStorage:', product);
     this.router.navigate(['/selecteditem'], { queryParams: product });
   }
 }

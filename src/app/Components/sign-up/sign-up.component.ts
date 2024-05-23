@@ -10,7 +10,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class SignUpComponent implements OnInit {
   registrationForm!: FormGroup;
-
+isLoading=false;
+showForm: boolean = true;
   constructor(
     private authservice: AuthServiceService,
     private toastr: ToastrService,
@@ -47,18 +48,24 @@ export class SignUpComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('Form submitted');  // Debug statement
+    console.log('Form submitted');
 
     if (this.registrationForm.valid) {
-      console.log('Form is valid', this.registrationForm.value);  // Debug statement
+      this.isLoading=true;
+      this.showForm = false;
+      console.log('Form is valid', this.registrationForm.value);  
       this.authservice.userLogin(this.registrationForm.value).subscribe(
         result => {
           console.log('Server response', result);
           this.toastr.success(result.message, 'Success');
+          this.isLoading=false;
+          this.showForm = true;
         },
         error => {
           console.error('Login failed', error);
           this.toastr.error('Login failed. Please try again later.', 'Error');
+          this.isLoading=false;
+          this.showForm = true;
         }
       );
     } else {

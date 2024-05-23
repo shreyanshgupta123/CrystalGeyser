@@ -13,7 +13,7 @@ export class ProductsService {
 private CategoryByid=`${baserUrl}productcategories`
   constructor(private httpClient: HttpClient) { }
 
-  allProducts(): Observable<Product[]> {  // Specify the return type
+  allProducts(): Observable<Product[]> { 
     return this.httpClient.get<Product[]>(this.apiUrl);
   }
 
@@ -21,4 +21,5 @@ private CategoryByid=`${baserUrl}productcategories`
   {
     return this.httpClient.get<Category[]>(this.CategoryByid);
   }
+
 }

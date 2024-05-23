@@ -28,8 +28,8 @@
         <div class="flex items-center">
             <img src="https://via.placeholder.com/50" alt="Bisleri 20 Litre Water Jar" class="w-12 h-12 rounded mr-4">
             <div>
-                <h2 class="text-lg font-semibold">Crystal Geyser Natural</h2>
-                <p class="text-sm text-gray-500">₹1/Per Jar</p>
+                <h2 class="text-lg font-semibold">{{itemName}}</h2>
+                <p class="text-sm text-gray-500">${{itemPrice}}/Per jar</p>
             </div>
         </div>
         <button class="text-red-500 hover:text-red-700">Delete</button>
@@ -39,22 +39,22 @@
         <div class="flex justify-between items-center mb-2">
             <span class="text-gray-700">Quantity</span>
             <div class="flex items-center">
-                <button class="bg-gray-200 text-gray-600 hover:bg-gray-300 px-2 py-1 rounded">-</button>
-                <input type="text" class="w-12 text-center mx-2 border rounded" value="2" readonly>
-                <button class="bg-gray-200 text-gray-600 hover:bg-gray-300 px-2 py-1 rounded">+</button>
+              <button (click)="decrement()" class="bg-gray-200 text-gray-600 hover:bg-gray-300 px-2 py-1 rounded">-</button>
+              <input type="text" class="w-12 text-center mx-2 border rounded" [value]="quantity" readonly>
+              <button (click)="increment()" class="bg-gray-200 text-gray-600 hover:bg-gray-300 px-2 py-1 rounded">+</button>
             </div>
         </div>
         <div class="flex justify-between items-center mb-2">
             <span class="text-gray-700">Product price</span>
-            <span class="text-gray-700">$1</span>
+            <span class="text-gray-700">${{itemPrice}}</span>
         </div>
         <div class="flex justify-between items-center mb-2">
             <span class="text-gray-700">Discount</span>
-            <span class="text-gray-700">$0</span>
+            <span class="text-gray-700">${{discount}}</span>
         </div>
         <div class="flex justify-between items-center mb-2">
             <span class="text-gray-700">Delivery charges</span>
-            <span class="text-gray-700">$0.2</span>
+            <span class="text-gray-700">${{deliveryCharges}}</span>
         </div>
     </div>
     <div class="border-t pt-4">
@@ -80,23 +80,30 @@
   <div class="flex mt-4">
     <h3 class="text-lg">Price:</h3>
     <div style="margin-left: 160px;">
-      <h3 class="text-lg">$170</h3>
+      <h3 class="text-lg">${{overallPrice}}</h3>
     </div>
   </div>
-  <div class="flex mt-4">
+  <!-- <div class="flex mt-4">
     <h3 class="text-lg">Delivery Charges:</h3>
     <div style="margin-left: 65px;">
-      <h3 class="text-lg">$0.5</h3>
+      <h3 class="text-lg">${{deliveryCharges}}</h3>
     </div>
-  </div>
+  </div> -->
   <div class="flex mt-4">
     <h3 class="text-lg">Refundable Deposit:</h3>
     <div style="margin-left: 43px;">
-      <h3 class="text-lg" >$0.5</h3>
+      <h3 class="text-lg" >${{refundableDeposit}}</h3>
     </div>
   </div>
   <div class="divider"></div>
-  <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" routerLink="/checkout" routerLinkActive="active">Checkout</button>
+  <div class="flex ">
+    <h3 class="text-lg">Total Amount :</h3>
+    <div style="margin-left: 43px;">
+      <h3 class="text-lg" >${{totalAmount}}</h3>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" routerLink="/checkout" routerLinkActive="active" (click)="checkout()">Checkout</button>
 </div>
 
 </div>
