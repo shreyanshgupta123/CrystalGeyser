@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthServiceService } from '../../Services/auth-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sign-up',
@@ -8,53 +9,61 @@ import { AuthServiceService } from '../../Services/auth-service.service';
   styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent implements OnInit {
-  formGroup!: FormGroup;
+  registrationForm!: FormGroup;
 
-  constructor(private authservice: AuthServiceService) {}
+  constructor(
+    private authservice: AuthServiceService,
+    private toastr: ToastrService,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
   }
 
   initForm() {
-    this.formGroup = new FormGroup({
-      firstName: new FormControl('', [Validators.required]),
-      lastName: new FormControl('', [Validators.required]),
-      middleName: new FormControl(''),
-      age: new FormControl('', [Validators.required]),
-      gender: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      phone: new FormControl('', [Validators.required]),
-      phone2: new FormControl(''),
-      username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      birthDate: new FormControl('', [Validators.required]),
-      image: new FormControl('', [Validators.required]),
-      userId: new FormControl('', [Validators.required]),
-      country: new FormControl('', [Validators.required]),
-      state: new FormControl('', [Validators.required]),
-      city: new FormControl('', [Validators.required]),
-      street: new FormControl('', [Validators.required]),
-      landMark: new FormControl(''),
-      houseNumber: new FormControl('', [Validators.required]),
-      pinCode: new FormControl('', [Validators.required])
+    this.registrationForm = this.fb.group({
+      firstName: ['', Validators.required],
+      middleName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      birthDate: ['', Validators.required],
+      age: ['', Validators.required],
+      gender: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', Validators.required],
+      phone2: ['', Validators.required],
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+      image: [''],
+      userId:[''],
+      country: ['', Validators.required],
+      states: ['', Validators.required],
+      city: ['', Validators.required],
+      street: ['', Validators.required],
+      landmark: ['', Validators.required],
+      houseNumber: ['', Validators.required],
+      pinCode: ['', Validators.required]
     });
   }
 
   onSubmit() {
-    if (this.formGroup.valid) {
-      this.authservice.userLogin(this.formGroup.value).subscribe(
+    console.log('Form submitted');  // Debug statement
+
+    if (this.registrationForm.valid) {
+      console.log('Form is valid', this.registrationForm.value);  // Debug statement
+      this.authservice.userLogin(this.registrationForm.value).subscribe(
         result => {
-          console.log(result);
-          alert(result.message);
+          console.log('Server response', result);
+          this.toastr.success(result.message, 'Success');
         },
         error => {
           console.error('Login failed', error);
-          alert('Login failed. Please try again later.');
+          this.toastr.error('Login failed. Please try again later.', 'Error');
         }
       );
     } else {
-      alert('Please fill in all required fields.');
+      console.warn('Form is invalid');
+      this.toastr.warning('Please fill in all required fields.', 'Warning');
     }
   }
 }

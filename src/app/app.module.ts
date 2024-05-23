@@ -25,6 +25,8 @@ import { AlkalineWaterComponent } from './Components/CategorywiseProducts/alkali
 import { IonizedWaterComponent } from './Components/CategorywiseProducts/ionized-water/ionized-water.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SignUpComponent } from './Components/sign-up/sign-up.component';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -50,7 +52,8 @@ import { SignUpComponent } from './Components/sign-up/sign-up.component';
     SpringWaterComponent,
     AlkalineWaterComponent,
     IonizedWaterComponent,
-    SignUpComponent
+    SignUpComponent,
+
 
 
   ],
@@ -60,7 +63,10 @@ import { SignUpComponent } from './Components/sign-up/sign-up.component';
     HttpClientModule,
     AuthLoginModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule,
 
   ],
   providers: [

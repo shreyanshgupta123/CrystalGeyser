@@ -1,111 +1,105 @@
-
-<form [formGroup]="formGroup" class="max-w-5xl mx-auto" (ngSubmit)="onSubmit()"  >
-  <div class="grid grid-cols-1 md:grid-cols-3">
-  <div class="mb-6 mr-2 ">
-    <label for="firstname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">FirstName</label>
-    <input formControlName="firstName" type="email" id="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
-  </div>
-  <div class="mb-5 mr-2 ">
-    <label for="middlename" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">MiddleName</label>
-    <input formControlName="middleName" type="text" id="password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
-  </div>
-  <div class="mb-5 mr-2 ">
-    <label for="lastname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">LastName</label>
-    <input formControlName="lastName" type="email" id="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
-  </div>
-  </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-3">
-    <div class="mb-5 mr-2 ">
-      <label for="dob" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DOB</label>
-      <input formControlName="birthDate" type="email" id="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
+<form [formGroup]="registrationForm" class="max-w-5xl mx-auto" (ngSubmit)="onSubmit()">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="mb-6">
+      <label for="firstName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
+      <input formControlName="firstName" type="text" id="firstName" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
     </div>
-    <div class="mb-5 mr-2 ">
+    <div class="mb-6">
+      <label for="middleName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Middle Name</label>
+      <input formControlName="middleName" type="text" id="middleName" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
+    </div>
+    <div class="mb-6">
+      <label for="lastName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
+      <input formControlName="lastName" type="text" id="lastName" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="mb-6">
+      <label for="birthDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DOB</label>
+      <input formControlName="birthDate" type="date" id="birthDate" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
+    </div>
+    <div class="mb-6">
       <label for="age" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Age</label>
-      <input formControlName="age" type="text" id="age" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
+      <input formControlName="age" type="number" id="age" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
     </div>
-    <div class="mb-5 mr-2 ">
+    <div class="mb-6">
       <label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
       <input formControlName="gender" type="text" id="gender" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
     </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="mb-6">
+      <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+      <input formControlName="email" type="email" id="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3">
-      <div class="mb-5 mr-2 ">
-        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-        <input formControlName="email"   type="email" id="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
-      </div>
-      <div class="mb-5 mr-2 ">
-        <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
-        <input formControlName="phone"  type="phone" id="password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
-      </div>
-      <div class="mb-5 mr-2 ">
-        <label for="phone2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alternate Phone Number</label>
-        <input formControlName="phone2"  type="phone2" id="password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
-      </div>
-      </div>
+    <div class="mb-6">
+      <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
+      <input formControlName="phone" type="tel" id="phone" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
+    </div>
+    <div class="mb-6">
+      <label for="phone2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alternate Phone Number</label>
+      <input formControlName="phone2" type="tel" id="phone2" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
+    </div>
+  </div>
 
-      <div class="divider divider-neutral">Create UserID</div>
+  <div class="divider divider-neutral">Create UserID</div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3">
-        <div class="mb-5 mr-2 ">
-          <label for="userid" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
-          <input formControlName="username"  type="userid" id="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
-        </div>
-        <div class="mb-5 mr-2 ">
-          <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-          <input formControlName="password"  type="password" id="password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
-        </div>
-        <div class="mb-5 mr-2 ">
-          <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm Your Password</label>
-          <input   type="password" id="password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
-        </div>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3">
-          <div class="mb-5 mr-2 mb-2">
-            <label class="form-control w-full max-w-xs">
-              <div class="label">
-                <span class="label-text">Upload You Picture</span>
-              </div>
-              <input formControlName="image"  type="file" class="file-input file-input-bordered w-full max-w-xs" />
-              <div class="label">
-              </div>
-            </label>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="mb-6">
+      <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
+      <input formControlName="username" type="text" id="username" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
+    </div>
+    <div class="mb-6">
+      <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+      <input formControlName="password" type="password" id="password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
+    </div>
+    <div class="mb-6">
+      <label for="confirmPassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm Your Password</label>
+      <input type="password" id="confirmPassword" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
+    </div>
+  </div>
 
-          </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="mb-6">
+      <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Upload Your Picture</label>
+      <input formControlName="image" type="file" id="image" class="file-input file-input-bordered w-full max-w-xs" />
+    </div>
+  </div>
 
-          </div>
+  <div class="divider divider-neutral">Address</div>
 
-          <div class="divider divider-neutral">Address</div>
-          <div class="grid grid-cols-1 md:grid-cols-3">
-            <div class="mb-5 mr-2 ">
-              <label for="country" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
-              <input formControlName="country" type="text" id="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
-            </div>
-            <div class="mb-5 mr-2 ">
-              <label for="state" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">State</label>
-              <input formControlName="state" type="state" id="password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
-            </div>
-            <div class="mb-5 mr-2 ">
-              <label for="city" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
-              <input formControlName="city" type="text" id="city" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
-            </div>
-            <div class="mb-5 mr-2 ">
-              <label for="street" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Street</label>
-              <input formControlName="street" type="text" id="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
-            </div>
-            <div class="mb-5 mr-2 ">
-              <label for="landmark" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Landmark</label>
-              <input formControlName="landMark" type="text" id="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
-            </div>
-            <div class="mb-5 mr-2 ">
-              <label for="houseNumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">House Number</label>
-              <input formControlName="houseNumber" type="text" id="hosueNumber" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
-            </div>
-            <div class="mb-5 mr-2 ">
-              <label for="pinCode" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pincode</label>
-              <input formControlName="pinCode" type="number" id="pinCode" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
-            </div>
-            </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="mb-6">
+      <label for="country" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
+      <input formControlName="country" type="text" id="country" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
+    </div>
+    <div class="mb-6">
+      <label for="state" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">State</label>
+      <input formControlName="states" type="text" id="state" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
+    </div>
+    <div class="mb-6">
+      <label for="city" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
+      <input formControlName="city" type="text" id="city" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
+    </div>
+    <div class="mb-6">
+      <label for="street" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Street</label>
+      <input formControlName="street" type="text" id="street" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
+    </div>
+    <div class="mb-6">
+      <label for="landMark" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Landmark</label>
+      <input formControlName="landmark" type="text" id="landMark" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
+    </div>
+    <div class="mb-6">
+      <label for="houseNumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">House Number</label>
+      <input formControlName="houseNumber" type="text" id="houseNumber" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
+    </div>
+    <div class="mb-6">
+      <label for="pinCode" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pincode</label>
+      <input formControlName="pinCode" type="number" id="pinCode" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="Enter here" required />
+    </div>
+  </div>
 
-  <button [disabled]="formGroup.invalid" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Register new account</button>
+  <button [disabled]="registrationForm.invalid" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Register new account</button>
 </form>

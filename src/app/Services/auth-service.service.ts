@@ -8,13 +8,13 @@ import { baserUrl } from '../enviroment/enviroment';
 })
 export class AuthServiceService {
 
-  private baseUrl = `${baserUrl}user`
+  private baseUrl = `${baserUrl}`
 
   constructor(private http: HttpClient) { }
 
   userLogin(data:any): Observable<any> {
     console.log('in server');
-    return this.http.post<any>(`${this.baseUrl}/user`, data).pipe(
+    return this.http.post<any>(`${this.baseUrl}users`, data).pipe(
       catchError(this.handleError)
     );
   }
