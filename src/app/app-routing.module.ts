@@ -14,6 +14,7 @@ import { UserLoginComponent } from './Components/user-login/user-login.component
 import { ManageAddressComponent } from './auth-login/manage-address/manage-address.component';
 import { UserSettingComponent } from './auth-login/user-setting/user-setting.component';
 import { SignUpComponent } from './Components/sign-up/sign-up.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {path:'home', component:HomeComponent},
@@ -28,7 +29,7 @@ const routes: Routes = [
   {path:'cart', component:CartComponent},
   {path:'checkout', component:CheckoutComponent},
   {path:'manageaddress', component:ManageAddressComponent},
-  {path:'usersettings', component:UserSettingComponent},
+  {path:'usersettings', component:UserSettingComponent,canActivate:[AuthGuard]},
   {path:'signUp', component:SignUpComponent},
   {path:'usersettings/manageAddress', component:ManageAddressComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' }

@@ -35,7 +35,7 @@
     </ul>
   </div>
   <div class="navbar-end">
-<!-- drawer component -->
+
 <div id="drawer-top-example" class="fixed top-0 left-0 right-0 z-40 w-full h-1/2 p-4 transition-transform -translate-y-full bg-white dark:bg-grey-800 flex items-center justify-center" tabindex="-1" aria-labelledby="drawer-top-label">
   <div class="card w-96 bg-neutral text-neutral-content">
     <div class="card-body items-center text-center">
@@ -74,15 +74,22 @@
           <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
         </div>
       </div>
-      <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+      <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52" *ngIf="!isAdmin">
         <li routerLink="/usersettings" routerLinkActive="active"><a>User Setting</a></li>
-      <li routerLink="/userlogin" routerLinkActive="active"><a>Login</a></li>
-          <!-- <li><a>My Order</a></li>
-        <li><a>My Subscription</a></li>
-        <li><a>Manage Referral</a></li>
-        <li><a>My Wishlist</a></li>
-        <li><a>Empty jar return request</a></li> -->
+        <li routerLink="/userlogin" routerLinkActive="active"><a>Login</a></li>
       </ul>
+
+      <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52" *ngIf="isAdmin">
+        <!-- <li (click)="navigateTo('MyOrder')">
+          <a>My Order</a>
+        </li>
+        <li (click)="navigateTo('MySubscription')" ><a>My Subscription</a></li>
+        <li (click)="navigateTo('ManageReferral')" ><a>Manage Referral</a></li>
+        <li (click)="navigateTo('MyWishlist')" ><a>My Wishlist</a></li> -->
+        <li routerLink="/usersettings" routerLinkActive="active"><a>User Setting</a></li>
+        <li (click)="logOut()"><a>Logout</a></li>
+      </ul>
+
     </div>
   </div>
 </div>

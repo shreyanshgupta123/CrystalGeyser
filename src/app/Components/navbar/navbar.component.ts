@@ -1,35 +1,85 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrls: ['./navbar.component.css'] // corrected styleUrl to styleUrls
 })
-export class NavbarComponent {
-constructor(private route:Router) {}
-ngAfterViewInit() {
-  const showDrawerBtn = document.getElementById('showDrawerBtn');
-  const hideDrawerBtn = document.querySelector('[data-drawer-hide="drawer-top-example"]');
+export class NavbarComponent implements AfterViewInit, OnInit {
+  isAdmin: boolean = false;
 
-  // Open drawer when show button is clicked
-  showDrawerBtn?.addEventListener('click', () => {
-    const drawer = document.getElementById('drawer-top-example');
-    drawer?.classList.toggle('-translate-y-full'); // Toggles the visibility of the drawer
-  });
+  constructor(private router: Router) {}
 
-  // Close drawer when hide button is clicked
-  hideDrawerBtn?.addEventListener('click', () => {
-    const drawer = document.getElementById('drawer-top-example');
-    drawer?.classList.add('-translate-y-full'); // Close the drawer by adding the -translate-y-full class
-  });
-}
-navigate(url:string):void{
-  if(url=='Products'){
-    this.route.navigateByUrl(`home/${url}`)
+  ngOnInit(): void {
+    this.authloginnav();
   }
-}
 
+  ngAfterViewInit() {
+    const showDrawerBtn = document.getElementById('showDrawerBtn');
+    const hideDrawerBtn = document.querySelector('[data-drawer-hide="drawer-top-example"]');
 
+    // Open drawer when show button is clicked
+    showDrawerBtn?.addEventListener('click', () => {
+      const drawer = document.getElementById('drawer-top-example');
+      drawer?.classList.toggle('-translate-y-full');
+    });
 
+    // Close drawer when hide button is clicked
+    hideDrawerBtn?.addEventListener('click', () => {
+      const drawer = document.getElementById('drawer-top-example');
+      drawer?.classList.add('-translate-y-full');
+    });
+  }
+
+  navigate(url: string): void {
+    if (url === 'Products') {
+      this.router.navigateByUrl(`home/${url}`);
+    }
+  }
+
+  authloginnav() {
+    if (typeof window !== 'undefined') {
+      const role = localStorage.getItem('role');
+      if (role === 'Admin') {
+        this.isAdmin = true;
+      } else {
+        this.isAdmin = false;
+      }
+    }
+  }
+  logOut() {
+    if (typeof window !== 'undefined') {
+
+      sessionStorage.removeItem('authToken');
+      localStorage.removeItem('token');
+      localStorage.removeItem('role');
+      this.router.navigate(['home']);
+      window.location.reload();
+    }
+  }
+  navigateTo(page: string): void {
+    switch (page) {
+      case 'MyOrder': {
+        this.router.navigateByUrl('usersetting/myorder');
+        break;
+      }
+      case 'MySubscription': {
+        this.router.navigateByUrl('usersetting/MySubscription');
+        break;
+      }
+      case 'ManageReferral': {
+        this.router.navigateByUrl('usersetting/ManageReferral');
+        break;
+      }
+      case 'MyWishlist' : {
+         this.router.navigateByUrl('usersetting/MyWishlist')
+         break;
+      }
+      default: {
+        console.error(`Unknown page: ${page}`);
+        break;
+      }
+    }
+  }
 }

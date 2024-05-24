@@ -1,4 +1,10 @@
- <div class="flex font-poppins items-center justify-center">
+<div *ngIf="isLoading" class="flex justify-center items-center h-screen">
+  <span class="loading loading-ball loading-xs"></span>
+  <span class="loading loading-ball loading-sm"></span>
+  <span class="loading loading-ball loading-md"></span>
+  <span class="loading loading-ball loading-lg"></span>
+</div>
+ <div *ngIf="showForm" class="flex font-poppins items-center justify-center">
     <div class="h-screen w-screen flex justify-center items-center dark:bg-gray-900">
     <div class="grid gap-8">
         <div id="back-div" class="rounded-[5px] m-4 shadow-2xl">
