@@ -58,28 +58,28 @@ export class NavbarComponent implements AfterViewInit, OnInit {
       window.location.reload();
     }
   }
-  navigateTo(page: string): void {
-    switch (page) {
-      case 'MyOrder': {
-        this.router.navigateByUrl('usersetting/myorder');
-        break;
-      }
-      case 'MySubscription': {
-        this.router.navigateByUrl('usersetting/MySubscription');
-        break;
-      }
-      case 'ManageReferral': {
-        this.router.navigateByUrl('usersetting/ManageReferral');
-        break;
-      }
-      case 'MyWishlist' : {
-         this.router.navigateByUrl('usersetting/MyWishlist')
-         break;
-      }
-      default: {
-        console.error(`Unknown page: ${page}`);
-        break;
-      }
-    }
-  }
+  // navigateTo(page: string): void {
+  //   switch (page) {
+  //     case 'MyOrder': {
+  //       this.router.navigateByUrl('usersetting/myorder');
+  //       break;
+  //     }
+  //     case 'MySubscription': {
+  //       this.router.navigateByUrl('usersetting/MySubscription');
+  //       break;
+  //     }
+  //     case 'ManageReferral': {
+  //       this.router.navigateByUrl('usersetting/ManageReferral');
+  //       break;
+  //     }
+  //     case 'MyWishlist' : {
+  //        this.router.navigateByUrl('usersetting/MyWishlist')
+  //        break;
+  //     }
+  //     default: {
+  //       console.error(`Unknown page: ${page}`);
+  //       break;
+  //     }
+  //   }
+  // }
 }

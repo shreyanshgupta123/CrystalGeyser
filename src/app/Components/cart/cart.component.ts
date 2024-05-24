@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartserviceService } from '../../Services/cartservice.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -18,7 +19,7 @@ export class CartComponent implements OnInit {
   refundableDeposit: number = 0;
   overallPrice: number = 0;
 
-  constructor(private cartService: CartserviceService) {}
+  constructor(private cartService: CartserviceService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadStoredData();
@@ -54,7 +55,7 @@ export class CartComponent implements OnInit {
     this.cartService.getCart().subscribe({
       next: data => {
         if (data && data.length) {
-          const cartData = data[0]; // Assuming you're getting an array and need the first element
+          const cartData = data[0];
           this.discount = cartData.discount || 0;
           this.deliveryCharges = cartData.delivery_charges || 0;
           this.refundableDeposit = cartData.refundable_deposit || 0;
@@ -68,30 +69,21 @@ export class CartComponent implements OnInit {
   }
 
   calculateTotalPrice(): void {
-
     this.totalPrice = this.itemPrice * this.quantity;
     const discountedPrice = Math.max(this.totalPrice - this.discount, 0);
     this.overallPrice = discountedPrice + Number(this.deliveryCharges);
     this.totalAmount = this.overallPrice + Number(this.refundableDeposit);
-
-    // console.log("Quantity: ", this.quantity);
-    // console.log("Item Price: ", this.itemPrice);
-    // console.log("Total Price (before discount): ", this.totalPrice);
-    // console.log("Discount: ", this.discount);
-    // console.log("Discounted Price: ", discountedPrice);
-    // console.log("Delivery Charges: ", this.deliveryCharges);
-    // console.log("Overall Price: ", this.overallPrice);
-    // console.log("Refundable Deposit: ", this.refundableDeposit);
-    // console.log("Total Amount: ", this.totalAmount);
-}
-
-
-
-
-
+  }
 
   checkout(): void {
-    // Implement checkout logic here
+    const token = sessionStorage.getItem('authToken');
+    if (token) {
+
+      this.router.navigateByUrl('/checkout');
+    } else {
+
+      this.router.navigateByUrl('/userlogin');
+    }
   }
 
   increment(): void {

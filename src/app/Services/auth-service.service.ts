@@ -35,7 +35,12 @@ return this.http.post<any>(`${this.baseUrl}users/login`, data).pipe(
 )
   }
 
-
+getUserDetails():Observable<any>
+{
+  return this.http.get<any>(`${this.baseUrl}users`).pipe(
+    catchError(this.handleError)
+  )
+}
 
 
 

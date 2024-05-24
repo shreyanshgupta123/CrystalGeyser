@@ -14,7 +14,6 @@ import { CartComponent } from './Components/cart/cart.component';
 import { ShowselectedProductComponent } from './Components/showselected-product/showselected-product.component';
 import { RelatedProductsComponent } from './Components/related-products/related-products.component';
 import { CheckoutComponent } from './Components/checkout/checkout.component';
-
 import { UserLoginComponent } from './Components/user-login/user-login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthLoginModule } from './auth-login/auth-login.module';
@@ -27,9 +26,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SignUpComponent } from './Components/sign-up/sign-up.component';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-
-
 
 @NgModule({
   declarations: [
@@ -53,9 +49,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AlkalineWaterComponent,
     IonizedWaterComponent,
     SignUpComponent,
-
-
-
   ],
   imports: [
     BrowserModule,
@@ -64,13 +57,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AuthLoginModule,
     ReactiveFormsModule,
     FormsModule,
-    ReactiveFormsModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
-
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    ToastrService,
   ],
   bootstrap: [AppComponent]
 })
