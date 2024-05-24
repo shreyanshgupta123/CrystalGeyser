@@ -19,10 +19,7 @@ export class AuthServiceService {
     );
   }
 
-  private handleError(error: any): Observable<never> {
-    console.error('An error occurred:', error);
-    return throwError('Something went wrong; please try again later.');
-  }
+
  Cart(data:any): Observable<any> {
     console.log('in server');
     return this.http.post<any>(`${this.baseUrl}cart`, data).pipe(
@@ -30,4 +27,21 @@ export class AuthServiceService {
     );
   }
 
-}
+  Login(data:any):Observable<any>
+  {
+console.log('login successfully');
+return this.http.post<any>(`${this.baseUrl}users/login`, data).pipe(
+  catchError(this.handleError)
+)
+  }
+
+
+
+
+
+  private handleError(error: any): Observable<never> {
+    console.error('An error occurred:', error);
+    return throwError('Something went wrong; please try again later.');
+  }
+  }
+

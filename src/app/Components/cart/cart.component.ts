@@ -68,28 +68,21 @@ export class CartComponent implements OnInit {
   }
 
   calculateTotalPrice(): void {
-    // Calculate total price before discount
+
     this.totalPrice = this.itemPrice * this.quantity;
-
-    // Apply discount
     const discountedPrice = Math.max(this.totalPrice - this.discount, 0);
-
-    // Calculate overall price after adding delivery charges
     this.overallPrice = discountedPrice + Number(this.deliveryCharges);
-
-    // Calculate total amount including refundable deposit
     this.totalAmount = this.overallPrice + Number(this.refundableDeposit);
 
-    // Ensure values are correct
-    console.log("Quantity: ", this.quantity);
-    console.log("Item Price: ", this.itemPrice);
-    console.log("Total Price (before discount): ", this.totalPrice);
-    console.log("Discount: ", this.discount);
-    console.log("Discounted Price: ", discountedPrice);
-    console.log("Delivery Charges: ", this.deliveryCharges);
-    console.log("Overall Price: ", this.overallPrice);
-    console.log("Refundable Deposit: ", this.refundableDeposit);
-    console.log("Total Amount: ", this.totalAmount);
+    // console.log("Quantity: ", this.quantity);
+    // console.log("Item Price: ", this.itemPrice);
+    // console.log("Total Price (before discount): ", this.totalPrice);
+    // console.log("Discount: ", this.discount);
+    // console.log("Discounted Price: ", discountedPrice);
+    // console.log("Delivery Charges: ", this.deliveryCharges);
+    // console.log("Overall Price: ", this.overallPrice);
+    // console.log("Refundable Deposit: ", this.refundableDeposit);
+    // console.log("Total Amount: ", this.totalAmount);
 }
 
 
