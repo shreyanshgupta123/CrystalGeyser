@@ -13,7 +13,7 @@ export class AllProductsComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private activatedRoute: ActivatedRoute,  // Inject ActivatedRoute
+    private activatedRoute: ActivatedRoute,
     private productsService: ProductsService
   ) {}
 
@@ -47,7 +47,7 @@ export class AllProductsComponent implements OnInit {
   }
 
   saveProductToLocalStorage(product: any) {
-    // Check if the token is present in sessionStorage
+  
     const token = sessionStorage.getItem('authToken');
     if (!token) {
 
@@ -55,14 +55,14 @@ export class AllProductsComponent implements OnInit {
       return;
     }
 
-    // Retrieve the saved product IDs from localStorage
+
     const savedProductIds = JSON.parse(localStorage.getItem('savedProductIds') ?? '[]');
 
     // Add the new product ID to the array if it doesn't already exist
     if (!savedProductIds.includes(product.id)) {
       savedProductIds.push(product.id);
       localStorage.setItem('savedProductIds', JSON.stringify(savedProductIds));
-      
+
       alert('Product ID saved!');
     } else {
       alert('Product ID is already saved!');
