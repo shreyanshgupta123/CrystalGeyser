@@ -32,13 +32,13 @@
               <div class="flex items-center">
                   <img src="https://via.placeholder.com/50" alt="Bisleri 20 Litre Water Jar" class="w-12 h-12 rounded mr-4">
                   <div>
-                      <h2 class="text-lg font-semibold grid grid-cols-2">JOHN CARTON
+                      <h2 class="text-lg font-semibold grid grid-cols-2">{{user.first_name}}
                         <svg routerLink="/editDetails" routerLinkActive="active" class="w-6 h-6 text-gray-800 dark:text-white ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.779 17.779 4.36 19.918 6.5 13.5m4.279 4.279 8.364-8.643a3.027 3.027 0 0 0-2.14-5.165 3.03 3.03 0 0 0-2.14.886L6.5 13.5m4.279 4.279L6.499 13.5m2.14 2.14 6.213-6.504M12.75 7.04 17 11.28"/>
                         </svg>
                       </h2>
-                      <p class="text-sm text-gray-500">+12 055125898</p>
-                      <p class="text-sm text-gray-500">+12 055125898</p>
+                      <p class="text-sm text-gray-500">{{user.phone}}</p>
+                      <p class="text-sm text-gray-500">{{user.phone2}}</p>
                   </div>
               </div>
 
@@ -49,9 +49,9 @@
           </div>
           <div class="mb-4">
               <div class="flex justify-between items-center mb-2">
-                7890 East Maplewood Avenue, Apartment 15B
-Greenfield Heights
-Pleasantville, NY 10570
+                {{user.address[0].housenumber}},{{user.address[0].street}} , {{user.address[0].city}},
+
+                {{user.address[0].states}},{{user.address[0].country}} {{user.address[0].pincode}}
               </div>
           </div>
       </div>

@@ -8,6 +8,7 @@ import { MySubscriptionsComponent } from './my-subscriptions/my-subscriptions.co
 import { MyWishlistComponent } from './my-wishlist/my-wishlist.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 export function initApp(router: Router, platformId: Object) {
   return () => {
@@ -29,7 +30,8 @@ export function initApp(router: Router, platformId: Object) {
     MyWishlistComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   providers: [
     AuthGuard,
