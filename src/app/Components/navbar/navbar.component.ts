@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css'] // corrected styleUrl to styleUrls
+  styleUrls: ['./navbar.component.css'] 
 })
 export class NavbarComponent implements AfterViewInit, OnInit {
   isAdmin: boolean = false;

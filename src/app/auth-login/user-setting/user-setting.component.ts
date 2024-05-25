@@ -19,7 +19,7 @@ export class UserSettingComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    // Initialize and load token if available
+    
     this.tokenSubscription = this.authService.getToken().subscribe(
       (token) => {
         if (token) {
