@@ -13,7 +13,6 @@ export class UserLoginComponent implements OnInit {
   role: string = '';
   isLoading = false;
   showForm: boolean = true;
-  userNameforId: any;
 
   constructor(
     private fb: FormBuilder,
@@ -30,32 +29,29 @@ export class UserLoginComponent implements OnInit {
       username: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
-
-    // Subscribe to form changes to update userNameforId
-    this.loginForm.get('username')!.valueChanges.subscribe(value => {
-      this.userNameforId = value;
-    });
   }
 
   onSubmit() {
     if (this.loginForm.valid) {
       this.isLoading = true;
       this.showForm = false;
-
-
-      this.userNameforId = this.loginForm.get('username')!.value;
-localStorage.setItem('usercred',this.userNameforId)
       this.auth.Login(this.loginForm.value).subscribe(
         (result: any) => {
           if (result && result.token) {
             sessionStorage.setItem('authToken', result.token);
             console.log('Token stored in session storage:', result.token);
-
+            this.isLoading = false;
+            this.showForm = true;
             this.role = result.role || 'Admin';
             localStorage.setItem('role', this.role);
 
+            if (result.userId) {
+              localStorage.setItem('userId', result.userId);
+              console.log('User ID stored in local storage:', result.userId);
+            }
+
             this.router.navigate(['/home']).then(() => {
-              window.location.reload();
+               window.location.reload();
             });
           }
         },
