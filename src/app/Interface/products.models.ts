@@ -24,3 +24,8 @@ export interface Category {
   category_name: string;
 
 }
+
+export interface wishList
+{
+  id:string;
+}

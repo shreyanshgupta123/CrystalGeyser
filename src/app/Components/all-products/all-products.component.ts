@@ -47,15 +47,15 @@ export class AllProductsComponent implements OnInit {
   }
 
   saveProductToLocalStorage(product: any) {
-  
+    // Check if the token is present in sessionStorage
     const token = sessionStorage.getItem('authToken');
     if (!token) {
-
+      // Navigate to the login page if the token is not present
       this.router.navigate(['/userlogin']);
       return;
     }
 
-
+    // Retrieve the saved product IDs from localStorage
     const savedProductIds = JSON.parse(localStorage.getItem('savedProductIds') ?? '[]');
 
     // Add the new product ID to the array if it doesn't already exist
@@ -63,7 +63,16 @@ export class AllProductsComponent implements OnInit {
       savedProductIds.push(product.id);
       localStorage.setItem('savedProductIds', JSON.stringify(savedProductIds));
 
-      alert('Product ID saved!');
+      // Post the product data to the wishlist endpoint
+      this.productsService.wishList({ productId: product.id }).subscribe(
+        response => {
+          alert('Product ID saved and posted to wishlist!');
+        },
+        error => {
+          console.error('Error posting to wishlist', error);
+          alert('Failed to post to wishlist. Please try again later.');
+        }
+      );
     } else {
       alert('Product ID is already saved!');
     }
