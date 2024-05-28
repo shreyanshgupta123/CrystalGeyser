@@ -23,12 +23,7 @@ export class ManageAddressComponent implements OnInit, OnDestroy {
               (data) => {
                 this.user = data;
                 localStorage.setItem('userDetail', JSON.stringify(this.user));
-
-                if (this.user && this.user.address && this.user.address.length > 0) {
-                  console.log(this.user.address[0].country);
-                } else {
-                  console.error('User address array is empty or undefined.');
-                }
+                console.log(data);
               },
               (error) => {
                 console.error('Error fetching user details:', error);
@@ -50,6 +45,24 @@ export class ManageAddressComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.tokenSubscription) {
       this.tokenSubscription.unsubscribe();
+    }
+  }
+
+  onSubmit(): void {
+    const userId = localStorage.getItem('userId');
+    if (userId && this.user) {
+      this.authService.updateUserDetails(userId, this.user).subscribe(
+        (response) => {
+          console.log('User details updated successfully:', response);
+          
+        },
+        (error) => {
+          console.error('Error updating user details:', error);
+
+        }
+      );
+    } else {
+      console.error('User ID or user data is invalid.');
     }
   }
 }

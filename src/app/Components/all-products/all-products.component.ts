@@ -16,15 +16,12 @@ export class AllProductsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private productsService: ProductsService
   ) {}
-
   ngOnInit(): void {
     this.isLoading = true;
-
-    // Access and log the 'category_name' query parameter
     this.activatedRoute.queryParams.subscribe(params => {
       const category_id = params['category_id'];
       if (category_id) {
-        // console.log('Category Name:', category_id);
+
       }
     });
 
@@ -47,23 +44,17 @@ export class AllProductsComponent implements OnInit {
   }
 
   saveProductToLocalStorage(product: any) {
-    // Check if the token is present in sessionStorage
+
     const token = sessionStorage.getItem('authToken');
     if (!token) {
-      // Navigate to the login page if the token is not present
+
       this.router.navigate(['/userlogin']);
       return;
     }
-
-    // Retrieve the saved product IDs from localStorage
     const savedProductIds = JSON.parse(localStorage.getItem('savedProductIds') ?? '[]');
-
-    // Add the new product ID to the array if it doesn't already exist
     if (!savedProductIds.includes(product.id)) {
       savedProductIds.push(product.id);
       localStorage.setItem('savedProductIds', JSON.stringify(savedProductIds));
-
-      // Post the product data to the wishlist endpoint
       this.productsService.wishList({ productId: product.id }).subscribe(
         response => {
           alert('Product ID saved and posted to wishlist!');

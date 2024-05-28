@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthServiceService } from '../../Services/auth-service.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -10,8 +10,9 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class SignUpComponent implements OnInit {
   registrationForm!: FormGroup;
-isLoading=false;
-showForm: boolean = true;
+  isLoading = false;
+  showForm = true;
+
   constructor(
     private authservice: AuthServiceService,
     private toastr: ToastrService,
@@ -24,10 +25,10 @@ showForm: boolean = true;
 
   initForm() {
     this.registrationForm = this.fb.group({
-      firstName: ['', Validators.required],
-      middleName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      birthDate: ['', Validators.required],
+      first_name: ['', Validators.required],
+      middle_name: ['', Validators.required],
+      last_name: ['', Validators.required],
+      birth_date: ['', Validators.required],
       age: ['', Validators.required],
       gender: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -36,14 +37,13 @@ showForm: boolean = true;
       username: ['', Validators.required],
       password: ['', Validators.required],
       image: [''],
-      userId:[''],
       country: ['', Validators.required],
       states: ['', Validators.required],
       city: ['', Validators.required],
       street: ['', Validators.required],
       landmark: ['', Validators.required],
-      houseNumber: ['', Validators.required],
-      pinCode: ['', Validators.required]
+      housenumber: ['', Validators.required],
+      pincode: ['', Validators.required]      
     });
   }
 
@@ -51,20 +51,20 @@ showForm: boolean = true;
     console.log('Form submitted');
 
     if (this.registrationForm.valid) {
-      this.isLoading=true;
+      this.isLoading = true;
       this.showForm = false;
-      console.log('Form is valid', this.registrationForm.value);  
+      console.log('Form is valid', this.registrationForm.value);
       this.authservice.userLogin(this.registrationForm.value).subscribe(
         result => {
           console.log('Server response', result);
-          this.toastr.success(result.message, 'Success');
-          this.isLoading=false;
+          this.toastr.success('Registration successful', 'Success');
+          this.isLoading = false;
           this.showForm = true;
         },
         error => {
-          console.error('Login failed', error);
-          this.toastr.error('Login failed. Please try again later.', 'Error');
-          this.isLoading=false;
+          console.error('Registration failed', error);
+          this.toastr.error('Registration failed. Please try again later.', 'Error');
+          this.isLoading = false;
           this.showForm = true;
         }
       );

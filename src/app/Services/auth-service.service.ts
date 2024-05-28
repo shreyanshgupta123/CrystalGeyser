@@ -53,4 +53,7 @@ export class AuthServiceService {
     console.error('An error occurred:', error);
     return throwError('Something went wrong; please try again later.');
   }
+  updateUserDetails(userId: string, userDetails: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}users/${userId}`, userDetails);
+  }
 }

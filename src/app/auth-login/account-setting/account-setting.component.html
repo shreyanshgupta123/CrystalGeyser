@@ -1,6 +1,10 @@
+<!-- <div class="toast toast-top toast-end">
+  <div class="alert alert-info">
+    <span>Account Details Updated</span>
+  </div> -->
 <div class="md:mt-2">
   <h1 class="text-4xl justify-center max-w-5xl mx-auto">Account Setting</h1>
-  <form class="md:mr-20 mt-3">
+  <form class="md:mr-20 mt-3" (ngSubmit)="onSave()">
     <div class="grid md:grid-cols-3 md:gap-6">
       <div class="relative z-0 w-full mb-5 group">
           <input type="text" name="floating_first_name" id="floating_first_name" [(ngModel)]="user.first_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
@@ -26,12 +30,6 @@
       </div>
     </div>
 
-<button type="submit" class="btn btn-active btn-neutral">Save</button></form>
-
+    <button type="submit" class="btn btn-active btn-neutral">Save</button>
+  </form>
 </div>
-
-
-
-
-
-

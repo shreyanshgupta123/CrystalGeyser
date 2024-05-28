@@ -1,14 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthServiceService } from '../../Services/auth-service.service';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-account-setting',
   templateUrl: './account-setting.component.html',
-  styleUrl: './account-setting.component.css'
+  styleUrls: ['./account-setting.component.css']
 })
-export class AccountSettingComponent {
-  user: any;
+export class AccountSettingComponent implements OnInit, OnDestroy {
+  user: any = {}; // Ensure user is initialized
   private tokenSubscription: Subscription | null = null;
 
   constructor(private authService: AuthServiceService) {}
@@ -52,6 +52,22 @@ export class AccountSettingComponent {
       this.tokenSubscription.unsubscribe();
     }
   }
+
+  onSave(): void {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      this.authService.updateUserDetails(userId, this.user).subscribe(
+        (response) => {
+          console.log('User details updated successfully:', response);
+
+        },
+        (error) => {
+          console.error('Error updating user details:', error);
+          
+        }
+      );
+    } else {
+      console.error('No user ID found in localStorage.');
+    }
+  }
 }
-
-
