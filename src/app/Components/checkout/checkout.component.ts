@@ -10,10 +10,12 @@ import { UserService } from '../../Services/user.service';
 export class CheckoutComponent implements OnInit {
   user: any;
 
+  totalAmount:any
+
   constructor(private authService: AuthServiceService, private userService: UserService) {}
 
   ngOnInit(): void {
-    // Assuming you want to use AuthServiceService to retrieve user data
+   this.totalAmount= localStorage.getItem('TotalAmount')
     const userId = localStorage.getItem('userId');
     if (userId) {
       this.authService.getUserDetails(userId).subscribe(

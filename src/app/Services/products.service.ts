@@ -11,6 +11,7 @@ import { baserUrl } from '../enviroment/enviroment';
 export class ProductsService {
   private apiUrl = `${baserUrl}products`;
 private CategoryByid=`${baserUrl}productcategories`
+private orderbyid=`${baserUrl}currentorders`
 
   constructor(private httpClient: HttpClient) { }
 
@@ -25,6 +26,13 @@ private CategoryByid=`${baserUrl}productcategories`
   wishList(data:any):Observable<wishList[]>
   {
     return this.httpClient.post<any>(`${this.apiUrl}wishlist`, data).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  OrderById():Observable<any[]>
+  {
+    return this.httpClient.get<any>(`${this.orderbyid}`).pipe(
       catchError(this.handleError)
     );
   }

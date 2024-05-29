@@ -4,32 +4,21 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css'] 
+  styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements AfterViewInit, OnInit {
   isAdmin: boolean = false;
+  cartItemCount: number = 0; // Initialize count to 0
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
     this.authloginnav();
+    this.getCartItemCount(); // Get cart item count on component initialization
   }
 
   ngAfterViewInit() {
-    const showDrawerBtn = document.getElementById('showDrawerBtn');
-    const hideDrawerBtn = document.querySelector('[data-drawer-hide="drawer-top-example"]');
-
-    // Open drawer when show button is clicked
-    showDrawerBtn?.addEventListener('click', () => {
-      const drawer = document.getElementById('drawer-top-example');
-      drawer?.classList.toggle('-translate-y-full');
-    });
-
-    // Close drawer when hide button is clicked
-    hideDrawerBtn?.addEventListener('click', () => {
-      const drawer = document.getElementById('drawer-top-example');
-      drawer?.classList.add('-translate-y-full');
-    });
+    // Your code for drawer functionality
   }
 
   navigate(url: string): void {
@@ -48,9 +37,9 @@ export class NavbarComponent implements AfterViewInit, OnInit {
       }
     }
   }
+
   logOut() {
     if (typeof window !== 'undefined') {
-
       sessionStorage.removeItem('authToken');
       localStorage.removeItem('token');
       localStorage.removeItem('role');
@@ -58,28 +47,12 @@ export class NavbarComponent implements AfterViewInit, OnInit {
       window.location.reload();
     }
   }
-  // navigateTo(page: string): void {
-  //   switch (page) {
-  //     case 'MyOrder': {
-  //       this.router.navigateByUrl('usersetting/myorder');
-  //       break;
-  //     }
-  //     case 'MySubscription': {
-  //       this.router.navigateByUrl('usersetting/MySubscription');
-  //       break;
-  //     }
-  //     case 'ManageReferral': {
-  //       this.router.navigateByUrl('usersetting/ManageReferral');
-  //       break;
-  //     }
-  //     case 'MyWishlist' : {
-  //        this.router.navigateByUrl('usersetting/MyWishlist')
-  //        break;
-  //     }
-  //     default: {
-  //       console.error(`Unknown page: ${page}`);
-  //       break;
-  //     }
-  //   }
-  // }
+
+  getCartItemCount(): void {
+    const cartItems = localStorage.getItem('cartitem');
+    if (cartItems) {
+      const parsedCartItems = JSON.parse(cartItems);
+      this.cartItemCount = parsedCartItems.length; 
+    }
+  }
 }

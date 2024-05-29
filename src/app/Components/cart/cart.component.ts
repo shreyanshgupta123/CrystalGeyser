@@ -76,16 +76,19 @@ export class CartComponent implements OnInit {
     const discountedPrice = Math.max(this.totalPrice - this.discount, 0);
     this.overallPrice = discountedPrice + this.deliveryCharges;
     this.totalAmount = this.overallPrice + this.refundableDeposit;
+
   }
 
   checkout(): void {
     const token = sessionStorage.getItem('authToken');
     if (token) {
       this.router.navigateByUrl('/checkout');
+      localStorage.setItem('TotalAmount', this.totalAmount.toString());
     } else {
       this.router.navigateByUrl('/userlogin');
     }
   }
+
 
   increment(item: any): void {
     const id = item.id;

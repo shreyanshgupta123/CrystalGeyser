@@ -12,6 +12,7 @@ export class UserSettingComponent implements OnInit, OnDestroy {
   activeComponent: string = '';
   user: any;
   private tokenSubscription: Subscription | null = null;
+  orders: any;
 
   constructor(
     private router: Router,
@@ -19,7 +20,7 @@ export class UserSettingComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    
+
     this.tokenSubscription = this.authService.getToken().subscribe(
       (token) => {
         if (token) {
@@ -47,14 +48,37 @@ export class UserSettingComponent implements OnInit, OnDestroy {
 
   setActiveComponent(componentName: string): void {
     this.activeComponent = componentName;
-    if (componentName === 'Manage Address') {
-      const userId = localStorage.getItem('userId');
-      if (userId) {
-        this.fetchUserDetails(userId);
+
+    switch (componentName) {
+      case 'Manage Address': {
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+          this.fetchUserDetails(userId);
+        }
+        break;
+      }
+      case 'my-order': {
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+          this.authService.getUserDetails(userId).subscribe(
+            (data) => {
+              // console.log(data.orders);
+              this.orders = data.orders;
+              localStorage.setItem('userorder', JSON.stringify(this.orders));
+            },
+            (error) => {
+              console.error('Error fetching user orders:', error);
+            }
+          );
+        }
+        break;
+      }
+      default: {
+
+        break;
       }
     }
   }
-
   private fetchUserDetails(userId: string): void {
     this.authService.getUserDetails(userId).subscribe(
       (data) => {
