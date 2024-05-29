@@ -49,6 +49,7 @@ export class AuthServiceService {
     );
   }
 
+  
   private handleError(error: any): Observable<never> {
     console.error('An error occurred:', error);
     return throwError('Something went wrong; please try again later.');
@@ -57,5 +58,5 @@ export class AuthServiceService {
     return this.http.put<any>(`${this.baseUrl}users/${userId}`, userDetails);
   }
 
-  
+
 }

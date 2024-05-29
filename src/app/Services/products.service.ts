@@ -11,8 +11,9 @@ import { baserUrl } from '../enviroment/enviroment';
 export class ProductsService {
   private apiUrl = `${baserUrl}products`;
 private CategoryByid=`${baserUrl}productcategories`
-private orderbyid=`${baserUrl}currentorders`
-
+private orderbyidcurrent=`${baserUrl}currentorders`
+private orderbyidcancelled=`${baserUrl}cancelledorders`
+private baseurl=`${baserUrl}`
   constructor(private httpClient: HttpClient) { }
 
   allProducts(): Observable<Product[]> {
@@ -25,12 +26,17 @@ private orderbyid=`${baserUrl}currentorders`
   }
   wishList(data:any):Observable<wishList[]>
   {
-    return this.httpClient.post<any>(`${this.apiUrl}wishlist`, data).pipe(
+    return this.httpClient.post<any>(`${this.baseurl}wishlist`, data).pipe(
       catchError(this.handleError)
     );
   }
-  OrderById(orderId: string): Observable<any> {
-    return this.httpClient.get<any>(`${this.orderbyid}/${orderId}`).pipe(
+  OrderByIdCurrent(orderId: string): Observable<any> {
+    return this.httpClient.get<any>(`${this.orderbyidcurrent}/${orderId}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+  OrderByIdCancelled(orderId: string): Observable<any> {
+    return this.httpClient.get<any>(`${this.orderbyidcancelled}/${orderId}`).pipe(
       catchError(this.handleError)
     );
   }

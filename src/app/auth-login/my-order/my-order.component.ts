@@ -12,7 +12,8 @@ export class MyOrderComponent {
   userOrder: any[] = [];
   id: any;
   orderDetails: any;
-
+products:any;
+orderDetail: any;
   constructor(
     private auth: AuthServiceService,
     private product: ProductsService
@@ -45,7 +46,7 @@ export class MyOrderComponent {
   private handleOrderType(orderType: string) {
     const relevantOrders = this.userOrder.filter(order => order[orderType]);
     const observables = relevantOrders.map(order => {
-      return this.product.OrderById(order[orderType]).pipe(
+      return this.product.OrderByIdCurrent(order[orderType]).pipe(
         switchMap(orderData => {
           return this.product.allProducts().pipe(
             map(products => {
@@ -61,6 +62,12 @@ export class MyOrderComponent {
       mergedOrders => {
         this.orderDetails = mergedOrders;
         console.log(this.orderDetails)
+        this.orderDetails.forEach((element:any) => {
+        console.log(element)
+        this.orderDetail=element
+        this.products=element.product;
+
+        });
       },
       error => {
         console.error('Error fetching order details:', error);
