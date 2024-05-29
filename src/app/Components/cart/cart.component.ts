@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-  items: any = null;
-  quantity: number = 0;
+  items: any[] = [];
+  quantities: { [key: string]: number } = {};
   itemName: string = '';
   itemPrice: number = 0;
   totalPrice: number = 0;
@@ -27,28 +27,28 @@ export class CartComponent implements OnInit {
   }
 
   loadStoredData(): void {
-    const storedData = localStorage.getItem('selectedProduct');
-    const storedQuantity = localStorage.getItem('quantity');
+    const storedCartItems = localStorage.getItem('cartitem');
+    const storedQuantities = localStorage.getItem('quantities');
 
-    if (storedData) {
+    if (storedCartItems) {
       try {
-        this.items = JSON.parse(storedData);
-        this.itemName = this.items.productname;
-        this.itemPrice = this.items.price;
+        this.items = JSON.parse(storedCartItems);
       } catch (error) {
-        console.error('Error parsing stored product data:', error);
-        this.items = null;
+        console.error('Error parsing stored cart items:', error);
+        this.items = [];
       }
     }
 
-    if (storedQuantity) {
+    if (storedQuantities) {
       try {
-        this.quantity = parseInt(storedQuantity, 10);
+        this.quantities = JSON.parse(storedQuantities);
       } catch (error) {
-        console.error('Error parsing stored quantity:', error);
-        this.quantity = 0;
+        console.error('Error parsing stored quantities:', error);
+        this.quantities = {};
       }
     }
+
+    this.calculateTotalPrice();
   }
 
   fetchCartData(): void {
@@ -69,38 +69,52 @@ export class CartComponent implements OnInit {
   }
 
   calculateTotalPrice(): void {
-    this.totalPrice = this.itemPrice * this.quantity;
+    this.totalPrice = this.items.reduce((sum, item) => {
+      const quantity = this.quantities[item.id] || 1;
+      return sum + (item.price * quantity);
+    }, 0);
     const discountedPrice = Math.max(this.totalPrice - this.discount, 0);
-    this.overallPrice = discountedPrice + Number(this.deliveryCharges);
-    this.totalAmount = this.overallPrice + Number(this.refundableDeposit);
+    this.overallPrice = discountedPrice + this.deliveryCharges;
+    this.totalAmount = this.overallPrice + this.refundableDeposit;
   }
 
   checkout(): void {
     const token = sessionStorage.getItem('authToken');
     if (token) {
-
       this.router.navigateByUrl('/checkout');
     } else {
-
       this.router.navigateByUrl('/userlogin');
     }
   }
 
-  increment(): void {
-    this.quantity++;
-    this.updateQuantityInLocalStorage();
+  increment(item: any): void {
+    const id = item.id;
+    this.quantities[id] = (this.quantities[id] || 1) + 1;
+    this.updateQuantitiesInLocalStorage();
     this.calculateTotalPrice();
   }
 
-  decrement(): void {
-    if (this.quantity > 0) {
-      this.quantity--;
-      this.updateQuantityInLocalStorage();
+  decrement(item: any): void {
+    const id = item.id;
+    if (this.quantities[id] > 1) {
+      this.quantities[id]--;
+      this.updateQuantitiesInLocalStorage();
       this.calculateTotalPrice();
     }
   }
 
-  updateQuantityInLocalStorage(): void {
-    localStorage.setItem('quantity', this.quantity.toString());
+  updateQuantitiesInLocalStorage(): void {
+    localStorage.setItem('quantities', JSON.stringify(this.quantities));
+  }
+
+  removeItem(item: any): void {
+    const index = this.items.findIndex(i => i.id === item.id);
+    if (index !== -1) {
+      this.items.splice(index, 1);
+      delete this.quantities[item.id];
+      localStorage.setItem('cartitem', JSON.stringify(this.items));
+      this.updateQuantitiesInLocalStorage();
+      this.calculateTotalPrice();
+    }
   }
 }

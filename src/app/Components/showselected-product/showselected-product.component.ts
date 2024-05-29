@@ -18,7 +18,8 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
   @ViewChild('plusBtn', { static: false }) plusBtn!: ElementRef<HTMLButtonElement>;
   @ViewChild('inputBox', { static: false }) inputBox!: ElementRef<HTMLInputElement>;
 
-  constructor(private route: ActivatedRoute,private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
+
   ngOnInit() {
     const productString = localStorage.getItem('selectedProduct');
     if (productString) {
@@ -99,6 +100,7 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
     this.updateButtonStates(minusBtn, plusBtn, inputBox);
     this.handleQuantityChange(inputBox, minusBtn, plusBtn);
   }
+
   handleQuantityChange(inputBox: HTMLInputElement, minusBtn: HTMLButtonElement, plusBtn: HTMLButtonElement) {
     let value = parseInt(inputBox.value);
     value = isNaN(value) ? 1 : value;
@@ -107,29 +109,37 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
 
     // Update localStorage with the new quantity value
     localStorage.setItem('quantity', value.toString());
-}
+  }
 
-
-
-  products:any[]=[
-  ]
+  products: any[] = []
 
   updateBigImage(imageUrl: string): void {
     this.bigImageUrl = imageUrl;
   }
 
-cart()
-{
-  this.router.navigate(['/cart'])
-}
+  cart() {
+    // Retrieve the existing cart items from localStorage
+    let cartItems = JSON.parse(localStorage.getItem('cartitem') || '[]');
+
+    // Add the current product to the cart items array
+    cartItems.push(this.product);
+
+    // Store the updated cart items array back into localStorage
+    localStorage.setItem('cartitem', JSON.stringify(cartItems));
+
+    // Navigate to the cart page
+    this.router.navigate(['/cart']);
+  }
+
   showProducts() {
-    // console.log(this.products);
+    // Implement this method as needed
   }
 
   storeProduct(product: any) {
-    localStorage.setItem('selectedProduct', JSON.stringify(product));
+    let productsArray = JSON.parse(localStorage.getItem('selectedProductArray') || '[]');
+    productsArray.push(product);
+    localStorage.setItem('selectedProductArray', JSON.stringify(productsArray));
     console.log('Product stored in localStorage:', product);
     this.router.navigate(['/selecteditem'], { queryParams: product });
-
   }
 }
