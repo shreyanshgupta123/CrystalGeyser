@@ -1,40 +1,46 @@
 <div role="tablist" class="tabs tabs-bordered">
-  <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Current Order" checked  (click)="selectOrder('current')"/>
+  <!-- Current Order Tab -->
+  <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Current Order" checked (click)="selectOrder('current')" />
   <div role="tabpanel" class="tab-content p-10">
-
-<a href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-  <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="">
-  <div class="flex flex-col justify-between p-4 leading-normal">
-      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Current Order</h5>
-      <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{OrderDetails.productname}}</p>
+    <ng-container *ngIf="orderDetails">
+      <a href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+        <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="{{orderDetails.image}}" alt="">
+        <div class="flex flex-col justify-between p-4 leading-normal">
+          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{orderDetails.productname}}</h5>
+          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Price: ${{orderDetails.price}}</p>
+        </div>
+      </a>
+    </ng-container>
+    <p *ngIf="!orderDetails" class="text-gray-700 dark:text-gray-400">No order details available</p>
   </div>
-</a>
 
-  </div>
-
-  <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Delivered Order"  />
+  <!-- Delivered Order Tab -->
+  <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Delivered Order" (click)="selectOrder('delivered')" />
   <div role="tabpanel" class="tab-content p-10">
-
-<a href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-  <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="">
-  <div class="flex flex-col justify-between p-4 leading-normal">
-      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Delivered Order</h5>
-      <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Details</p>
+    <ng-container *ngIf="orderDetails">
+      <a href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+        <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="{{orderDetails.image}}" alt="">
+        <div class="flex flex-col justify-between p-4 leading-normal">
+          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{orderDetails.productname}}</h5>
+          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Price: ${{orderDetails.price}}</p>
+        </div>
+      </a>
+    </ng-container>
+    <p *ngIf="!orderDetails" class="text-gray-700 dark:text-gray-400">No order details available</p>
   </div>
-</a>
 
-  </div>
-
-  <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Canceled Order" />
+  <!-- Canceled Order Tab -->
+  <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Canceled Order" (click)="selectOrder('canceled')" />
   <div role="tabpanel" class="tab-content p-10">
-
-<a href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-  <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="">
-  <div class="flex flex-col justify-between p-4 leading-normal">
-      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Canceled Order</h5>
-      <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Details</p>
-  </div>
-</a>
-
+    <ng-container *ngIf="orderDetails">
+      <a href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+        <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="{{orderDetails.image}}" alt="">
+        <div class="flex flex-col justify-between p-4 leading-normal">
+          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{orderDetails.productname}}</h5>
+          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Price: ${{orderDetails.price}}</p>
+        </div>
+      </a>
+    </ng-container>
+    <p *ngIf="!orderDetails" class="text-gray-700 dark:text-gray-400">No order details available</p>
   </div>
 </div>

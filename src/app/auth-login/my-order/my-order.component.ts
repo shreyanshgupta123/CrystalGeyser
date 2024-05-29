@@ -1,27 +1,26 @@
 import { Component } from '@angular/core';
 import { AuthServiceService } from '../../Services/auth-service.service';
 import { ProductsService } from '../../Services/products.service';
+import { forkJoin, map, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-my-order',
   templateUrl: './my-order.component.html',
-  styleUrls: ['./my-order.component.css'] // Corrected the property name to styleUrls
+  styleUrls: ['./my-order.component.css']
 })
 export class MyOrderComponent {
   userOrder: any[] = [];
   id: any;
-  OrderDetails:any
+  orderDetails: any;
 
   constructor(
     private auth: AuthServiceService,
-    private product:ProductsService
-
+    private product: ProductsService
   ) {
     this.id = localStorage.getItem('userId');
     const userOrderString = localStorage.getItem('userorder');
     if (userOrderString) {
       this.userOrder = JSON.parse(userOrderString);
-      //  console.log(this.userOrder)
     } else {
       console.error('User order data not found in localStorage.');
     }
@@ -29,44 +28,43 @@ export class MyOrderComponent {
 
   selectOrder(select: string) {
     switch (select) {
-      case 'current': {
-this.userOrder.forEach((element:any)=>
-{
-  if(element.
-    current_order_id
-    )
-    {
-this.product.OrderById().subscribe(
-  data=>{
-   data.forEach((element:any)=>
-  {
-    // console.log(element.product_id)
-    this.product.allProducts().subscribe(
-      data2=>{
-        // console.log(data2)
-data2.forEach((element2:any)=>
-{
-
-  if(element.product_id==element2.id)
-    {
-
-this.OrderDetails=element2
-// console.log('Here is the order details:',element2.productname)
+      case 'current':
+        this.handleOrderType('current_order_id');
+        break;
+      case 'delivered':
+        this.handleOrderType('delivered_order_id');
+        break;
+      case 'canceled':
+        this.handleOrderType('cancelled_order_id');
+        break;
+      default:
+        break;
     }
-})
-      }
-    )
-  })
   }
-)
-    }
-})
-        break;
+
+  private handleOrderType(orderType: string) {
+    const relevantOrders = this.userOrder.filter(order => order[orderType]);
+    const observables = relevantOrders.map(order => {
+      return this.product.OrderById(order[orderType]).pipe(
+        switchMap(orderData => {
+          return this.product.allProducts().pipe(
+            map(products => {
+              const product = products.find(p => p.id === orderData.product_id);
+              return { ...orderData, product };
+            })
+          );
+        })
+      );
+    });
+
+    forkJoin(observables).subscribe(
+      mergedOrders => {
+        this.orderDetails = mergedOrders;
+        console.log(this.orderDetails)
+      },
+      error => {
+        console.error('Error fetching order details:', error);
       }
-      default: {
-        // Default case
-        break;
-      }
-    }
+    );
   }
 }

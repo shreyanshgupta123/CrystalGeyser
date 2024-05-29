@@ -29,13 +29,12 @@ private orderbyid=`${baserUrl}currentorders`
       catchError(this.handleError)
     );
   }
-
-  OrderById():Observable<any[]>
-  {
-    return this.httpClient.get<any>(`${this.orderbyid}`).pipe(
+  OrderById(orderId: string): Observable<any> {
+    return this.httpClient.get<any>(`${this.orderbyid}/${orderId}`).pipe(
       catchError(this.handleError)
     );
   }
+
   private handleError(error: any): Observable<never> {
     console.error('An error occurred:', error);
     return throwError('Something went wrong; please try again later.');
