@@ -1,5 +1,10 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+ // Replace with the correct path
+import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { ProductsService } from '../../Services/products.service';
+import { CartserviceService } from '../../Services/cartservice.service';
 
 @Component({
   selector: 'app-showselected-product',
@@ -18,7 +23,11 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
   @ViewChild('plusBtn', { static: false }) plusBtn!: ElementRef<HTMLButtonElement>;
   @ViewChild('inputBox', { static: false }) inputBox!: ElementRef<HTMLInputElement>;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  products: any[] = [];
+  userId: string = localStorage.getItem('userId') as string;
+
+
+  constructor(private route: ActivatedRoute, private router: Router, private productsService: ProductsService ,private cartService:CartserviceService) {}
 
   ngOnInit() {
     const productString = localStorage.getItem('selectedProduct');
@@ -31,7 +40,7 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
     }
     this.calculateAverageRating();
     this.viewProduct();
-    this.showProducts();
+    // this.showProducts();
     this.bigImageUrl = this.products[0]?.image;
   }
 
@@ -104,35 +113,50 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
   handleQuantityChange(inputBox: HTMLInputElement, minusBtn: HTMLButtonElement, plusBtn: HTMLButtonElement) {
     let value = parseInt(inputBox.value);
     value = isNaN(value) ? 1 : value;
-    console.log("Quantity changed:", value);
+
     this.updateButtonStates(minusBtn, plusBtn, inputBox);
 
     // Update localStorage with the new quantity value
     localStorage.setItem('quantity', value.toString());
   }
 
-  products: any[] = []
-
   updateBigImage(imageUrl: string): void {
     this.bigImageUrl = imageUrl;
   }
 
   cart() {
-    // Retrieve the existing cart items from localStorage
+
     let cartItems = JSON.parse(localStorage.getItem('cartitem') || '[]');
+    console.log(cartItems)
+    const existingItem = cartItems.find((item: any) => item.productid === this.product.id);
+    if (!existingItem) {
+      const quantity = parseInt(this.inputBox.nativeElement.value) || 1;
+      const cartItem = {
+        productid: this.product.id,
+        userid: this.userId,
+        quantity: quantity
+      };
+      cartItems.push(cartItem);
 
-    // Add the current product to the cart items array
-    cartItems.push(this.product);
+      localStorage.setItem('cartitem', JSON.stringify(cartItems));
 
-    // Store the updated cart items array back into localStorage
-    localStorage.setItem('cartitem', JSON.stringify(cartItems));
 
-    // Navigate to the cart page
-    this.router.navigate(['/cart']);
-  }
+      this.cartService.addToCart(cartItem).subscribe(
+        (response:any) => {
+          console.log('Product added to cart', response);
+          alert('Product added to cart and posted to the server!');
 
-  showProducts() {
-    // Implement this method as needed
+
+          this.router.navigate(['/cart']);
+        },
+        (error:any) => {
+          console.error('Error posting to cart', error);
+          alert('Failed to add product to cart. Please try again later.');
+        }
+      );
+    } else {
+      alert('Product is already in the cart!');
+    }
   }
 
   storeProduct(product: any) {

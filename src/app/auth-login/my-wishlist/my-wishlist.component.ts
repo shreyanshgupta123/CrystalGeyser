@@ -14,13 +14,13 @@ export class MyWishlistComponent implements OnInit {
 
   ngOnInit(): void {
     this.prod.getWishList().subscribe(data => {
-      console.log(data);
+
       this.wishListCount = data.length;
       data.forEach((element: any) => {
-        console.log(element.product_id);
+
         this.prod.getProductById(element.product_id).subscribe(productData => {
-          console.log(productData);
-          this.prodData.push(productData);  // Push each product to the array
+         
+          this.prodData.push(productData);
         });
       });
     });

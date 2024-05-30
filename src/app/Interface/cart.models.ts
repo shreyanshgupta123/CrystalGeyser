@@ -11,3 +11,9 @@ export interface Cart{
     product_price: number
 
 }
+
+export interface AddCart{
+  productid:string,
+  userid:string,
+  quantity:number,
+}
