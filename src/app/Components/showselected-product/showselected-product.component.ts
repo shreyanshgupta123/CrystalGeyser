@@ -1,8 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
- // Replace with the correct path
-import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import { ProductsService } from '../../Services/products.service';
 import { CartserviceService } from '../../Services/cartservice.service';
 
@@ -26,8 +23,7 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
   products: any[] = [];
   userId: string = localStorage.getItem('userId') as string;
 
-
-  constructor(private route: ActivatedRoute, private router: Router, private productsService: ProductsService ,private cartService:CartserviceService) {}
+  constructor(private route: ActivatedRoute, private router: Router, private productsService: ProductsService, private cartService: CartserviceService) {}
 
   ngOnInit() {
     const productString = localStorage.getItem('selectedProduct');
@@ -40,7 +36,6 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
     }
     this.calculateAverageRating();
     this.viewProduct();
-    // this.showProducts();
     this.bigImageUrl = this.products[0]?.image;
   }
 
@@ -125,7 +120,6 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
   }
 
   cart() {
-
     let cartItems = JSON.parse(localStorage.getItem('cartitem') || '[]');
     console.log(cartItems)
     const existingItem = cartItems.find((item: any) => item.productid === this.product.id);
@@ -140,16 +134,13 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
 
       localStorage.setItem('cartitem', JSON.stringify(cartItems));
 
-
       this.cartService.addToCart(cartItem).subscribe(
-        (response:any) => {
+        (response: any) => {
           console.log('Product added to cart', response);
           alert('Product added to cart and posted to the server!');
-
-
           this.router.navigate(['/cart']);
         },
-        (error:any) => {
+        (error: any) => {
           console.error('Error posting to cart', error);
           alert('Failed to add product to cart. Please try again later.');
         }
