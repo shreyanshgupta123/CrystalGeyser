@@ -1,36 +1,50 @@
 <div role="tablist" class="tabs tabs-bordered">
   <!-- Current Order Tab -->
   <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Current Order" checked (click)="selectOrder('current')" />
-  <div role="tabpanel" class="tab-content p-10">
-    <ng-container *ngIf="orderDetails.length > 0">
-      <a href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-        <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" [src]="products?.image" alt="">
-        <div class="flex flex-col justify-between p-4 leading-normal">
-          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{products?.productname}}</h5>
-          <p class="mb-3 font-normal font-bold text-gray-700 dark:text-gray-400">Price (per unit): ${{products?.price}}</p>
-          <p class="mb-3 font-normal font-bold text-gray-700 dark:text-gray-400">Total Price: ${{orderDetail?.price}}</p>
-          <p class="mb-3 font-normal font-bold text-gray-700 dark:text-gray-400">Units: {{orderDetail?.unit}}</p>
-          <p class="mb-3 font-normal font-bold text-gray-700 dark:text-gray-400">Payment Method: {{orderDetail?.payment_method}}</p>
-          <p class="mb-3 font-normal font-bold text-gray-700 dark:text-gray-400" style="color:green">Expected Delivery: {{orderDetail?.expected_delivery}}</p>
-        </div>
-      </a>
+  <div role="tabpanel" class="tab-content p-10 ">
+    <ng-container *ngIf="orderDetails && orderDetails.length > 0; else noCancelledOrders">
+      <div *ngFor="let currentOrder of orderDetails" class="mt-2">
+        <a href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+          <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" [src]="currentOrder.product?.image" alt="">
+          <div class="flex flex-col justify-between p-4 leading-normal">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{currentOrder.product?.productname}}</h5>
+            <p class="mb-3 font-normal font-bold text-gray-700 dark:text-gray-400">Price (per unit): ${{currentOrder.product?.price}}</p>
+            <p class="mb-3 font-normal font-bold text-gray-700 dark:text-gray-400">Total Price: ${{currentOrder.price}}</p>
+            <p class="mb-3 font-normal font-bold text-gray-700 dark:text-gray-400">Units: {{currentOrder.unit}}</p>
+            <p class="mb-3 font-normal font-bold text-gray-700 dark:text-gray-400">Payment Method: {{currentOrder.payment_method}}</p>
+            <p class="mb-3 font-normal font-bold text-gray-700 dark:text-gray-400" style="color:green">Expected Date: {{currentOrder.expected_delivery}}</p>
+
+          </div>
+        </a>
+      </div>
     </ng-container>
-    <p *ngIf="orderDetails.length === 0" class="text-gray-700 dark:text-gray-400">No order details available</p>
+    <ng-template #noCancelledOrders>
+      <p class="text-gray-700 dark:text-gray-400">No cancelled orders available</p>
+    </ng-template>
   </div>
 
   <!-- Delivered Order Tab -->
   <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Delivered Order" (click)="selectOrder('delivered')" />
-  <div role="tabpanel" class="tab-content p-10">
-    <ng-container *ngIf="orderDetails.length > 0">
-      <a href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-        <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" [src]="orderDetails[0]?.product?.image" alt="">
-        <div class="flex flex-col justify-between p-4 leading-normal">
-          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{orderDetails[0]?.product?.productname}}</h5>
-          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Price: ${{orderDetails[0]?.product?.price}}</p>
-        </div>
-      </a>
+  <div role="tabpanel" class="tab-content p-10 ">
+    <ng-container *ngIf="orderDetails2 && orderDetails2.length > 0; else noDeliveredOrders">
+      <div *ngFor="let deliveredOrder of orderDetails2" class="mt-2">
+        <a href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+          <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" [src]="deliveredOrder.product?.image" alt="">
+          <div class="flex flex-col justify-between p-4 leading-normal">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{deliveredOrder.product?.productname}}</h5>
+            <p class="mb-3 font-normal font-bold text-gray-700 dark:text-gray-400">Price (per unit): ${{deliveredOrder.product?.price}}</p>
+            <p class="mb-3 font-normal font-bold text-gray-700 dark:text-gray-400">Total Price: ${{deliveredOrder.price}}</p>
+            <p class="mb-3 font-normal font-bold text-gray-700 dark:text-gray-400">Units: {{deliveredOrder.unit}}</p>
+            <p class="mb-3 font-normal font-bold text-gray-700 dark:text-gray-400">Payment Method: {{deliveredOrder.payment_method}}</p>
+            <p class="mb-3 font-normal font-bold text-gray-700 dark:text-gray-400" style="font-weight: bold;">Expected Date: {{deliveredOrder.expected_delivery}}</p>
+            <p class="mb-3 font-normal font-bold text-gray-700 dark:text-gray-400" style="font-weight: bold; color: green;">Delivered Date: {{deliveredOrder.delivered_date | date}}</p>
+          </div>
+        </a>
+      </div>
     </ng-container>
-    <p *ngIf="orderDetails.length === 0" class="text-gray-700 dark:text-gray-400">No order details available</p>
+    <ng-template #noDeliveredOrders>
+      <p class="text-gray-700 dark:text-gray-400">No orders available</p>
+    </ng-template>
   </div>
 
   <!-- Canceled Order Tab -->

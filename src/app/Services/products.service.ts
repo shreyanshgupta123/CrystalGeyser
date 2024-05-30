@@ -9,7 +9,7 @@ import { baserUrl } from '../enviroment/enviroment';
   providedIn: 'root'
 })
 export class ProductsService {
-  private apiUrl = `${baserUrl}products`;
+private apiUrl = `${baserUrl}products`;
 private CategoryByid=`${baserUrl}productcategories`
 private orderbyidcurrent=`${baserUrl}currentorders`
 private orderbyidcancelled=`${baserUrl}cancelledorders`
@@ -35,11 +35,28 @@ private baseurl=`${baserUrl}`
       catchError(this.handleError)
     );
   }
+  getWishList():Observable<any>
+  {
+    return this.httpClient.get<any>(`${this.baseurl}wishlist`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+
+
   OrderByIdCurrent(orderId: string): Observable<any> {
     return this.httpClient.get<any>(`${this.orderbyidcurrent}/${orderId}`).pipe(
       catchError(this.handleError)
     );
   }
+  OrderByListCurrent(): Observable<any> {
+    return this.httpClient.get<any>(`${this.orderbyidcurrent}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+
+
   OrderByIdCancelled(orderId: string): Observable<any> {
     return this.httpClient.get<any>(`${this.orderbyidcancelled}/${orderId}`).pipe(
       catchError(this.handleError)
@@ -50,11 +67,21 @@ private baseurl=`${baserUrl}`
       catchError(this.handleError)
     );
   }
+
+
+
+  OrderByListDelivered(): Observable<any> {
+    return this.httpClient.get<any>(`${this.orderbyDelivered}`).pipe(
+      catchError(this.handleError)
+    );
+  }
   OrderByIdDelivered(orderId: string): Observable<any> {
     return this.httpClient.get<any>(`${this.orderbyDelivered}/${orderId}`).pipe(
       catchError(this.handleError)
     );
   }
+
+
 
   private handleError(error: any): Observable<never> {
     console.error('An error occurred:', error);

@@ -10,18 +10,22 @@ import { ProductsService } from '../../Services/products.service';
 export class AllProductsComponent implements OnInit {
   products: any[] = [];
   isLoading: boolean = false;
+  userId: string | null = null;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private productsService: ProductsService
   ) {}
+
   ngOnInit(): void {
     this.isLoading = true;
+    this.userId = localStorage.getItem('userId');
+
     this.activatedRoute.queryParams.subscribe(params => {
       const category_id = params['category_id'];
       if (category_id) {
-
+        // Do something with category_id if needed
       }
     });
 
@@ -39,24 +43,27 @@ export class AllProductsComponent implements OnInit {
 
   storeProduct(product: any) {
     localStorage.setItem('selectedProduct', JSON.stringify(product));
-    // console.log('Product stored in localStorage:', product);
     this.router.navigate(['/selecteditem'], { queryParams: product });
   }
 
-  saveProductToLocalStorage(product: any) {
-
+  saveProductToLocalStorage(product:any) {
     const token = sessionStorage.getItem('authToken');
     if (!token) {
-
       this.router.navigate(['/userlogin']);
       return;
     }
+
     const savedProductIds = JSON.parse(localStorage.getItem('savedProductIds') ?? '[]');
     if (!savedProductIds.includes(product.id)) {
       savedProductIds.push(product.id);
       localStorage.setItem('savedProductIds', JSON.stringify(savedProductIds));
-      this.productsService.wishList({ productId: product.id }).subscribe(
+
+      // Pass userId and productId to the wishlist function
+      console.log(product.id,this.userId)
+      this.productsService.wishList({ productid: product.id, userid: this.userId }).subscribe(
+
         response => {
+          console.log(product.id,this.userId)
           alert('Product ID saved and posted to wishlist!');
         },
         error => {

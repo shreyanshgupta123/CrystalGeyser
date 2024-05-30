@@ -48,3 +48,28 @@ export interface CancelledOrder {
   user_id: string;
   product?: Product;
 }
+export interface CurrentOrder {
+
+  expected_delivery: string;
+  id: string;
+  payment_method: string;
+  price: number;
+  product_id: string;
+  unit: number;
+  user_id: string;
+  product?: Product;
+}
+export interface DeliveredOrder {
+
+  id: string;
+  user_id: string;
+  product_id: string;
+  price: number;
+  unit: number;
+  expected_delivery: string;
+  payment_method: string;
+  delivered_date:string
+  product?: Product;
+}
+
+

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AuthServiceService } from '../../Services/auth-service.service';
 import { ProductsService } from '../../Services/products.service';
 import { forkJoin, map, switchMap } from 'rxjs';
-import { CancelledOrder, Products } from '../../Interface/products.models';
+import { CancelledOrder, CurrentOrder, DeliveredOrder, Products } from '../../Interface/products.models';
 
 @Component({
   selector: 'app-my-order',
@@ -12,12 +12,11 @@ import { CancelledOrder, Products } from '../../Interface/products.models';
 export class MyOrderComponent {
   userOrder: any[] = [];
   id: string | null;
-  orderDetails: any[] = [];
+  orderDetails: CurrentOrder[] = [];
   orderDetails3: CancelledOrder[] = [];
+  orderDetails2: DeliveredOrder[] = [];
   products: Products | undefined;
-  products2: any;
-  products3: any;
-  orderDetail: any;
+
 
   constructor(
     private auth: AuthServiceService,
@@ -35,10 +34,10 @@ export class MyOrderComponent {
   selectOrder(select: string) {
     switch (select) {
       case 'current':
-        this.handleOrderType('current_order_id');
+        this.handleOrderType();
         break;
       case 'delivered':
-        this.handleOrderType2('delivered_order_id');
+        this.handleOrderType2();
         break;
       case 'canceled':
         this.handleOrderType3();
@@ -47,61 +46,61 @@ export class MyOrderComponent {
         break;
     }
   }
-
-  private handleOrderType(orderType: string) {
-    const relevantOrders = this.userOrder.filter(order => order[orderType]);
-    const observables = relevantOrders.map(order => {
-      return this.product.OrderByIdCurrent(order[orderType]).pipe(
-        switchMap(orderData => {
-          return this.product.allProducts().pipe(
-            map(products => {
-              const product = products.find(p => p.id === orderData.product_id);
-              return { ...orderData, product };
+  private handleOrderType() {
+    this.product.OrderByListCurrent().subscribe(
+      (currentOrders: unknown) => {
+        this.orderDetails = currentOrders as CurrentOrder[];
+        const productObservables = this.orderDetails.map(order => {
+          return this.product.getProductById(order.product_id).pipe(
+            map(product => {
+              order.product = product;
+              return order;
             })
           );
-        })
-      );
-    });
+        });
 
-    forkJoin(observables).subscribe(
-      mergedOrders => {
-        this.orderDetails = mergedOrders;
-        if (this.orderDetails.length > 0) {
-          this.orderDetail = this.orderDetails[0];
-          this.products = this.orderDetail.product;
-        }
+        forkJoin(productObservables).subscribe(
+          (ordersWithProducts: CurrentOrder[]) => {
+            this.orderDetails = ordersWithProducts;
+
+          },
+          (error: any) => {
+            console.error('Error fetching product details for cancelled orders:', error);
+          }
+        );
       },
       (error: any) => {
-        console.error('Error fetching order details:', error);
+        console.error('Error fetching cancelled orders:', error);
       }
     );
   }
 
-  private handleOrderType2(orderType: string) {
-    const relevantOrders = this.userOrder.filter(order => order[orderType]);
-    const observables = relevantOrders.map(order => {
-      return this.product.OrderByIdDelivered(order[orderType]).pipe(
-        switchMap(orderData => {
-          return this.product.allProducts().pipe(
-            map(products => {
-              const product = products.find(p => p.id === orderData.product_id);
-              return { ...orderData, product };
+  private handleOrderType2() {
+    this.product.OrderByListDelivered().subscribe(
+      (deliveredOrders: unknown) => {
+        console.log('data',deliveredOrders)
+        this.orderDetails2 = deliveredOrders as DeliveredOrder[];
+        const productObservables = this.orderDetails2.map(order => {
+          return this.product.getProductById(order.product_id).pipe(
+            map(product => {
+              order.product = product;
+              return order;
             })
           );
-        })
-      );
-    });
+        });
 
-    forkJoin(observables).subscribe(
-      mergedOrders => {
-        this.orderDetails = mergedOrders;
-        if (this.orderDetails.length > 0) {
-          this.orderDetail = this.orderDetails[0];
-          this.products = this.orderDetail.product;
-        }
+        forkJoin(productObservables).subscribe(
+          (ordersWithProducts: DeliveredOrder[]) => {
+            this.orderDetails2 = ordersWithProducts;
+            console.log(this.orderDetails2)
+          },
+          (error: any) => {
+            console.error('Error fetching product details for cancelled orders:', error);
+          }
+        );
       },
       (error: any) => {
-        console.error('Error fetching order details:', error);
+        console.error('Error fetching cancelled orders:', error);
       }
     );
   }
