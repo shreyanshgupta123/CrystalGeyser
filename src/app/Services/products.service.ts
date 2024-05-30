@@ -13,13 +13,18 @@ export class ProductsService {
 private CategoryByid=`${baserUrl}productcategories`
 private orderbyidcurrent=`${baserUrl}currentorders`
 private orderbyidcancelled=`${baserUrl}cancelledorders`
+private orderbyDelivered=`${baserUrl}deliveredorders`
 private baseurl=`${baserUrl}`
   constructor(private httpClient: HttpClient) { }
 
   allProducts(): Observable<Product[]> {
     return this.httpClient.get<Product[]>(this.apiUrl);
   }
-
+  getProductById(orderId:string): Observable<any> {
+    return this.httpClient.get<any>(`${this.apiUrl}/${orderId}`).pipe(
+      catchError(this.handleError)
+    );
+  }
   getByCategoryId():Observable<Category[]>
   {
     return this.httpClient.get<Category[]>(this.CategoryByid);
@@ -37,6 +42,16 @@ private baseurl=`${baserUrl}`
   }
   OrderByIdCancelled(orderId: string): Observable<any> {
     return this.httpClient.get<any>(`${this.orderbyidcancelled}/${orderId}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+  OrderByListCancelled(): Observable<any> {
+    return this.httpClient.get<any>(`${this.orderbyidcancelled}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+  OrderByIdDelivered(orderId: string): Observable<any> {
+    return this.httpClient.get<any>(`${this.orderbyDelivered}/${orderId}`).pipe(
       catchError(this.handleError)
     );
   }

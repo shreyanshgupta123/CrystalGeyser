@@ -29,3 +29,22 @@ export interface wishList
 {
   id:string;
 }
+export interface Products {
+  id: string;
+  productname: string;
+  price: number;
+  image: string;
+}
+
+export interface CancelledOrder {
+  cancellation_date: string;
+  cancellation_reason: string;
+  expected_delivery: string;
+  id: string;
+  payment_method: string;
+  price: number;
+  product_id: string;
+  unit: number;
+  user_id: string;
+  product?: Product;
+}
