@@ -55,21 +55,20 @@ export class CartComponent implements OnInit {
 
   fetchCartData(): void {
     const token = sessionStorage.getItem('authToken');
+    const userId = localStorage.getItem('userId'); // Assuming you have the user ID stored in localStorage
 
-    if (token) {
+    if (token && userId) {
       this.cartService.getCart().subscribe({
         next: data => {
           console.log('Cart data:', data);
-          this.items = data;
+          // Filter cart data by user_id
+          this.items = data.filter((item: any) => item.user_id === userId);
           this.items.forEach((item: any) => {
             console.log(item);
             this.prod.getProductById(item.product_id).subscribe({
               next: (productDetails: any) => {
-
                 item.productDetails = productDetails;
                 console.log('Product details:', productDetails);
-                productDetails=this.products
-
               },
               error: err => {
                 console.error('Error fetching product details:', err);
@@ -88,6 +87,8 @@ export class CartComponent implements OnInit {
       this.loadStoredData();
     }
   }
+
+
 
 
 

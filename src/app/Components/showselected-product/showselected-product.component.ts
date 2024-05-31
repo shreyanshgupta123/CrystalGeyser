@@ -127,7 +127,7 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
       const quantity = parseInt(this.inputBox.nativeElement.value) || 1;
       const cartItem = {
         productid: this.product.id,
-        userid: this.userId,
+        userid: this.userId, // Using the userId from localStorage
         quantity: quantity
       };
       cartItems.push(cartItem);
