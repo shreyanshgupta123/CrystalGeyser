@@ -17,3 +17,9 @@ export interface AddCart{
   userid:string,
   quantity:number,
 }
+export interface DeleteCart{
+  productid:string,
+  userid:string,
+  quantity:number,
+}
+

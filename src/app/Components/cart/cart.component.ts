@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CartserviceService } from '../../Services/cartservice.service';
 import { Router } from '@angular/router';
+import { ProductsService } from '../../Services/products.service';
 
 @Component({
   selector: 'app-cart',
@@ -18,8 +19,9 @@ export class CartComponent implements OnInit {
   deliveryCharges: number = 0;
   refundableDeposit: number = 0;
   overallPrice: number = 0;
+  products:any
 
-  constructor(private cartService: CartserviceService, private router: Router) {}
+  constructor(private cartService: CartserviceService, private router: Router, private prod:ProductsService) {}
 
   ngOnInit(): void {
     this.loadStoredData();
@@ -52,21 +54,44 @@ export class CartComponent implements OnInit {
   }
 
   fetchCartData(): void {
-    this.cartService.getCart().subscribe({
-      next: data => {
-        if (data && data.length) {
-          const cartData = data[0];
-          this.discount = cartData.discount || 0;
-          this.deliveryCharges = cartData.delivery_charges || 0;
-          this.refundableDeposit = cartData.refundable_deposit || 0;
+    const token = sessionStorage.getItem('authToken');
+
+    if (token) {
+      this.cartService.getCart().subscribe({
+        next: data => {
+          console.log('Cart data:', data);
+          this.items = data;
+          this.items.forEach((item: any) => {
+            console.log(item);
+            this.prod.getProductById(item.product_id).subscribe({
+              next: (productDetails: any) => {
+
+                item.productDetails = productDetails;
+                console.log('Product details:', productDetails);
+                productDetails=this.products
+
+              },
+              error: err => {
+                console.error('Error fetching product details:', err);
+              }
+            });
+          });
+
+          // Calculate total price after fetching additional product details
           this.calculateTotalPrice();
+        },
+        error: err => {
+          console.error('Error fetching cart data:', err);
         }
-      },
-      error: err => {
-        console.error('Error fetching cart data:', err);
-      }
-    });
+      });
+    } else {
+      this.loadStoredData();
+    }
   }
+
+
+
+
 
   calculateTotalPrice(): void {
     this.totalPrice = this.items.reduce((sum, item) => {
@@ -125,15 +150,28 @@ export class CartComponent implements OnInit {
   updateQuantitiesInLocalStorage(): void {
     localStorage.setItem('quantities', JSON.stringify(this.quantities));
   }
-
   removeItem(item: any): void {
-    const index = this.items.findIndex(i => i.id === item.id);
+    const productIdToDelete = item.product_id; // Adjust property name if needed
+    const index = this.items.findIndex(i => i.product_id === productIdToDelete);
     if (index !== -1) {
-      this.items.splice(index, 1);
-      delete this.quantities[item.id];
-      localStorage.setItem('cartitem', JSON.stringify(this.items));
-      this.updateQuantitiesInLocalStorage();
-      this.calculateTotalPrice();
+      // Send request to delete the item from the cart
+      this.cartService.deleteCartItem(productIdToDelete).subscribe({
+        next: () => {
+          // Remove item from local storage and update quantities
+          this.items.splice(index, 1);
+          delete this.quantities[productIdToDelete];
+          localStorage.setItem('cartitem', JSON.stringify(this.items));
+          this.updateQuantitiesInLocalStorage();
+          // Recalculate total price
+          this.calculateTotalPrice();
+        },
+        error: err => {
+          console.error('Error deleting cart item:', err);
+        }
+      });
     }
   }
+
+
+
 }

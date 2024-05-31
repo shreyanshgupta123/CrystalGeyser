@@ -2,10 +2,10 @@
   <div *ngFor="let item of items" class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden p-6 sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-5xl">
     <div class="flex items-center justify-between border-b pb-4 mb-4">
       <div class="flex items-center">
-        <img [src]="item.image" alt="{{ item.name }}" class="w-12 h-12 rounded mr-4">
+        <img [src]="item.productDetails?.image" alt="{{ item.productDetails?.productname }}" class="w-12 h-12 rounded mr-4">
         <div>
-          <h2 class="text-lg font-semibold">{{ item.productname }}</h2>
-          <p class="text-sm text-gray-500">${{ item.price }}/Per jar</p>
+          <h2 class="text-lg font-semibold">{{ item.productDetails?.productname }}</h2>
+          <p class="text-sm text-gray-500">${{ item.productDetails?.price }}/Per jar</p>
         </div>
       </div>
       <button (click)="removeItem(item)" class="text-red-500 hover:text-red-700">Delete</button>
@@ -21,7 +21,7 @@
       </div>
       <div class="flex justify-between items-center mb-2">
         <span class="text-gray-700">Product price</span>
-        <span class="text-gray-700">${{ item.price }}</span>
+        <span class="text-gray-700">${{ item.productDetails?.price }}</span>
       </div>
       <div class="flex justify-between items-center mb-2">
         <span class="text-gray-700">Discount</span>
