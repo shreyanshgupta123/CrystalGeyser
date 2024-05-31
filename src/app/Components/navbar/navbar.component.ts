@@ -41,8 +41,7 @@ export class NavbarComponent implements AfterViewInit, OnInit {
   logOut() {
     if (typeof window !== 'undefined') {
       sessionStorage.removeItem('authToken');
-      localStorage.removeItem('token');
-      localStorage.removeItem('role');
+      localStorage.clear(); // Clear all items in localStorage
       this.router.navigate(['home']);
       window.location.reload();
     }

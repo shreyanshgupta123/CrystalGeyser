@@ -23,7 +23,12 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
   products: any[] = [];
   userId: string = localStorage.getItem('userId') as string;
 
-  constructor(private route: ActivatedRoute, private router: Router, private productsService: ProductsService, private cartService: CartserviceService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private productsService: ProductsService,
+    private cartService: CartserviceService
+  ) {}
 
   ngOnInit() {
     const productString = localStorage.getItem('selectedProduct');
@@ -121,7 +126,7 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
 
   cart() {
     let cartItems = JSON.parse(localStorage.getItem('cartitem') || '[]');
-    console.log(cartItems)
+    console.log('Current cart items:', cartItems);
     const existingItem = cartItems.find((item: any) => item.productid === this.product.id);
     if (!existingItem) {
       const quantity = parseInt(this.inputBox.nativeElement.value) || 1;
@@ -133,6 +138,7 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
       cartItems.push(cartItem);
 
       localStorage.setItem('cartitem', JSON.stringify(cartItems));
+      console.log('New cart item added:', cartItem);
 
       this.cartService.addToCart(cartItem).subscribe(
         (response: any) => {
