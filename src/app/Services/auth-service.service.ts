@@ -48,8 +48,14 @@ export class AuthServiceService {
       catchError(this.handleError)
     );
   }
+  getSubscriptionDetails():Observable<any>
+  {
+return this.http.get<any>(`${baserUrl}subscription`).pipe(
+  catchError(this.handleError)
+)
+  }
 
-  
+
   private handleError(error: any): Observable<never> {
     console.error('An error occurred:', error);
     return throwError('Something went wrong; please try again later.');

@@ -73,10 +73,27 @@ export class CartComponent implements OnInit {
       const quantity = this.quantities[item.id] || 1;
       return sum + (item.price * quantity);
     }, 0);
-    const discountedPrice = Math.max(this.totalPrice - this.discount, 0);
-    this.overallPrice = discountedPrice + this.deliveryCharges;
-    this.totalAmount = this.overallPrice + this.refundableDeposit;
 
+    console.log('Total Price:', this.totalPrice);
+    console.log('Discount:', this.discount);
+    console.log('Delivery Charges:', this.deliveryCharges);
+    console.log('Refundable Deposit:', this.refundableDeposit);
+
+    const discountedPrice = Math.max(this.totalPrice - this.discount, 0);
+    console.log('Discounted Price:', discountedPrice);
+
+    this.overallPrice = discountedPrice + this.deliveryCharges;
+    console.log('Overall Price:', this.overallPrice);
+
+    this.totalAmount = this.overallPrice + this.refundableDeposit;
+    console.log('Total Amount:', this.totalAmount);
+
+    if (isNaN(this.overallPrice)) {
+      console.error('Overall Price is NaN. Check calculations and data.');
+    }
+    if (isNaN(this.totalAmount)) {
+      console.error('Total Amount is NaN. Check calculations and data.');
+    }
   }
 
   checkout(): void {
@@ -88,7 +105,6 @@ export class CartComponent implements OnInit {
       this.router.navigateByUrl('/userlogin');
     }
   }
-
 
   increment(item: any): void {
     const id = item.id;
