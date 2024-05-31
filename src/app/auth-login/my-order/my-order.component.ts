@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthServiceService } from '../../Services/auth-service.service';
 import { ProductsService } from '../../Services/products.service';
-import { forkJoin, map, switchMap } from 'rxjs';
+import { forkJoin, map } from 'rxjs';
 import { CancelledOrder, CurrentOrder, DeliveredOrder, Products } from '../../Interface/products.models';
 
 @Component({
@@ -16,13 +16,14 @@ export class MyOrderComponent {
   orderDetails3: CancelledOrder[] = [];
   orderDetails2: DeliveredOrder[] = [];
   products: Products | undefined;
-
+  userId: string | null;
 
   constructor(
     private auth: AuthServiceService,
     private product: ProductsService
   ) {
     this.id = localStorage.getItem('userId');
+    this.userId = this.id; // Store userId for filtering
     const userOrderString = localStorage.getItem('userorder');
     if (userOrderString) {
       this.userOrder = JSON.parse(userOrderString);
@@ -46,10 +47,12 @@ export class MyOrderComponent {
         break;
     }
   }
+
   private handleOrderType() {
     this.product.OrderByListCurrent().subscribe(
       (currentOrders: unknown) => {
-        this.orderDetails = currentOrders as CurrentOrder[];
+        const filteredOrders = (currentOrders as CurrentOrder[]).filter(order => order.user_id === this.userId);
+        this.orderDetails = filteredOrders;
         const productObservables = this.orderDetails.map(order => {
           return this.product.getProductById(order.product_id).pipe(
             map(product => {
@@ -62,15 +65,14 @@ export class MyOrderComponent {
         forkJoin(productObservables).subscribe(
           (ordersWithProducts: CurrentOrder[]) => {
             this.orderDetails = ordersWithProducts;
-
           },
           (error: any) => {
-            console.error('Error fetching product details for cancelled orders:', error);
+            console.error('Error fetching product details for current orders:', error);
           }
         );
       },
       (error: any) => {
-        console.error('Error fetching cancelled orders:', error);
+        console.error('Error fetching current orders:', error);
       }
     );
   }
@@ -78,8 +80,8 @@ export class MyOrderComponent {
   private handleOrderType2() {
     this.product.OrderByListDelivered().subscribe(
       (deliveredOrders: unknown) => {
-        console.log('data',deliveredOrders)
-        this.orderDetails2 = deliveredOrders as DeliveredOrder[];
+        const filteredOrders = (deliveredOrders as DeliveredOrder[]).filter(order => order.user_id === this.userId);
+        this.orderDetails2 = filteredOrders;
         const productObservables = this.orderDetails2.map(order => {
           return this.product.getProductById(order.product_id).pipe(
             map(product => {
@@ -92,15 +94,14 @@ export class MyOrderComponent {
         forkJoin(productObservables).subscribe(
           (ordersWithProducts: DeliveredOrder[]) => {
             this.orderDetails2 = ordersWithProducts;
-            console.log(this.orderDetails2)
           },
           (error: any) => {
-            console.error('Error fetching product details for cancelled orders:', error);
+            console.error('Error fetching product details for delivered orders:', error);
           }
         );
       },
       (error: any) => {
-        console.error('Error fetching cancelled orders:', error);
+        console.error('Error fetching delivered orders:', error);
       }
     );
   }
@@ -108,7 +109,8 @@ export class MyOrderComponent {
   private handleOrderType3() {
     this.product.OrderByListCancelled().subscribe(
       (cancelledOrders: unknown) => {
-        this.orderDetails3 = cancelledOrders as CancelledOrder[];
+        const filteredOrders = (cancelledOrders as CancelledOrder[]).filter(order => order.user_id === this.userId);
+        this.orderDetails3 = filteredOrders;
         const productObservables = this.orderDetails3.map(order => {
           return this.product.getProductById(order.product_id).pipe(
             map(product => {
