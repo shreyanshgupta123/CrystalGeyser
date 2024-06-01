@@ -22,10 +22,11 @@ return this.http.get<Cart[]>(this.apiUrl);
       catchError(this.handleError)
     );
   }
-  deleteCartItem(itemId: string): Observable<DeleteCart[]> {
-    return this.http.delete<any>(`${baserUrl}cart/${itemId}`).pipe(
-      catchError(this.handleError)
-    );
+  updateCartItemQuantity(cartItem: { id: string; quantity: number; userid: string }): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${cartItem.id}`, { quantity: cartItem.quantity, userid: cartItem.userid });
+  }
+   deleteCartItem(cartItemId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${cartItemId}`);
   }
 private handleError(error: any): Observable<never> {
   console.error('An error occurred:', error);

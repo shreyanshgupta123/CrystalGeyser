@@ -19,9 +19,8 @@ export class CartComponent implements OnInit {
   deliveryCharges: number = 0;
   refundableDeposit: number = 0;
   overallPrice: number = 0;
-  products:any
 
-  constructor(private cartService: CartserviceService, private router: Router, private prod:ProductsService) {}
+  constructor(private cartService: CartserviceService, private router: Router, private prod: ProductsService) {}
 
   ngOnInit(): void {
     this.loadStoredData();
@@ -55,13 +54,13 @@ export class CartComponent implements OnInit {
 
   fetchCartData(): void {
     const token = sessionStorage.getItem('authToken');
-    const userId = localStorage.getItem('userId'); // Assuming you have the user ID stored in localStorage
+    const userId = localStorage.getItem('userId');
 
     if (token && userId) {
       this.cartService.getCart().subscribe({
         next: data => {
           console.log('Cart data:', data);
-          // Filter cart data by user_id
+
           this.items = data.filter((item: any) => item.user_id === userId);
           this.items.forEach((item: any) => {
             console.log(item);
@@ -76,7 +75,6 @@ export class CartComponent implements OnInit {
             });
           });
 
-          // Calculate total price after fetching additional product details
           this.calculateTotalPrice();
         },
         error: err => {
@@ -87,12 +85,6 @@ export class CartComponent implements OnInit {
       this.loadStoredData();
     }
   }
-
-
-
-
-
-
 
   calculateTotalPrice(): void {
     this.totalPrice = this.items.reduce((sum, item) => {
@@ -134,33 +126,49 @@ export class CartComponent implements OnInit {
 
   increment(item: any): void {
     const id = item.id;
+    const userId = localStorage.getItem('userId')!;
     this.quantities[id] = (this.quantities[id] || 1) + 1;
     this.updateQuantitiesInLocalStorage();
+    this.updateCartItemQuantity({ id, userid: userId, quantity: this.quantities[id] });
     this.calculateTotalPrice();
   }
 
   decrement(item: any): void {
     const id = item.id;
+    const userId = localStorage.getItem('userId')!;
     if (this.quantities[id] > 1) {
       this.quantities[id]--;
       this.updateQuantitiesInLocalStorage();
+      this.updateCartItemQuantity({ id, userid: userId, quantity: this.quantities[id] });
       this.calculateTotalPrice();
     }
+  }
+
+  updateCartItemQuantity(cartItem: { id: string; userid: string; quantity: number }): void {
+    this.cartService.updateCartItemQuantity(cartItem).subscribe({
+      next: response => {
+        console.log('Cart item quantity updated:', response);
+      },
+      error: err => {
+        console.error('Error updating cart item quantity:', err);
+      }
+    });
   }
 
   updateQuantitiesInLocalStorage(): void {
     localStorage.setItem('quantities', JSON.stringify(this.quantities));
   }
+
   removeItem(item: any): void {
-    const productIdToDelete = item.product_id; // Adjust property name if needed
-    const index = this.items.findIndex(i => i.product_id === productIdToDelete);
+    const cartItemId = item.id;
+    const index = this.items.findIndex(i => i.id === cartItemId);
     if (index !== -1) {
       // Send request to delete the item from the cart
-      this.cartService.deleteCartItem(productIdToDelete).subscribe({
+      this.cartService.deleteCartItem(cartItemId).subscribe({
         next: () => {
           // Remove item from local storage and update quantities
           this.items.splice(index, 1);
-          delete this.quantities[productIdToDelete];
+          delete this.quantities[cartItemId];
           localStorage.setItem('cartitem', JSON.stringify(this.items));
           this.updateQuantitiesInLocalStorage();
           // Recalculate total price
@@ -172,7 +180,4 @@ export class CartComponent implements OnInit {
       });
     }
   }
-
-
-
 }
