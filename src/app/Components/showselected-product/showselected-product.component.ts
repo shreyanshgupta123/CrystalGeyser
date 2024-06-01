@@ -132,18 +132,20 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
       const quantity = parseInt(this.inputBox.nativeElement.value) || 1;
       const cartItem = {
         productid: this.product.id,
-        userid: this.userId, // Using the userId from localStorage
+        userid: this.userId,
         quantity: quantity
       };
-      cartItems.push(cartItem);
-
-      localStorage.setItem('cartitem', JSON.stringify(cartItems));
-      console.log('New cart item added:', cartItem);
-
+console.log(this.product.id,this.userId, quantity)
       this.cartService.addToCart(cartItem).subscribe(
         (response: any) => {
           console.log('Product added to cart', response);
           alert('Product added to cart and posted to the server!');
+
+          // Update localStorage after successful API call
+          cartItems.push(cartItem);
+          localStorage.setItem('cartitem', JSON.stringify(cartItems));
+          console.log('New cart item added:', cartItem);
+
           this.router.navigate(['/cart']);
         },
         (error: any) => {

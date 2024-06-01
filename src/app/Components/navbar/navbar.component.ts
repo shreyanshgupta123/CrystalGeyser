@@ -41,7 +41,7 @@ export class NavbarComponent implements AfterViewInit, OnInit {
   logOut() {
     if (typeof window !== 'undefined') {
       sessionStorage.removeItem('authToken');
-      localStorage.clear(); // Clear all items in localStorage
+      localStorage.clear();
       this.router.navigate(['home']);
       window.location.reload();
     }
@@ -51,7 +51,7 @@ export class NavbarComponent implements AfterViewInit, OnInit {
     const cartItems = localStorage.getItem('cartitem');
     if (cartItems) {
       const parsedCartItems = JSON.parse(cartItems);
-      this.cartItemCount = parsedCartItems.length; 
+      this.cartItemCount = parsedCartItems.length;
     }
   }
 }
