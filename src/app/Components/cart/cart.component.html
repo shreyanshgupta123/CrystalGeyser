@@ -34,7 +34,7 @@
     </div>
     <div class="border-t pt-4">
       <div class="flex items-center mb-2">
-        <input type="checkbox" class="form-checkbox h-5 w-5 text-green-600">
+        <input type="checkbox" class="form-checkbox h-5 w-5 text-green-600" onclick="my_modal_5.showModal()">
         <span class="ml-2 text-gray-700">Subscribe & get additional <span class="text-yellow-500 font-bold">10% Off</span> on every order.</span>
       </div>
       <p class="text-sm text-gray-500">The subscription plan will start min. 24 hrs from the subscription order date. Please check your active subscriptions under the 'My Account' section to know your subscription schedule.</p>
@@ -67,3 +67,16 @@
     <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" (click)="checkout()">Checkout</button>
   </div>
 </div>
+<!-- Open the modal using ID.showModal() method -->
+
+<dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg">Subscription For our product</h3>
+    <p class="py-4">Press ESC key or click the button below to close</p>
+    <div class="modal-action">
+      <form method="dialog">
+        <button class="btn">Close</button>
+      </form>
+    </div>
+  </div>
+</dialog>

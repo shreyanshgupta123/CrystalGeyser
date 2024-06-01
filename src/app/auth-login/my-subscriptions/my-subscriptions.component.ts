@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { AuthServiceService } from '../../Services/auth-service.service';
+import { SubscriptionService } from '../../Services/subscription.service';
+
 
 @Component({
   selector: 'app-my-subscriptions',
@@ -8,16 +9,12 @@ import { AuthServiceService } from '../../Services/auth-service.service';
 })
 export class MySubscriptionsComponent {
 subData:any
-  constructor(private auth :AuthServiceService) {
-    this.auth.getSubscriptionDetails().subscribe(data=>{
-      console.log(data);
-this.subData=data
-data.forEach((element:any) => {
-console.log(element.subscription_price
-);
-
-});
-    })
-   }
+  constructor(private sub :SubscriptionService) {
+    this.subData = this.sub.getSubscription().subscribe(
+      data=>{
+console.log(data)
+      }
+    )
+  }
 
 }
