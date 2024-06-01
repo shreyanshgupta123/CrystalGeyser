@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SubscriptionService } from '../../Services/subscription.service';
+import { AuthServiceService } from '../../Services/auth-service.service';
 
 
 @Component({
@@ -9,10 +10,30 @@ import { SubscriptionService } from '../../Services/subscription.service';
 })
 export class MySubscriptionsComponent {
 subData:any
-  constructor(private sub :SubscriptionService) {
+subscription:any
+isActive:any
+
+  constructor(
+    private sub :SubscriptionService,
+    private auth:AuthServiceService) {
     this.subData = this.sub.getSubscription().subscribe(
       data=>{
-console.log(data)
+data.forEach((element:any) => {
+  this.auth.getUserDetails(element.user_id).subscribe(data2=>{
+
+this.subscription=data2.subscription
+this.subscription.forEach((element3:any) => {
+  if(element3.subscription_category=="ea0e2c6a-a4ce-48a7-bf2c-c05c48d5497a")
+    {
+  this.isActive='Active'
+    }else{
+      this.isActive='Cancelled'
+    }
+
+});
+
+  })
+});
       }
     )
   }
