@@ -58,11 +58,21 @@ return this.http.get<any>(`${baserUrl}subscription`).pipe(
     return this.http.put<any>(`${this.baseUrl}users/${userId}`, userDetails);
   }
 
-  updateteUserAlternateAdressess(data:any,id:string): Observable<any>{
-    return this.http.post<any>(`${baserUrl}alternateaddress/${id}`,data)
+  updateAlternateAddress(id: string, data: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}alternateaddress/${id}`, data);
+  }
+
+  getAlternateAddressById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}alternateaddress/${id}`).pipe(
+      catchError(this.handleError)
+    );
   }
   createAlternateAddress(data: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}alternateaddress`, data);
+  }
+  deleteAlternateAddress(id: any): Observable<any> {
+    const url = `${this.baseUrl}alternateaddress/${id}`;
+    return this.http.delete<any>(url);
   }
 
   private handleError(error: any): Observable<never> {

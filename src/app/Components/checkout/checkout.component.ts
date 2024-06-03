@@ -3,6 +3,20 @@ import { AuthServiceService } from '../../Services/auth-service.service';
 import { UserService } from '../../Services/user.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { finalize } from 'rxjs/operators';
+
+export interface UpdateUserAddress {
+  name:string;
+  country: string;
+  states: string;
+  city: string;
+  street: string;
+  landmark: string;
+  housenumber: string;
+  pincode: string;
+  phone: string;
+  phone2: string;
+}
 
 @Component({
   selector: 'app-checkout',
@@ -17,11 +31,14 @@ export class CheckoutComponent implements OnInit {
   isLoading = false;
   showForm = true;
   userId: string | null = '';
+  UpdateDetails: any = {};
 
-  constructor(private authService: AuthServiceService,
-     private userService: UserService,
-     private route:Router,
-     private fb: FormBuilder) {}
+  constructor(
+    private authService: AuthServiceService,
+    private userService: UserService,
+    private router: Router,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.totalAmount = localStorage.getItem('TotalAmount');
@@ -29,7 +46,7 @@ export class CheckoutComponent implements OnInit {
     if (userId !== null) {
       this.userId = userId;
     } else {
-    console.log("userId not found")
+      console.log("userId not found");
     }
     this.initForm();
     if (userId) {
@@ -49,12 +66,27 @@ export class CheckoutComponent implements OnInit {
       console.error('No user ID found in localStorage.');
     }
   }
-  manageAddress()
-  {
-this.route.navigate(['manageAddress'])
+
+  deleteAddress(id: any): void {
+    console.log('Attempting to delete address with ID:', id);
+    this.authService.deleteAlternateAddress(id).subscribe(
+      (response) => {
+        console.log('Address deleted successfully:', response);
+        console.log('Deleted address ID:', id);
+        this.allAlterAddress = this.allAlterAddress.filter(address => address.id !== id);
+      },
+      (error) => {
+        console.error('Error deleting address:', error);
+      }
+    );
   }
+
+  manageAddress() {
+    this.router.navigate(['manageAddress']);
+  }
+
   initForm() {
-    this.addAlternateAddressForm= this.fb.group({
+    this.addAlternateAddressForm = this.fb.group({
       user_id: this.userId,
       name: ['', Validators.required],
       phone: ['', Validators.required],
@@ -68,6 +100,7 @@ this.route.navigate(['manageAddress'])
       pincode: ['', Validators.required]
     });
   }
+
   onSubmit() {
     console.log('Form submitted');
 
@@ -93,7 +126,6 @@ this.route.navigate(['manageAddress'])
         );
       } else {
         console.error('User ID is null');
-
       }
     } else {
       console.warn('Form is invalid');
@@ -101,4 +133,48 @@ this.route.navigate(['manageAddress'])
     }
   }
 
+  updateAddress(id: string) {
+    this.authService.getAlternateAddressById(id).subscribe(
+      result => {
+        console.log('Server response', result);
+        this.UpdateDetails = result;
+
+        localStorage.setItem('updateitem', result.id);
+      }
+    );
+  }
+
+  updateAddressDetails() {
+    const addressId = this.UpdateDetails.id;
+    if (!this.UpdateDetails || !addressId) {
+      console.error('Invalid UpdateDetails object or missing ID');
+      return;
+    }
+
+    const updatedAddress: UpdateUserAddress = {
+      name: this.UpdateDetails.name,
+      country: this.UpdateDetails.country,
+      states: this.UpdateDetails.states,
+      city: this.UpdateDetails.city,
+      street: this.UpdateDetails.street,
+      landmark: this.UpdateDetails.landmark,
+      housenumber: this.UpdateDetails.housenumber,
+      pincode: this.UpdateDetails.pincode,
+      phone: this.UpdateDetails.phone,
+      phone2: this.UpdateDetails.phone2
+    };
+
+    this.isLoading = true;
+    console.log(addressId)
+    this.authService.updateAlternateAddress(addressId, updatedAddress)
+      .pipe(finalize(() => this.isLoading = false))
+      .subscribe(
+        response => {
+          console.log('Address updated successfully', response);
+        },
+        error => {
+          console.error('Error updating address', error);
+        }
+      );
+  }
 }

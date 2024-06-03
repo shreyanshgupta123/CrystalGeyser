@@ -34,7 +34,7 @@
               <div>
                 <h2 class="text-lg font-semibold flex items-center">
                   {{ag.name || 'N/A'}}
-                  <div (click)="manageAddress()">
+                  <div onclick="my_modal_3.showModal()" (click)="updateAddress(ag.id)">
                     <svg  class="w-6 h-6 text-gray-800 dark:text-white ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.779 17.779 4.36 19.918 6.5 13.5m4.279 4.279 8.364-8.643a3.027 3.027 0 0 0-2.14-5.165 3.03 3.03 0 0 0-2.14.886L6.5 13.5m4.279 4.279L6.499 13.5m2.14 2.14 6.213-6.504M12.75 7.04 17 11.28"/>
                     </svg>
@@ -45,9 +45,11 @@
                 <p class="text-sm text-gray-500">{{ag.phone2 || 'No alternate phone available'}}</p>
               </div>
             </div>
-            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-              <path fill-rule="evenodd" d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z" clip-rule="evenodd"/>
-            </svg>
+            <div (click)="deleteAddress(ag.id)">
+              <svg  class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd" d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z" clip-rule="evenodd"/>
+              </svg>
+            </div>
           </div>
           <div class="mb-4">
             <div class="flex justify-between items-center mb-2">
@@ -64,11 +66,78 @@
           </svg>
         </div>
       </div>
+
     </div>
+
+
+    <dialog id="my_modal_3" class="modal">
+      <div class="modal-box">
+        <button type="button" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        <form (ngSubmit)="updateAddressDetails()">
+
+          <h3 class="font-bold text-lg">Edit Address</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2">
+            <div class="max-w-sm mx-auto">
+              <div class="mb-5">
+                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                <input type="text" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Update name" required [(ngModel)]="UpdateDetails.name" name="name" />
+              </div>
+              <div class="mb-5">
+                <label for="country" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
+                <input type="text" id="country" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Update country" required [(ngModel)]="UpdateDetails.country" name="country" />
+              </div>
+            </div>
+
+            <div class="max-w-sm mx-auto">
+              <div class="mb-5">
+                <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
+                <input type="text" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Update phone number" required [(ngModel)]="UpdateDetails.phone" name="phone" />
+              </div>
+              <div class="mb-5">
+                <label for="phone2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alternate Phone Number</label>
+                <input type="text" id="phone2" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Update alternate phone number" required [(ngModel)]="UpdateDetails.phone2" name="phone2" />
+              </div>
+            </div>
+
+            <div class="max-w-sm mx-auto">
+              <div class="mb-5">
+                <label for="states" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">State</label>
+                <input type="text" id="states" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Update state" required [(ngModel)]="UpdateDetails.states" name="states" />
+              </div>
+              <div class="mb-5">
+                <label for="street" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Street</label>
+                <input type="text" id="street" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Update street" required [(ngModel)]="UpdateDetails.street" name="street" />
+              </div>
+            </div>
+
+            <div class="max-w-sm mx-auto">
+              <div class="mb-5">
+                <label for="city" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
+                <input type="text" id="city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Update city" required [(ngModel)]="UpdateDetails.city" name="city" />
+              </div>
+              <div class="mb-5">
+                <label for="landmark" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Landmark</label>
+                <input type="text" id="landmark" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Update landmark" required [(ngModel)]="UpdateDetails.landmark" name="landmark" />
+              </div>
+            </div>
+
+            <div class="max-w-sm mx-auto">
+              <div class="mb-5">
+                <label for="pincode" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pincode</label>
+                <input type="text" id="pincode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Update pincode" required [(ngModel)]="UpdateDetails.pincode" name="pincode" />
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-neutral">Update</button>
+        </form>
+      </div>
+    </dialog>
+
+
 
     <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
       <div class="modal-box">
-        <h3 class="font-bold text-lg">Hello!</h3>
+        <h3 class="font-bold text-lg">Add Address</h3>
         <form [formGroup]="addAlternateAddressForm" class="max-w-sm md:max-w-5xl mx-auto" (ngSubmit)="onSubmit()">
         <div class="grid grid-cols-1 md:grid-cols-2">
 
