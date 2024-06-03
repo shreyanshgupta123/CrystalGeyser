@@ -76,7 +76,6 @@ this.route.navigate(['manageAddress'])
       this.showForm = false;
       console.log('Form is valid', this.addAlternateAddressForm.value);
 
-      // Check if userId is not null before making the API call
       if (this.userId !== null) {
         this.authService.createAlternateAddress(this.addAlternateAddressForm.value).subscribe(
           result => {
