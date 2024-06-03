@@ -31,7 +31,7 @@ const routes: Routes = [
   {path:'manageaddress', component:ManageAddressComponent},
   {path:'usersettings', component:UserSettingComponent,canActivate:[AuthGuard]},
   {path:'signUp', component:SignUpComponent},
-  {path:'usersettings/manageAddress', component:ManageAddressComponent},
+  {path:'manageAddress', component:ManageAddressComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 

@@ -54,15 +54,23 @@ return this.http.get<any>(`${baserUrl}subscription`).pipe(
   catchError(this.handleError)
 )
   }
+  updateUserDetails(userId: string, userDetails: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}users/${userId}`, userDetails);
+  }
 
+  updateteUserAlternateAdressess(data:any,id:string): Observable<any>{
+    return this.http.post<any>(`${baserUrl}alternateaddress/${id}`,data)
+  }
+  createAlternateAddress(data: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}alternateaddress`, data);
+  }
 
   private handleError(error: any): Observable<never> {
     console.error('An error occurred:', error);
     return throwError('Something went wrong; please try again later.');
   }
-  updateUserDetails(userId: string, userDetails: any): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}users/${userId}`, userDetails);
-  }
+
+
 
 
 }

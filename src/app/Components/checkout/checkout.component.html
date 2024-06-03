@@ -26,45 +26,126 @@
      <button class="btn btn-neutral">Select address</button>
     </div>
     <div class="collapse-content">
-      <div class="place-content-start   grid grid-cols-1 md:flex items-stretch">
-        <div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden p-6 sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-5xl">
+      <div class="place-content-start grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div *ngFor="let ag of allAlterAddress" class="bg-white rounded-lg shadow-md overflow-hidden p-6">
           <div class="flex items-center justify-between border-b pb-4 mb-4">
-              <div class="flex items-center">
-                  <img src="https://via.placeholder.com/50" alt="Bisleri 20 Litre Water Jar" class="w-12 h-12 rounded mr-4">
-                  <div>
-                      <h2 class="text-lg font-semibold grid grid-cols-2">{{user.first_name}}
-                        <svg routerLink="/editDetails" routerLinkActive="active" class="w-6 h-6 text-gray-800 dark:text-white ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.779 17.779 4.36 19.918 6.5 13.5m4.279 4.279 8.364-8.643a3.027 3.027 0 0 0-2.14-5.165 3.03 3.03 0 0 0-2.14.886L6.5 13.5m4.279 4.279L6.499 13.5m2.14 2.14 6.213-6.504M12.75 7.04 17 11.28"/>
-                        </svg>
-                      </h2>
-                      <p class="text-sm text-gray-500">{{user.phone}}</p>
-                      <p class="text-sm text-gray-500">{{user.phone2}}</p>
+            <div class="flex items-center">
+              <img src="https://via.placeholder.com/50" alt="Address Image" class="w-12 h-12 rounded mr-4">
+              <div>
+                <h2 class="text-lg font-semibold flex items-center">
+                  {{ag.name || 'N/A'}}
+                  <div (click)="manageAddress()">
+                    <svg  class="w-6 h-6 text-gray-800 dark:text-white ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.779 17.779 4.36 19.918 6.5 13.5m4.279 4.279 8.364-8.643a3.027 3.027 0 0 0-2.14-5.165 3.03 3.03 0 0 0-2.14.886L6.5 13.5m4.279 4.279L6.499 13.5m2.14 2.14 6.213-6.504M12.75 7.04 17 11.28"/>
+                    </svg>
                   </div>
+
+                </h2>
+                <p class="text-sm text-gray-500">{{ag.phone || 'No phone available'}}</p>
+                <p class="text-sm text-gray-500">{{ag.phone2 || 'No alternate phone available'}}</p>
               </div>
-
-
-              <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                <path fill-rule="evenodd" d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z" clip-rule="evenodd"/>
-              </svg>
+            </div>
+            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+              <path fill-rule="evenodd" d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z" clip-rule="evenodd"/>
+            </svg>
           </div>
           <div class="mb-4">
-              <div class="flex justify-between items-center mb-2">
-                {{user.address[0].housenumber}},{{user.address[0].street}} , {{user.address[0].city}},
-
-                {{user.address[0].states}},{{user.address[0].country}} {{user.address[0].pincode}}
-              </div>
+            <div class="flex justify-between items-center mb-2">
+              {{ag.housenumber}}, {{ag.street}}, {{ag.city}}, {{ag.states}}, {{ag.country}} {{ag.pincode}}
+            </div>
           </div>
+        </div>
       </div>
-      <div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden p-6 sm:max-w-xl md:max-w-2xl mt-2 lg:max-w-4xl xl:max-w-5xl">
-        <div class="mb-4">
+
+      <div class="bg-white rounded-lg shadow-md overflow-hidden p-6 mt-4">
+        <div class="mb-4" onclick="my_modal_5.showModal()">
           <svg class="w-60 h-50 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" viewBox="0 0 24 24">
             <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4.243a1 1 0 1 0-2 0V11H7.757a1 1 0 1 0 0 2H11v3.243a1 1 0 1 0 2 0V13h3.243a1 1 0 1 0 0-2H13V7.757Z" clip-rule="evenodd"/>
           </svg>
         </div>
+      </div>
     </div>
 
-    </div>
-  </div>
+    <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+      <div class="modal-box">
+        <h3 class="font-bold text-lg">Hello!</h3>
+        <form [formGroup]="addAlternateAddressForm" class="max-w-sm md:max-w-5xl mx-auto" (ngSubmit)="onSubmit()">
+        <div class="grid grid-cols-1 md:grid-cols-2">
+
+          <div>
+
+            <div class="mb-5 mr-2">
+              <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+              <input  formControlName="name" type="text" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Your Name" required />
+            </div>
+            <div class="mb-5">
+              <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
+              <input  formControlName="phone" type="text" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Your phone number" required />
+            </div>
+
+        </div>
+        <div>
+
+            <div class="mb-5 mr-2">
+              <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alternate Phone</label>
+              <input formControlName="phone2" type="text" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter you alternate mobile number" required />
+            </div>
+            <div class="mb-5 ml-2">
+              <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
+              <input formControlName="country" type="text" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select country" required />
+            </div>
+
+        </div>
+        <div>
+
+            <div class="mb-5 mr-2">
+              <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">State</label>
+              <input formControlName="states" type="text" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder=" select State" required />
+            </div>
+            <div class="mb-5 ml-2">
+              <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
+              <input formControlName="city" type="text" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder=" select city" required />
+            </div>
+
+        </div>
+        <div>
+
+            <div class="mb-5 mr-2">
+              <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Street</label>
+              <input formControlName="street" type="text" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="select street" required />
+            </div>
+            <div class="mb-5 ml-2">
+              <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Landmark</label>
+              <input formControlName="landmark" type="text" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter landmark" required />
+            </div>
+
+        </div>
+        <div>
+
+            <div class="mb-5 mr-2">
+              <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">HouseNo./Building No.</label>
+              <input formControlName="housenumber" type="text" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter House no." required />
+            </div>
+
+        </div>
+        <div>
+
+            <div class="mb-5 mr-2">
+              <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pincode</label>
+              <input formControlName="pincode" type="text" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Pincode" required />
+            </div>
+
+
+        </div>
+        </div>
+        <div class="modal-action">
+          <form method="dialog"><button class="btn" type="button">Close</button></form>
+          <button [disabled]="addAlternateAddressForm.invalid" type="submit" class="text-white bg-black hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add Address</button>
+        </div>
+      </form>
+
+      </div>
+    </dialog>
 
 </div>
 <div class="card w-96 bg-base-100 shadow-xl ml-2 p-6 md:mr-10 mt-2 w-80" style="background-color: rgb(176, 233, 243);">
