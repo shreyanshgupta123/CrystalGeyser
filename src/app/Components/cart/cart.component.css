@@ -46,3 +46,10 @@ body {
  {
   margin-left: 20px;
  }
+
+ .dropdown:focus-within .dropdown-menu {
+  display: block;
+}
+.dropdown-menu {
+  display: none;
+}

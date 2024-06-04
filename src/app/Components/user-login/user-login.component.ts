@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthServiceService } from '../../Services/auth-service.service';
 import { Router } from '@angular/router';
 
+export interface Email{
+  email:string;
+}
 @Component({
   selector: 'app-user-login',
   templateUrl: './user-login.component.html',
@@ -13,15 +16,19 @@ export class UserLoginComponent implements OnInit {
   role: string = '';
   isLoading = false;
   showForm: boolean = true;
-
+  userId:any
+  presentEmailAddress:any
+  Email:any={}
   constructor(
     private fb: FormBuilder,
     private auth: AuthServiceService,
-    private router: Router
+    private router: Router,
+
   ) {}
 
   ngOnInit(): void {
     this.initForm();
+
   }
 
   initForm() {
@@ -30,7 +37,12 @@ export class UserLoginComponent implements OnInit {
       password: ['', [Validators.required]]
     });
   }
-
+ emailForm()
+ {
+  this.Email=this.fb.group({
+    email:this.presentEmailAddress
+  })
+ }
   onSubmit() {
     if (this.loginForm.valid) {
       this.isLoading = true;
@@ -62,5 +74,46 @@ export class UserLoginComponent implements OnInit {
         }
       );
     }
+  }
+  forgetPasswordEmail() {
+    this.auth.getAllUsers().subscribe(
+      data=>{
+
+        data.forEach((element:any) => {
+
+if(element.email==this.presentEmailAddress)
+  {
+    console.log(element.id)
+    this.userId=element.id
+    this.auth.getUserDetails(this.userId).subscribe(
+      data => {
+      
+        if (this.presentEmailAddress === data.email) {
+          const useremail:Email={
+            email:this.presentEmailAddress
+          }
+          this.auth.forgotEmail(useremail).subscribe(
+            response => {
+              console.log(response)
+
+              const token = response.token;
+              sessionStorage.setItem('forgetpasswordToken', token);
+              this.router.navigate(['forgetPassword'])
+            },
+            error => {
+              console.error('Error sending forgot password email:', error);
+            }
+          );
+        }
+      },
+      error => {
+        console.error('Error getting user details:', error);
+      }
+    );
+  }
+        });
+      }
+    )
+
   }
 }

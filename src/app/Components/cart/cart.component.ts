@@ -15,11 +15,13 @@ export class CartComponent implements OnInit {
   itemPrice: number = 0;
   totalPrice: number = 0;
   totalAmount: number = 0;
-  discount: number = 0;
-  deliveryCharges: number = 0;
+  discount: number = 1;
+  deliveryCharges: number = 0.5;
   refundableDeposit: number = 0;
   overallPrice: number = 0;
-
+  selectedPlan: number =0;
+subscriptionPrice:number=0;
+selectedDay: string = '';
   constructor(private cartService: CartserviceService, private router: Router, private prod: ProductsService) {}
 
   ngOnInit(): void {
@@ -85,11 +87,15 @@ export class CartComponent implements OnInit {
       this.loadStoredData();
     }
   }
-
   calculateTotalPrice(): void {
     this.totalPrice = this.items.reduce((sum, item) => {
-      const quantity = this.quantities[item.id] || 1;
-      return sum + (item.price * quantity);
+        const quantity = this.quantities[item.id] || 1;
+        const itemPrice = parseFloat(item.price);
+        if (isNaN(itemPrice)) {
+            console.error('Item price is not a number:', item.price);
+            return sum;
+        }
+        return sum + (itemPrice * quantity);
     }, 0);
 
     console.log('Total Price:', this.totalPrice);
@@ -97,22 +103,40 @@ export class CartComponent implements OnInit {
     console.log('Delivery Charges:', this.deliveryCharges);
     console.log('Refundable Deposit:', this.refundableDeposit);
 
-    const discountedPrice = Math.max(this.totalPrice - this.discount, 0);
+    if (isNaN(this.totalPrice)) {
+        console.error('Total Price calculation resulted in NaN. Check item prices and quantities.');
+    }
+
+    const discountValue = parseFloat(this.discount.toString());
+    if (isNaN(discountValue)) {
+        console.error('Discount value is not a number:', this.discount);
+    }
+    const deliveryChargesValue = parseFloat(this.deliveryCharges.toString());
+    if (isNaN(deliveryChargesValue)) {
+        console.error('Delivery Charges value is not a number:', this.deliveryCharges);
+    }
+    const refundableDepositValue = parseFloat(this.refundableDeposit.toString());
+    if (isNaN(refundableDepositValue)) {
+        console.error('Refundable Deposit value is not a number:', this.refundableDeposit);
+    }
+
+    const discountedPrice = Math.max(this.totalPrice - discountValue, 0);
     console.log('Discounted Price:', discountedPrice);
 
-    this.overallPrice = discountedPrice + this.deliveryCharges;
+    this.overallPrice = discountedPrice + deliveryChargesValue;
     console.log('Overall Price:', this.overallPrice);
 
-    this.totalAmount = this.overallPrice + this.refundableDeposit;
+    this.totalAmount = this.overallPrice + refundableDepositValue;
     console.log('Total Amount:', this.totalAmount);
 
     if (isNaN(this.overallPrice)) {
-      console.error('Overall Price is NaN. Check calculations and data.');
+        console.error('Overall Price is NaN. Check calculations and data.');
     }
     if (isNaN(this.totalAmount)) {
-      console.error('Total Amount is NaN. Check calculations and data.');
+        console.error('Total Amount is NaN. Check calculations and data.');
     }
-  }
+}
+
 
   checkout(): void {
     const token = sessionStorage.getItem('authToken');
@@ -163,15 +187,15 @@ export class CartComponent implements OnInit {
     const cartItemId = item.id;
     const index = this.items.findIndex(i => i.id === cartItemId);
     if (index !== -1) {
-      // Send request to delete the item from the cart
+
       this.cartService.deleteCartItem(cartItemId).subscribe({
         next: () => {
-          // Remove item from local storage and update quantities
+
           this.items.splice(index, 1);
           delete this.quantities[cartItemId];
           localStorage.setItem('cartitem', JSON.stringify(this.items));
           this.updateQuantitiesInLocalStorage();
-          // Recalculate total price
+
           this.calculateTotalPrice();
         },
         error: err => {
@@ -179,5 +203,23 @@ export class CartComponent implements OnInit {
         }
       });
     }
+  }
+  selectPlan(planValue: number) {
+    this.selectedPlan = planValue;
+    this.addSubscription(planValue, '9909ce77-02fe-49a5-840f-dad31e903a56');
+  }
+  addSubscription(plan: number, subscriptionId: string) {
+
+    console.log('Adding subscription for plan:', plan, 'with ID:', subscriptionId);
+
+  }
+  selectChangeHandler (event: any) {
+
+    this.selectedDay = event.target.value;
+console.log(this.selectedDay)
+if(event.target.value=='9909ce77-02fe-49a5-840f-dad31e903a56')
+  {
+
+  }
   }
 }

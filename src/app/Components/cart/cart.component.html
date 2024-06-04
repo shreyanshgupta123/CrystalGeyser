@@ -67,12 +67,30 @@
     <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg" (click)="checkout()">Checkout</button>
   </div>
 </div>
-<!-- Open the modal using ID.showModal() method -->
+
 
 <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
   <div class="modal-box">
     <h3 class="font-bold text-lg">Subscription For our product</h3>
-    <p class="py-4">Press ESC key or click the button below to close</p>
+    <form>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <input type="date" id="birthDate" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
+        </div>
+        <select (change)="selectChangeHandler($event)">
+          <option value="9909ce77-02fe-49a5-840f-dad31e903a56">1 Month</option>
+          <option value="7264f7c3-73b2-41c1-b0bc-83c28e19e97f">6 Month</option>
+          <option value="e3f1d7db-fe68-4b82-8d02-6d7b9cd7f26d">9 Month</option>
+          <option value="df8acba7-11bb-494d-b238-815c63ed4d33">12 Month</option>
+
+      </select>
+      <div>
+        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Total Price</label>
+        <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required />
+    </div>
+      </div>
+    </form>
+    <button class="btn btn-outline mt-4 w-full sm:w-auto">Purchase</button>
     <div class="modal-action">
       <form method="dialog">
         <button class="btn">Close</button>
@@ -80,3 +98,4 @@
     </div>
   </div>
 </dialog>
+

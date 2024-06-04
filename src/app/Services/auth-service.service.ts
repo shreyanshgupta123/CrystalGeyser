@@ -42,7 +42,12 @@ export class AuthServiceService {
       catchError(this.handleError)
     );
   }
-
+getAllUsers():Observable<any>
+{
+  return this.http.get<any>(`${this.baseUrl}users`).pipe(
+    catchError(this.handleError)
+  );
+}
   getUserDetails(id: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}users/${id}`).pipe(
       catchError(this.handleError)
@@ -74,7 +79,16 @@ return this.http.get<any>(`${baserUrl}subscription`).pipe(
     const url = `${this.baseUrl}alternateaddress/${id}`;
     return this.http.delete<any>(url);
   }
-
+  forgotEmail(data:any):Observable<any>{
+    return this.http.post(`${baserUrl}forgetpassword`,data).pipe(
+      catchError(this.handleError)
+    );
+  }
+  resetpassword(data: { token: string, newPassword: string }): Observable<any> {
+    return this.http.post(`${this.baseUrl}forgetpassword/resetpassword`, data).pipe(
+      catchError(this.handleError)
+    );
+  }
   private handleError(error: any): Observable<never> {
     console.error('An error occurred:', error);
     return throwError('Something went wrong; please try again later.');

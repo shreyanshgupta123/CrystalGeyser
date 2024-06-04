@@ -26,6 +26,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SignUpComponent } from './Components/sign-up/sign-up.component';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ForgetPasswordComponent } from './Components/forget-password/forget-password.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AlkalineWaterComponent,
     IonizedWaterComponent,
     SignUpComponent,
+    ForgetPasswordComponent,
   ],
   imports: [
     BrowserModule,
