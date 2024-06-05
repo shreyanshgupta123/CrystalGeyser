@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { baserUrl } from '../enviroment/enviroment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -14,4 +14,14 @@ export class SubscriptionService {
   {
     return this.http.get(`${baserUrl}Subscription`)
   }
+
+  addSubscription(subscriptionData: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post(`${this.baseUrl}subscription`, subscriptionData, { headers });
+  }
 }
+
+
