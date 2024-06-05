@@ -42,7 +42,7 @@ private baseurl=`${baserUrl}`
       catchError(this.handleError)
     );
   }
- 
+
 
 
   OrderByIdCurrent(orderId: string): Observable<any> {
@@ -81,6 +81,13 @@ private baseurl=`${baserUrl}`
       catchError(this.handleError)
     );
   }
+
+  searchProducts(data: any): Observable<any> {
+    return this.httpClient.get(`${this.apiUrl}/search/${data}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
 
 
 

@@ -1,5 +1,7 @@
-import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit, ElementRef, Renderer2, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { ProductsService } from '../../Services/products.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-navbar',
@@ -9,16 +11,29 @@ import { Router } from '@angular/router';
 export class NavbarComponent implements AfterViewInit, OnInit {
   isAdmin: boolean = false;
   cartItemCount: number = 0; // Initialize count to 0
+  searchTerm: string = '';
 
-  constructor(private router: Router) {}
-
+  constructor(
+    private router: Router,
+    private el: ElementRef,
+    private renderer: Renderer2,
+    private prod:ProductsService
+  ) {}
+  onInputChange(event: Event) {
+    const inputElement = event.target as HTMLInputElement; // Cast event target to HTMLInputElement
+    if (inputElement) {
+      const value = inputElement.value; // Access the value property
+      console.log(value); // Output the typed value to the console
+    }
+  }
   ngOnInit(): void {
     this.authloginnav();
     this.getCartItemCount(); // Get cart item count on component initialization
+
   }
 
   ngAfterViewInit() {
-    // Your code for drawer functionality
+    this.initializeDrawerFunctionality();
   }
 
   navigate(url: string): void {
@@ -30,11 +45,7 @@ export class NavbarComponent implements AfterViewInit, OnInit {
   authloginnav() {
     if (typeof window !== 'undefined') {
       const role = localStorage.getItem('role');
-      if (role === 'Admin') {
-        this.isAdmin = true;
-      } else {
-        this.isAdmin = false;
-      }
+      this.isAdmin = role === 'Admin';
     }
   }
 
@@ -54,4 +65,20 @@ export class NavbarComponent implements AfterViewInit, OnInit {
       this.cartItemCount = parsedCartItems.length;
     }
   }
+
+  initializeDrawerFunctionality() {
+    const drawer = this.el.nativeElement.querySelector('#drawer-top-example');
+    const showDrawerBtn = this.el.nativeElement.querySelector('#showDrawerBtn');
+    const hideDrawerBtn = this.el.nativeElement.querySelector('[data-drawer-hide]');
+
+    this.renderer.listen(showDrawerBtn, 'click', () => {
+      this.renderer.setStyle(drawer, 'transform', 'translateY(0)');
+    });
+
+    this.renderer.listen(hideDrawerBtn, 'click', () => {
+      this.renderer.setStyle(drawer, 'transform', 'translateY(-100%)');
+    });
+  }
+
+
 }
