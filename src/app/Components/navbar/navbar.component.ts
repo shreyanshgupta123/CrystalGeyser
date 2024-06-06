@@ -10,7 +10,7 @@ import { FormControl } from '@angular/forms';
 })
 export class NavbarComponent implements AfterViewInit, OnInit {
   isAdmin: boolean = false;
-  cartItemCount: number = 0; // Initialize count to 0
+  cartItemCount: number = 0; 
   searchTerm: string = '';
 searchData:any[]=[]
   constructor(

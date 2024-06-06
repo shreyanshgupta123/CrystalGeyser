@@ -22,6 +22,14 @@ export class SubscriptionService {
 
     return this.http.post(`${this.baseUrl}subscription`, subscriptionData, { headers });
   }
+
+  subscriptionById(id:any):Observable<any>{
+    return this.http.get(`${baserUrl}subscription/${id}`)
+  }
+  pauseSubscription(data:any):Observable<any>
+  {
+    return this.http.post(`${baserUrl}pausedsubscription`,data)
+  }
 }
 
 
