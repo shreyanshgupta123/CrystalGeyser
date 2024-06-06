@@ -52,6 +52,25 @@ console.log(response)
   }
 )
   }
-
+  cancelOrder(id:any):void
+  {
+    const subscriptionId='b9757a14-1b17-45ba-9ff3-682987fa3178'
+    this.subService.subscriptionById(id).subscribe(
+      data=>{
+    console.log(data)
+    const cancelOrderData={
+      price:data.price,
+      subscription_type:data.subscription_type,
+      subscription_category:subscriptionId,
+      purchasedDate:data.purchasedDate
+    }
+    this.subService.cancelSubscription(cancelOrderData,id).subscribe(
+      response=>{
+    console.log(response)
+      }
+    )
+      }
+    )
+      }
 
 }

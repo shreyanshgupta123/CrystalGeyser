@@ -30,6 +30,10 @@ export class SubscriptionService {
   {
     return this.http.post(`${baserUrl}pausedsubscription`,data)
   }
+  cancelSubscription(data:any,id:any):Observable<any>
+  {
+    return this.http.put(`${baserUrl}subscription/${id}`,data)
+  }
 }
 
 
