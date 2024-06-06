@@ -25,7 +25,7 @@ export class AllProductsComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       const category_id = params['category_id'];
       if (category_id) {
-        // Do something with category_id if needed
+        
       }
     });
 
@@ -58,7 +58,7 @@ export class AllProductsComponent implements OnInit {
       savedProductIds.push(product.id);
       localStorage.setItem('savedProductIds', JSON.stringify(savedProductIds));
 
-      // Pass userId and productId to the wishlist function
+
       console.log(product.id,this.userId)
       this.productsService.wishList({ productid: product.id, userid: this.userId }).subscribe(
 

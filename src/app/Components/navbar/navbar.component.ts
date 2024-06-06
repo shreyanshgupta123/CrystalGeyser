@@ -12,7 +12,7 @@ export class NavbarComponent implements AfterViewInit, OnInit {
   isAdmin: boolean = false;
   cartItemCount: number = 0; // Initialize count to 0
   searchTerm: string = '';
-
+searchData:any[]=[]
   constructor(
     private router: Router,
     private el: ElementRef,
@@ -20,15 +20,20 @@ export class NavbarComponent implements AfterViewInit, OnInit {
     private prod:ProductsService
   ) {}
   onInputChange(event: Event) {
-    const inputElement = event.target as HTMLInputElement; // Cast event target to HTMLInputElement
+    const inputElement = event.target as HTMLInputElement;
     if (inputElement) {
-      const value = inputElement.value; // Access the value property
-      console.log(value); // Output the typed value to the console
+      const value = inputElement.value;
+      console.log(value);
+      this.prod.searchProducts(value).subscribe(
+        data=>{
+          this.searchData=data
+        }
+      )
     }
   }
   ngOnInit(): void {
     this.authloginnav();
-    this.getCartItemCount(); // Get cart item count on component initialization
+    this.getCartItemCount();
 
   }
 
@@ -78,6 +83,19 @@ export class NavbarComponent implements AfterViewInit, OnInit {
     this.renderer.listen(hideDrawerBtn, 'click', () => {
       this.renderer.setStyle(drawer, 'transform', 'translateY(-100%)');
     });
+  }
+  selectedProduct(productId: string): void {
+    console.log(productId);
+    this.prod.getProductById(productId).subscribe(
+      data => {
+        console.log(data);
+        localStorage.setItem('selectedProduct', JSON.stringify(data));
+        this.router.navigate(['selecteditem']);
+      },
+      error => {
+        console.error('Error fetching product:', error);
+      }
+    );
   }
 
 

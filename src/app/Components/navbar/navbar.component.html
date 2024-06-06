@@ -38,15 +38,26 @@
     <div id="drawer-top-example" class="fixed top-0 left-0 right-0 z-40 w-full h-1/2 p-4 transition-transform -translate-y-full bg-white dark:bg-grey-800 flex items-center justify-center" tabindex="-1" aria-labelledby="drawer-top-label">
       <div class="card w-96 bg-neutral text-neutral-content">
         <div class="card-body items-center text-center">
-          <h1 class="text-3xl">Whats in Your Mind?</h1>
-          <label class="input input-bordered flex items-center gap-2">
-            <input type="text" class="grow" placeholder="Search" (input)="onInputChange($event)" />
-
-
-
-            <kbd class="kbd kbd-sm">⌘</kbd>
-            <kbd class="kbd kbd-sm">K</kbd>
-          </label>
+          <h1 class="text-3xl">What's in Your Mind?</h1>
+          <div class="relative w-full">
+            <label class="input input-bordered flex items-center gap-2 w-full">
+              <input type="text" class="grow" placeholder="Search" (input)="onInputChange($event)" />
+              <kbd class="kbd kbd-sm">⌘</kbd>
+              <kbd class="kbd kbd-sm">K</kbd>
+            </label>
+            <ul *ngIf="searchData && searchData.length > 0" class="dropdown-content absolute left-0 right-0 mt-2 bg-white border border-gray-200 rounded shadow-lg z-50">
+              <li *ngFor="let list of searchData" class="p-2 hover:bg-gray-100" (click)="selectedProduct(list.id)">
+                <div class="grid grid-cols-1 md:grid-cols-2">
+                  <div>
+                    <img src="{{list.image}}" alt="Product Image" class="w-full h-auto">
+                  </div>
+                  <div class="flex items-center">
+                    {{list.productname}}
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <button type="button" data-drawer-hide="drawer-top-example" aria-controls="drawer-top-example" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white">
@@ -54,9 +65,14 @@
           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
         </svg>
         <span class="sr-only">Close menu</span>
-
       </button>
     </div>
+
+
+
+
+
+
 
     <svg id="showDrawerBtn"  class="w-10 h-7 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
       <path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16Z"/>
