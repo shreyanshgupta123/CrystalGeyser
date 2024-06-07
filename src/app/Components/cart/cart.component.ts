@@ -251,6 +251,22 @@ console.log(this.subscriptionType)
       this.sub.addSubscription(payload).subscribe({
         next: (response) => {
           console.log('Subscription added successfully', response);
+
+          console.log('Subscription added successfully', response.id);
+          if(response)
+            {
+              const allSubscriptionForPayload={
+                user_id:this.userId,
+                active_subscription_id:response.id,
+                cancelled_subscription_id:null,
+                paused_subscription_id:null
+              }
+              this.sub.addInAllSubscription(allSubscriptionForPayload).subscribe(data=>{
+
+              })
+            }
+
+
         },
         error: (error) => {
           console.error('Error adding subscription', error);

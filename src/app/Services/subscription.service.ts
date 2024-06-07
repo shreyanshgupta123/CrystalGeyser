@@ -26,9 +26,14 @@ export class SubscriptionService {
   subscriptionById(id:any):Observable<any>{
     return this.http.get(`${baserUrl}subscription/${id}`)
   }
+
   pauseSubscription(data:any):Observable<any>
   {
     return this.http.post(`${baserUrl}pausedsubscription`,data)
+  }
+  pauseSubscriptionbyId(id:any):Observable<any>
+  {
+    return this.http.post(`${baserUrl}pausedsubscription`,id)
   }
   cancelSubscription(data:any,id:any):Observable<any>
   {
@@ -38,6 +43,14 @@ export class SubscriptionService {
   {
     return this.http.get(`${baserUrl}activesubscription`)
   }
+  getPausedSubscription():Observable<any>
+  {
+    return this.http.get(`${baserUrl}pausedsubscription`)
+  }
+  addInAllSubscription( data: object): Observable<any> {
+    return this.http.post(`${this.baseUrl}allSubscriptions`, data);
+  }
 }
+
 
 
