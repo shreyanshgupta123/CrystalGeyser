@@ -1,4 +1,5 @@
-<div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 m-8">
   <div class="card w-full bg-base-100 shadow-xl">
     <div class="avatar justify-center p-4">
       <div class="relative w-36 rounded-full ring ring-black ring-offset-base-100 ring-offset-2">
@@ -56,7 +57,7 @@
     </div>
   </div>
 
-  <div class="w-full">
+  <div class="details bg-white shadow-xl rounded-lg p-4  ">
     <app-manage-address *ngIf="activeComponent === 'manage-address'"></app-manage-address>
     <app-account-setting *ngIf="activeComponent === 'account-settings'"></app-account-setting>
     <app-my-order *ngIf="activeComponent === 'my-order'"></app-my-order>

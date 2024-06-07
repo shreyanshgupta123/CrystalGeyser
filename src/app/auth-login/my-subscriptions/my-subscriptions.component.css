@@ -1,0 +1,10 @@
+.tabs {
+  @apply flex flex-col md:flex-row;
+}
+.tabs .tab-content {
+  @apply hidden;
+}
+.tabs input[type="radio"]:checked + .tab-content {
+  @apply block;
+}
+

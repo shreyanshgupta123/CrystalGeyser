@@ -66,7 +66,7 @@ console.log(response)
       subscription_category:subscriptionId,
       purchasedDate:data.purchased_date
     }
-    console.log(data.purchasedDate)
+    console.log(data.purchased_date)
     this.subService.cancelSubscription(cancelOrderData,id).subscribe(
       response=>{
     console.log(response)

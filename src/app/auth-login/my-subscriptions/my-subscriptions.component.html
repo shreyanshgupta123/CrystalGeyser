@@ -3,14 +3,14 @@
     type="radio"
     name="my_tabs_1"
     role="tab"
-    class="tab"
+    class="hidden tab"
     aria-label="Active Subscription"
     checked
   />
   <div role="tabpanel" class="tab-content p-10">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
       <div *ngFor="let sub of subscriptionsList" class="mb-4">
-        <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700" >
+        <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
           <h5 class="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Standard plan</h5>
           <div class="flex items-baseline text-gray-900 dark:text-white">
             <span class="text-3xl font-semibold">$</span>
@@ -34,9 +34,7 @@
               <svg class="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
               </svg>
-              <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">Expire Date: {{ sub.new_expired_date
-                |date
-              }}</span>
+              <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">Expire Date: {{ sub.new_expired_date | date }}</span>
             </li>
           </ul>
           <button
@@ -62,7 +60,7 @@
     type="radio"
     name="my_tabs_1"
     role="tab"
-    class="tab"
+    class="hidden tab"
     aria-label="Paused Subscription"
   />
   <div role="tabpanel" class="tab-content p-10">Paused Subscription</div>
@@ -71,10 +69,8 @@
     type="radio"
     name="my_tabs_1"
     role="tab"
-    class="tab"
+    class="hidden tab"
     aria-label="Canceled Subscription"
   />
   <div role="tabpanel" class="tab-content p-10">Canceled Subscription</div>
 </div>
-
-
