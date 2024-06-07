@@ -20,7 +20,7 @@ export class SubscriptionService {
       'Content-Type': 'application/json'
     });
 
-    return this.http.post(`${this.baseUrl}subscription`, subscriptionData, { headers });
+    return this.http.post(`${this.baseUrl}activesubscription`, subscriptionData, { headers });
   }
 
   subscriptionById(id:any):Observable<any>{
@@ -33,6 +33,10 @@ export class SubscriptionService {
   cancelSubscription(data:any,id:any):Observable<any>
   {
     return this.http.put(`${baserUrl}subscription/${id}`,data)
+  }
+  activeSubscription():Observable<any>
+  {
+    return this.http.get(`${baserUrl}activesubscription`)
   }
 }
 

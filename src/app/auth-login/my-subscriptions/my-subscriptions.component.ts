@@ -25,7 +25,7 @@ export class MySubscriptionsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
+this.getActiveSubscription()
     this.userId=localStorage.getItem('userId')
     this.authService.getUserDetails(this.userId).subscribe(
       data=>{
@@ -82,6 +82,16 @@ console.log(response)
     )
       }
     )
+      }
+      getActiveSubscription():void{
+        this.subService.activeSubscription().subscribe(data=>{
+        console.log(data)
+        this.subscriptionsList=data
+        })
+      }
+
+      getPausedSubscription():void{
+
       }
 
 }

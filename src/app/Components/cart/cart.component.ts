@@ -242,11 +242,10 @@ getDateValue(): void {
       const payload = {
         user_id: this.userId,
         price: this.subPrice,
-        subscription_type: this.subscriptionType,
-        subscription_category: this.subscriptionCategory,
-        purchasedDate: this.date
+        suscription_type: this.subscriptionType,
+        purchased_date: this.date
       };
-
+console.log(this.subscriptionType)
       console.log('Payload:', payload);
 
       this.sub.addSubscription(payload).subscribe({
