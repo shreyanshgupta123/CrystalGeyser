@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { Subscription, timer } from 'rxjs';
+import { switchMap, take, tap } from 'rxjs/operators';
 import { SubscriptionService } from '../../Services/subscription.service';
 import { AuthServiceService } from '../../Services/auth-service.service';
 import { response } from 'express';
@@ -15,6 +15,8 @@ export class MySubscriptionsComponent implements OnInit {
   isActive: string | undefined;
   private subscriptions: Subscription = new Subscription();
   userId:any
+  toastVisible = false;
+  toastVisible2 = false;
 
   constructor(
     private subService: SubscriptionService,
@@ -34,10 +36,11 @@ export class MySubscriptionsComponent implements OnInit {
       }
     )
   }
-  findSubscription(id:string):void
+  pausedSubscription(id:string):void
   {
 this.subService.subscriptionById(id).subscribe(
   data=>{
+    this. toastVisible = true;
 console.log(data)
 const pauseData={
   from_date:data.purchased_date,
@@ -48,6 +51,11 @@ const pauseData={
 }
 this.subService.pauseSubscription(pauseData).subscribe(
   response=>{
+    this. toastVisible=false
+    this.toastVisible2 = true;
+    timer(500).pipe(take(1)).subscribe(() => {
+      this.toastVisible2 = false;
+    });
 console.log(response)
   }
 )
