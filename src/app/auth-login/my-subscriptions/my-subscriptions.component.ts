@@ -54,14 +54,34 @@ this.getActiveUser();
 
   pausedSubscription(id:string):void
   {
-this.authService.getUserDetails(this.userId).subscribe(
-  data=>{
+    console.log(id)
+    this.subService.getActiveSubscriptionById(id).subscribe(
+      data=>{
+        console.log(data.active_subscription_id?? 'not matched')
 
-this. PausedsubscriptionsList=data.subscription
-console.log(this.PausedsubscriptionsList)
+        const pausedsubobject={
 
-})
+          from_date:data.purchased_date,
+          expired_date:data.new_expired_date,
+          user_id:this.userId,
+          subscription_id:data.id,
+          is_paused:true
+      }
+      console.log(pausedsubobject)
+      this.subService.addPausedSubscription(pausedsubobject).subscribe(response=>{
+       console.log(response)
+       
+      })
+
+        }
+    )
+
   }
+
+
+
+
+
   cancelOrder(id:any):void
   {
 

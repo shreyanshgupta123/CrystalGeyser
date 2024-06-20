@@ -15,6 +15,11 @@ export class SubscriptionService {
     return this.http.get(`${baserUrl}Subscription`)
   }
 
+getActiveSubscriptionById(id:any):Observable<any>
+{
+  return this.http.get(`${baserUrl}activesubscription/${id}`)
+}
+
   addSubscription(subscriptionData: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
@@ -50,6 +55,19 @@ export class SubscriptionService {
   addInAllSubscription( data: object): Observable<any> {
     return this.http.post(`${this.baseUrl}allSubscriptions`, data);
   }
+  getSubscriptionById(id:any):Observable<any>
+  {
+    return this.http.get(`${baserUrl}allsubscriptions/${id}`)
+  }
+  addPausedSubscription(data:any):Observable<any>
+  {
+    return this.http.post(`${baserUrl}pausedsubscription`,data)
+  }
+  getActiveSubscriptionByid(id:any):Observable<any>
+  {
+    return this.http.get(`${this.baseUrl}activeSubscription/${id}`)
+  }
+  updateAllsubscriptionbyId(){}
 }
 
 
