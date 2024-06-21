@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../Services/user.service';
+import { take, timer } from 'rxjs';
 
 @Component({
   selector: 'app-user-review',
@@ -8,7 +9,8 @@ import { UserService } from '../../Services/user.service';
 })
 export class UserReviewComponent implements OnInit {
   UsersReview: any[] = [];
-
+isLoading=true;
+showReview=false
   constructor(private userService: UserService) {}
 
   ngOnInit() {
@@ -18,7 +20,9 @@ export class UserReviewComponent implements OnInit {
   UserReview(): void {
     this.userService.getUserReview().subscribe(
       data => {
-        console.log(data);
+        timer(800).pipe(take(1)).subscribe(() => {
+          this.isLoading = false;})
+          this.showReview=true
         this.UsersReview = data;
       }
     );

@@ -21,7 +21,11 @@ export class UserService {
         catchError(this.handleError)
       )
     }
-    
+    addUserReview(data:string):Observable<any>
+    {
+      return this.http.post<any>(`${this.baseUrl}review`,data)
+    }
+
     private handleError(error: any): Observable<never> {
       console.error('An error occurred:', error);
       return throwError('Something went wrong; please try again later.');

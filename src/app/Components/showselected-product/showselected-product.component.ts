@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from '../../Services/products.service';
 import { CartserviceService } from '../../Services/cartservice.service';
 import { UserService } from '../../Services/user.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-showselected-product',
@@ -17,6 +18,8 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
   averageRating: number = 0;
   bigImageUrl: string = '';
   UsersReview:any[]=[];
+  reviewForm!: FormGroup;
+  productId:any
   @ViewChild('quantityContainer', { static: false }) quantityContainer!: ElementRef;
   @ViewChild('minusBtn', { static: false }) minusBtn!: ElementRef<HTMLButtonElement>;
   @ViewChild('plusBtn', { static: false }) plusBtn!: ElementRef<HTMLButtonElement>;
@@ -30,10 +33,13 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
     private router: Router,
     private productsService: ProductsService,
     private cartService: CartserviceService,
-    private UserService:UserService
+    private UserService:UserService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit() {
+    this.productId=localStorage.getItem('selectedProduct')
+    
     this.UserReview()
     const productString = localStorage.getItem('selectedProduct');
     if (productString) {
@@ -177,5 +183,15 @@ console.log(data)
 this.UsersReview=data
       }
     )
+  }
+  initForm()
+
+  {
+    this.reviewForm=this.fb.group({
+      customer:['', Validators.required],
+      rating:['',Validators.required],
+      comments:['',Validators.required],
+
+    })
   }
 }
