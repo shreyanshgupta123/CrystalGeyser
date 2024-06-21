@@ -38,7 +38,6 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
-
     this.UserReview()
     const productString = localStorage.getItem('selectedProduct');
     if (productString) {
@@ -53,6 +52,7 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
     this.calculateAverageRating();
     this.viewProduct();
     this.bigImageUrl = this.products[0]?.image;
+    this.initForm();
   }
 
   ngAfterViewInit() {
@@ -217,6 +217,27 @@ this.UserService.addUserReview(this.reviewForm).subscribe(
   data=>{
   console.log(this.reviewForm)
 })
+  }
+  onSubmit() {
+    console.log('Form submitted');
+
+    if (this.reviewForm.valid) {
+
+      console.log('Form is valid', this.reviewForm.value);
+      this.UserService.addUserReview(this.reviewForm.value).subscribe(
+        result => {
+          console.log('Server response', result);
+
+        },
+        error => {
+          console.error('Registration failed', error);
+
+        }
+      );
+    } else {
+      console.warn('Form is invalid');
+
+    }
   }
 
   }

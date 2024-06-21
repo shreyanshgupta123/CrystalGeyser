@@ -149,13 +149,13 @@
    <button class="btn m-8 center" onclick="my_modal_3.showModal()">
     <i class="fa-solid fa-feather"></i>Review
   </button>
-  <dialog id="my_modal_3" class="modal">
-    <div class="modal-box">
-      <form method="dialog">
-        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-      </form>
+<!-- Modal for Review -->
+<dialog id="my_modal_3" class="modal">
+  <div class="modal-box">
+    <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()" method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
       <h3 class="font-bold text-lg">Rate Us!</h3>
-      <div [formGroup]="reviewForm"class="contain flex flex-col space-y-4">
+      <div class="contain flex flex-col space-y-4">
         <div class="flex flex-col">
           <label class="mb-2">Customer Name:</label>
           <input formControlName="customer" type="text" placeholder="Type here" class="input w-full max-w-xs" />
@@ -169,15 +169,15 @@
           <textarea formControlName="comments" placeholder="Type here" class="textarea textarea-bordered textarea-lg w-full max-w-xs"></textarea>
         </div>
         <div class="flex flex-col">
-          <label class="mb-2">
-            Upload image
-          </label>
-          <input type="file" class="file-input file-input-bordered file-input-success w-full max-w-xs" />
+          <label class="mb-2">Upload image</label>
+          <input formControlName="image_url" type="file" class="file-input file-input-bordered file-input-success w-full max-w-xs" />
         </div>
       </div>
-      <button class="btn btn-neutral mt-4">Save</button>
-    </div>
-  </dialog>
+      <button [disabled]="reviewForm.invalid" type="submit" class="btn btn-neutral mt-4">Save</button>
+    </form>
+  </div>
+</dialog>
+
 
   </div>
 </div>
