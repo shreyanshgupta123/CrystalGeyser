@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthServiceService } from '../../Services/auth-service.service';
 import { Router } from '@angular/router';
+import { take, timer } from 'rxjs';
 
-export interface Email{
-  email:string;
+export interface Email {
+  email: string;
 }
+
 @Component({
   selector: 'app-user-login',
   templateUrl: './user-login.component.html',
@@ -16,19 +18,19 @@ export class UserLoginComponent implements OnInit {
   role: string = '';
   isLoading = false;
   showForm: boolean = true;
-  userId:any
-  presentEmailAddress:any
-  Email:any={}
+  userId: any;
+  presentEmailAddress: any;
+  Email: any = {};
+  isLogIn = false;
+
   constructor(
     private fb: FormBuilder,
     private auth: AuthServiceService,
-    private router: Router,
-
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.initForm();
-
   }
 
   initForm() {
@@ -37,12 +39,13 @@ export class UserLoginComponent implements OnInit {
       password: ['', [Validators.required]]
     });
   }
- emailForm()
- {
-  this.Email=this.fb.group({
-    email:this.presentEmailAddress
-  })
- }
+
+  emailForm() {
+    this.Email = this.fb.group({
+      email: this.presentEmailAddress
+    });
+  }
+
   onSubmit() {
     if (this.loginForm.valid) {
       this.isLoading = true;
@@ -54,6 +57,7 @@ export class UserLoginComponent implements OnInit {
             console.log('Token stored in session storage:', result.token);
             this.isLoading = false;
             this.showForm = true;
+
             this.role = result.role || 'Admin';
             localStorage.setItem('role', this.role);
 
@@ -62,8 +66,12 @@ export class UserLoginComponent implements OnInit {
               console.log('User ID stored in local storage:', result.userId);
             }
 
-            this.router.navigate(['/home']).then(() => {
-               window.location.reload();
+            this.isLogIn = true;
+            timer(800).pipe(take(1)).subscribe(() => {
+              this.isLogIn = false;
+              this.router.navigate(['/home']).then(() => {
+                window.location.reload();
+              });
             });
           }
         },
@@ -75,45 +83,39 @@ export class UserLoginComponent implements OnInit {
       );
     }
   }
+
   forgetPasswordEmail() {
-    this.auth.getAllUsers().subscribe(
-      data=>{
+    this.auth.getAllUsers().subscribe(data => {
+      data.forEach((element: any) => {
+        if (element.email === this.presentEmailAddress) {
+          console.log(element.id);
+          this.userId = element.id;
+          this.auth.getUserDetails(this.userId).subscribe(
+            data => {
+              if (this.presentEmailAddress === data.email) {
+                const useremail: Email = {
+                  email: this.presentEmailAddress
+                };
+                this.auth.forgotEmail(useremail).subscribe(
+                  response => {
+                    console.log(response);
 
-        data.forEach((element:any) => {
-
-if(element.email==this.presentEmailAddress)
-  {
-    console.log(element.id)
-    this.userId=element.id
-    this.auth.getUserDetails(this.userId).subscribe(
-      data => {
-      
-        if (this.presentEmailAddress === data.email) {
-          const useremail:Email={
-            email:this.presentEmailAddress
-          }
-          this.auth.forgotEmail(useremail).subscribe(
-            response => {
-              console.log(response)
-
-              const token = response.token;
-              sessionStorage.setItem('forgetpasswordToken', token);
-              this.router.navigate(['forgetPassword'])
+                    const token = response.token;
+                    sessionStorage.setItem('forgetpasswordToken', token);
+                    this.router.navigate(['forgetPassword']);
+                  },
+                  error => {
+                    console.error('Error sending forgot password email:', error);
+                  }
+                );
+              }
             },
             error => {
-              console.error('Error sending forgot password email:', error);
+              console.error('Error getting user details:', error);
             }
           );
         }
-      },
-      error => {
-        console.error('Error getting user details:', error);
-      }
-    );
-  }
-        });
-      }
-    )
-
+      });
+    });
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from '../../Services/products.service';
 import { CartserviceService } from '../../Services/cartservice.service';
+import { UserService } from '../../Services/user.service';
 
 @Component({
   selector: 'app-showselected-product',
@@ -15,6 +16,7 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
   emptyStars: number | undefined;
   averageRating: number = 0;
   bigImageUrl: string = '';
+  UsersReview:any[]=[];
   @ViewChild('quantityContainer', { static: false }) quantityContainer!: ElementRef;
   @ViewChild('minusBtn', { static: false }) minusBtn!: ElementRef<HTMLButtonElement>;
   @ViewChild('plusBtn', { static: false }) plusBtn!: ElementRef<HTMLButtonElement>;
@@ -27,10 +29,12 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private productsService: ProductsService,
-    private cartService: CartserviceService
+    private cartService: CartserviceService,
+    private UserService:UserService
   ) {}
 
   ngOnInit() {
+    this.UserReview()
     const productString = localStorage.getItem('selectedProduct');
     if (productString) {
       this.product = JSON.parse(productString);
@@ -49,7 +53,7 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
   }
 
   viewProduct() {
-    // console.log(this.product);
+
   }
 
   calculateAverageRating() {
@@ -164,5 +168,14 @@ console.log(this.product.id,this.userId, quantity)
     localStorage.setItem('selectedProductArray', JSON.stringify(productsArray));
     console.log('Product stored in localStorage:', product);
     this.router.navigate(['/selecteditem'], { queryParams: product });
+  }
+
+  UserReview():void{
+    this.UserService.getUserReview().subscribe(
+     data=> {
+console.log(data)
+this.UsersReview=data
+      }
+    )
   }
 }

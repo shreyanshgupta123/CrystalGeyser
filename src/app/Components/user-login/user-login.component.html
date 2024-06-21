@@ -4,6 +4,14 @@
   <span class="loading loading-ball loading-md"></span>
   <span class="loading loading-ball loading-lg"></span>
 </div>
+<div class="toast toast-center toast-middle" *ngIf="isLogIn">
+  <div class="alert alert-info">
+    <span>Login Successfully</span>
+  </div>
+  </div>
+
+
+
  <div *ngIf="showForm" class="flex font-poppins items-center justify-center">
     <div class="h-screen w-screen flex justify-center items-center dark:bg-gray-900">
     <div class="grid gap-8">

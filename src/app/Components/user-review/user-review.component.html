@@ -1,0 +1,27 @@
+<div class="flex overflow-x-auto p-4 space-x-4">
+  <div *ngFor="let review of UsersReview" class="inline-block min-w-[300px] max-w-xs bg-white shadow-md rounded-lg">
+    <div class="flex flex-col">
+      <img class="w-full h-48 object-cover rounded-t-lg" src="{{review.image_url}}" alt="Movie">
+      <div class="p-4">
+        <h2 class="text-xl font-semibold">{{review.title}}</h2>
+        <p class="mt-2">{{review.comments}}</p>
+        <p class="mt-2">Rating: {{review.rating}}</p>
+        <div class="rating flex mt-2">
+          <ng-container *ngFor="let star of generateStars(review.rating); let i = index">
+            <i class="fa" [ngClass]="{'fa-star text-orange-400': star, 'fa-star-o text-orange-400': !star}"></i>
+          </ng-container>
+        </div>
+        <div class="flex justify-end mt-4 space-x-2">
+          <button class="btn">
+          Like
+            <div class="badge">+120</div>
+          </button>
+          <button class="btn">
+     Dislike
+            <div class="badge badge-secondary">+10</div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

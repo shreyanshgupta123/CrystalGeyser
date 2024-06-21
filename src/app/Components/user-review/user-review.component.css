@@ -1,0 +1,20 @@
+.scroll-container {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.scroll-content {
+  display: inline-block;
+  margin-right: 10px; /* Adjust the spacing between cards */
+}
+
+.card {
+  display: inline-block;
+  width: 100px; /* Adjust the width as needed */
+  margin: 10px;
+}
+.img{
+  width: 40%;
+  height:40%
+}
