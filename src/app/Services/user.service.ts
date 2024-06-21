@@ -21,7 +21,7 @@ export class UserService {
         catchError(this.handleError)
       )
     }
-    addUserReview(data:string):Observable<any>
+    addUserReview(data:any):Observable<any>
     {
       return this.http.post<any>(`${this.baseUrl}review`,data)
     }

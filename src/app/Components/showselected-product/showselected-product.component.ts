@@ -38,15 +38,16 @@ export class ShowselectedProductComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
-    this.productId=localStorage.getItem('selectedProduct')
-    
+
     this.UserReview()
     const productString = localStorage.getItem('selectedProduct');
     if (productString) {
       this.product = JSON.parse(productString);
+      // console.log(this.product.id)
     } else {
       this.route.queryParams.subscribe(params => {
         this.product = params;
+
       });
     }
     this.calculateAverageRating();
@@ -187,11 +188,36 @@ this.UsersReview=data
   initForm()
 
   {
+if(this.userId)
+  {
     this.reviewForm=this.fb.group({
       customer:['', Validators.required],
-      rating:['',Validators.required],
+      rating:5.0,
       comments:['',Validators.required],
-
+      user_id:this.userId,
+      product_id:this.product.id,
+      title:['', Validators.required],
+      image_url:['', Validators.required]
     })
+
+  }else{
+    this.reviewForm=this.fb.group({
+      customer:'Unknown',
+      rating:5.0,
+      comments:['',Validators.required],
+      user_id:null,
+      product_id:this.product.id,
+      title:['', Validators.required],
+      image_url:['', Validators.required]
+    })
+
+
   }
-}
+this.UserService.addUserReview(this.reviewForm).subscribe(
+  data=>{
+  console.log(this.reviewForm)
+})
+  }
+
+  }
+
