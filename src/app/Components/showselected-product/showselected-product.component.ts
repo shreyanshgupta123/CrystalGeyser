@@ -227,7 +227,7 @@ this.UserService.addUserReview(this.reviewForm).subscribe(
       this.UserService.addUserReview(this.reviewForm.value).subscribe(
         result => {
           console.log('Server response', result);
-
+        window.location.reload()
         },
         error => {
           console.error('Registration failed', error);

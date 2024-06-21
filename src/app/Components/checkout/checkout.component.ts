@@ -177,4 +177,8 @@ export class CheckoutComponent implements OnInit {
         }
       );
   }
+  selectAddress(id:string)
+  {
+console.log(id)
+  }
 }
