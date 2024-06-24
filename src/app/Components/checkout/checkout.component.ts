@@ -200,7 +200,7 @@ export class CheckoutComponent implements OnInit {
           quantity: item.quantity,
           amount: item.price
         }));
-console.log(allItems)
+console.log(allItems.price)
         const createInvoice = {
           shipping: {
             name: selectedAddress.name,

@@ -76,12 +76,13 @@ export class CartComponent implements OnInit {
             this.prod.getProductById(item.product_id).toPromise().then(productDetails => {
               item.productDetails = productDetails;
               item.productPrice = productDetails.price;
+              this.productPrice=item.productPrice
+              console.log('Fetched product price:', item.productPrice); // Logging fetched product price
             })
           );
 
           Promise.all(productDetailsRequests).then(() => {
-            console.log('All product details fetched:', this.items);
-            localStorage.setItem('cartItem', JSON.stringify(this.items));
+            localStorage.setItem('cartitem', JSON.stringify(this.items));
             this.calculateTotalPrice();
           }).catch(err => {
             console.error('Error fetching product details:', err);
@@ -96,17 +97,20 @@ export class CartComponent implements OnInit {
     }
   }
 
-
   calculateTotalPrice(): void {
     this.totalPrice = this.items.reduce((sum, item) => {
       const quantity = this.quantities[item.id] || 1;
-      const itemPrice = parseFloat(item.price);
+      const itemPrice = parseFloat(item.productPrice); // Use item.productPrice
+      console.log('Calculating price for item:', item); // Logging item details
+
       if (isNaN(itemPrice)) {
-        console.error('Item price is not a number:', item.price);
+        console.error('Item price is not a number:', item.productPrice);
         return sum;
       }
       return sum + (itemPrice * quantity);
     }, 0);
+
+    console.log('Total price before discount:', this.totalPrice); // Logging total price before discount
 
     const discountValue = parseFloat(this.discount.toString());
     const deliveryChargesValue = parseFloat(this.deliveryCharges.toString());
@@ -115,6 +119,8 @@ export class CartComponent implements OnInit {
     const discountedPrice = Math.max(this.totalPrice - discountValue, 0);
     this.overallPrice = discountedPrice + deliveryChargesValue;
     this.totalAmount = this.overallPrice + refundableDepositValue;
+
+    console.log('Total amount after all calculations:', this.totalAmount); // Logging final total amount
   }
 
   checkout(): void {
@@ -194,34 +200,37 @@ export class CartComponent implements OnInit {
     const selectedDay = (event.target as HTMLSelectElement).value;
     let price = 0;
 
-    if (selectedDay === '9909ce77-02fe-49a5-840f-dad31e903a56') {
-      console.log('1 Month selected');
-      price = this.productPrice * 30 * 0.9;
-      this.subPrice = price;
-      this.subscriptionType = '9909ce77-02fe-49a5-840f-dad31e903a56';
-      console.log('Price', this.subPrice);
-    } else if (selectedDay === '7264f7c3-73b2-41c1-b0bc-83c28e19e97f') {
-      console.log('6 Months selected');
-      price = this.productPrice * 180 * 0.9;
-      this.subPrice = price;
-      this.subscriptionType = '7264f7c3-73b2-41c1-b0bc-83c28e19e97f';
-      console.log('Price', this.subPrice);
-    } else if (selectedDay === 'e3f1d7db-fe68-4b82-8d02-6d7b9cd7f26d') {
-      console.log('9 Months selected');
-      price = this.productPrice * 270 * 0.9;
-      this.subPrice = price;
-      this.subscriptionType = 'e3f1d7db-fe68-4b82-8d02-6d7b9cd7f26d';
-      console.log('Price', this.subPrice);
-    } else if (selectedDay === 'df8acba7-11bb-494d-b238-815c63ed4d33') {
-      console.log('12 Months selected');
-      price = this.productPrice * 360 * 0.9;
-      this.subPrice = price;
-      this.subscriptionType = 'df8acba7-11bb-494d-b238-815c63ed4d33';
-      console.log('Price', this.subPrice);
+    switch (selectedDay) {
+      case '9909ce77-02fe-49a5-840f-dad31e903a56':
+        console.log('1 Month selected');
+        price = this.productPrice * 30 * 0.9;
+        break;
+      case '7264f7c3-73b2-41c1-b0bc-83c28e19e97f':
+        console.log('6 Months selected');
+        price = this.productPrice * 180 * 0.9;
+        break;
+      case 'e3f1d7db-fe68-4b82-8d02-6d7b9cd7f26d':
+        console.log('9 Months selected');
+        price = this.productPrice * 270 * 0.9;
+        break;
+      case 'df8acba7-11bb-494d-b238-815c63ed4d33':
+        console.log('12 Months selected');
+        price = this.productPrice * 360 * 0.9;
+        break;
+      default:
+        console.error('Invalid subscription type selected');
+        return;
     }
 
+    this.subPrice = price;
+    this.subscriptionType = selectedDay;
+
     const totalPriceInput = document.getElementById('totalPrice') as HTMLInputElement;
-    totalPriceInput.value = price.toString();
+    if (totalPriceInput) {
+      totalPriceInput.value = price.toString();
+    }
+
+    console.log('Selected subscription type:', this.subscriptionType, 'Price:', this.subPrice); // Logging subscription type and price
   }
 
   getDateValue(): void {
