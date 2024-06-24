@@ -193,14 +193,14 @@ export class CheckoutComponent implements OnInit {
       const allItems = JSON.parse(items);
 
       if (selectedAddress && selectedAddress.id) {
-
-        const formattedItems = allItems.map((item:any) => ({
-          item: item.productname,
+        // Map over the allItems array to create the new items array
+        const formattedItems = allItems.map((item: any) => ({
+          item: item.productDetails.productname,
           description: item.description,
-          quantity: item.bottles,
+          quantity: item.quantity,
           amount: item.price
         }));
-console.log('this is all items',allItems)
+
         const createInvoice = {
           shipping: {
             name: selectedAddress.name,
@@ -210,7 +210,7 @@ console.log('this is all items',allItems)
             country: selectedAddress.country,
             postal_code: selectedAddress.pincode
           },
-          items: formattedItems,  // Use the formatted items array here
+          items: formattedItems,
           subtotal: totalPrice,
           paid: totalPrice,
           invoice_nr: 256
@@ -238,6 +238,7 @@ console.log('this is all items',allItems)
       console.error('No selected address or items found in localStorage.');
     }
   }
+
 
 
 }
