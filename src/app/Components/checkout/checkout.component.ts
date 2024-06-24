@@ -183,51 +183,61 @@ export class CheckoutComponent implements OnInit {
     );
   }
 
-payOnline(): void {
-  const address = localStorage.getItem('selectedAddress');
-  const items = localStorage.getItem('cartItem');
-  const totalPrice = localStorage.getItem('TotalAmount');
+  payOnline(): void {
+    const address = localStorage.getItem('selectedAddress');
+    const items = localStorage.getItem('cartItem');
+    const totalPrice = localStorage.getItem('TotalAmount');
 
-  if (address && items) {
-    const selectedAddress = JSON.parse(address);
-    const allItems = JSON.parse(items);
+    if (address && items) {
+      const selectedAddress = JSON.parse(address);
+      const allItems = JSON.parse(items);
 
-    if (selectedAddress && selectedAddress.id) {
-      const createInvoice = {
-        shipping: {
-          name: selectedAddress.name,
-          address: `${selectedAddress.housenumber} ${selectedAddress.street}`,
-          city: selectedAddress.city,
-          state: selectedAddress.states,
-          country: selectedAddress.country,
-          postal_code: selectedAddress.pincode
-        },
-        items: [allItems],
-        subtotal: totalPrice,
-        paid: totalPrice,
-        invoice_nr: 256
-      };
-console.log(createInvoice)
-      this.userService.createInvoice(createInvoice).subscribe(
-        data => {
-          const blob = new Blob([data], { type: 'application/pdf' });
-          const url = window.URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.href = url;
-          link.download = 'invoice.pdf';
-          link.click();
-          window.URL.revokeObjectURL(url);
-        },
-        error => {
-          console.error('Error generating invoice', error);
-        }
-      );
+      if (selectedAddress && selectedAddress.id) {
+      
+        const formattedItems = allItems.map((item:any) => ({
+          item: item.productname,
+          description: item.description,
+          quantity: item.bottles,
+          amount: item.price
+        }));
+
+        const createInvoice = {
+          shipping: {
+            name: selectedAddress.name,
+            address: `${selectedAddress.housenumber} ${selectedAddress.street}`,
+            city: selectedAddress.city,
+            state: selectedAddress.states,
+            country: selectedAddress.country,
+            postal_code: selectedAddress.pincode
+          },
+          items: formattedItems,  // Use the formatted items array here
+          subtotal: totalPrice,
+          paid: totalPrice,
+          invoice_nr: 256
+        };
+
+        console.log(createInvoice);
+        this.userService.createInvoice(createInvoice).subscribe(
+          data => {
+            const blob = new Blob([data], { type: 'application/pdf' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'invoice.pdf';
+            link.click();
+            window.URL.revokeObjectURL(url);
+          },
+          error => {
+            console.error('Error generating invoice', error);
+          }
+        );
+      } else {
+        console.error('No valid address ID found in selectedAddress.');
+      }
     } else {
-      console.error('No valid address ID found in selectedAddress.');
+      console.error('No selected address or items found in localStorage.');
     }
-  } else {
-    console.error('No selected address or items found in localStorage.');
   }
-}
+
 
 }
