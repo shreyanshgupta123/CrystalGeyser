@@ -193,14 +193,14 @@ export class CheckoutComponent implements OnInit {
       const allItems = JSON.parse(items);
 
       if (selectedAddress && selectedAddress.id) {
-      
+
         const formattedItems = allItems.map((item:any) => ({
           item: item.productname,
           description: item.description,
           quantity: item.bottles,
           amount: item.price
         }));
-
+console.log('this is all items',allItems)
         const createInvoice = {
           shipping: {
             name: selectedAddress.name,
