@@ -16,6 +16,7 @@ export interface UpdateUserAddress {
   pincode: string;
   phone: string;
   phone2: string;
+
 }
 
 @Component({
@@ -32,7 +33,7 @@ export class CheckoutComponent implements OnInit {
   showForm = true;
   userId: string | null = '';
   UpdateDetails: any = {};
-
+  totalamount:any;
   constructor(
     private authService: AuthServiceService,
     private userService: UserService,
@@ -185,9 +186,11 @@ export class CheckoutComponent implements OnInit {
 
   payOnline(): void {
     const address = localStorage.getItem('selectedAddress');
-    const items = localStorage.getItem('cartItem');
+    const items = localStorage.getItem('cartitem');
     const totalPrice = localStorage.getItem('TotalAmount');
-
+    const totalPriceNumber = Number(totalPrice);
+this.totalamount=totalPriceNumber
+// console.log(items)
     if (address && items) {
       const selectedAddress = JSON.parse(address);
       const allItems = JSON.parse(items);
@@ -198,9 +201,10 @@ export class CheckoutComponent implements OnInit {
           item: item.productDetails.productname,
           description: item.description,
           quantity: item.quantity,
-          amount: item.price
+          amount: item.productDetails.price
+
         }));
-console.log(allItems.price)
+// console.log(allItems)
         const createInvoice = {
           shipping: {
             name: selectedAddress.name,
@@ -212,7 +216,7 @@ console.log(allItems.price)
           },
           items: formattedItems,
           subtotal: totalPrice,
-          paid: totalPrice,
+          paid: this.totalamount,
           invoice_nr: 256
         };
 
