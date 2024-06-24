@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 
 export interface UpdateUserAddress {
-  name:string;
+  name: string;
   country: string;
   states: string;
   city: string;
@@ -46,7 +46,7 @@ export class CheckoutComponent implements OnInit {
     if (userId !== null) {
       this.userId = userId;
     } else {
-      console.log("userId not found");
+      console.log('userId not found');
     }
     this.initForm();
     if (userId) {
@@ -72,7 +72,6 @@ export class CheckoutComponent implements OnInit {
     this.authService.deleteAlternateAddress(id).subscribe(
       (response) => {
         console.log('Address deleted successfully:', response);
-        console.log('Deleted address ID:', id);
         this.allAlterAddress = this.allAlterAddress.filter(address => address.id !== id);
       },
       (error) => {
@@ -81,11 +80,11 @@ export class CheckoutComponent implements OnInit {
     );
   }
 
-  manageAddress() {
+  manageAddress(): void {
     this.router.navigate(['manageAddress']);
   }
 
-  initForm() {
+  initForm(): void {
     this.addAlternateAddressForm = this.fb.group({
       user_id: this.userId,
       name: ['', Validators.required],
@@ -101,7 +100,7 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     console.log('Form submitted');
 
     if (this.addAlternateAddressForm.valid) {
@@ -133,7 +132,7 @@ export class CheckoutComponent implements OnInit {
     }
   }
 
-  updateAddress(id: string) {
+  updateAddress(id: string): void {
     this.authService.getAlternateAddressById(id).subscribe(
       result => {
         console.log('Server response', result);
@@ -144,7 +143,7 @@ export class CheckoutComponent implements OnInit {
     );
   }
 
-  updateAddressDetails() {
+  updateAddressDetails(): void {
     const addressId = this.UpdateDetails.id;
     if (!this.UpdateDetails || !addressId) {
       console.error('Invalid UpdateDetails object or missing ID');
@@ -163,9 +162,8 @@ export class CheckoutComponent implements OnInit {
       phone: this.UpdateDetails.phone,
       phone2: this.UpdateDetails.phone2
     };
-
     this.isLoading = true;
-    console.log(addressId)
+    console.log(addressId);
     this.authService.updateAlternateAddress(addressId, updatedAddress)
       .pipe(finalize(() => this.isLoading = false))
       .subscribe(
@@ -177,8 +175,59 @@ export class CheckoutComponent implements OnInit {
         }
       );
   }
-  selectAddress(id:string)
-  {
-console.log(id)
+  selectAddress(id: string): void {
+    this.authService.getAlternateAddressById(id).subscribe(
+      result => {
+        localStorage.setItem('selectedAddress', JSON.stringify(result));
+      }
+    );
   }
+
+payOnline(): void {
+  const address = localStorage.getItem('selectedAddress');
+  const items = localStorage.getItem('cartItem');
+  const totalPrice = localStorage.getItem('TotalAmount');
+
+  if (address && items) {
+    const selectedAddress = JSON.parse(address);
+    const allItems = JSON.parse(items);
+
+    if (selectedAddress && selectedAddress.id) {
+      const createInvoice = {
+        shipping: {
+          name: selectedAddress.name,
+          address: `${selectedAddress.housenumber} ${selectedAddress.street}`,
+          city: selectedAddress.city,
+          state: selectedAddress.states,
+          country: selectedAddress.country,
+          postal_code: selectedAddress.pincode
+        },
+        items: [allItems],
+        subtotal: totalPrice,
+        paid: totalPrice,
+        invoice_nr: 256
+      };
+console.log(createInvoice)
+      this.userService.createInvoice(createInvoice).subscribe(
+        data => {
+          const blob = new Blob([data], { type: 'application/pdf' });
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = 'invoice.pdf';
+          link.click();
+          window.URL.revokeObjectURL(url);
+        },
+        error => {
+          console.error('Error generating invoice', error);
+        }
+      );
+    } else {
+      console.error('No valid address ID found in selectedAddress.');
+    }
+  } else {
+    console.error('No selected address or items found in localStorage.');
+  }
+}
+
 }

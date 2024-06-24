@@ -16,6 +16,7 @@ import { UserSettingComponent } from './auth-login/user-setting/user-setting.com
 import { SignUpComponent } from './Components/sign-up/sign-up.component';
 import { AuthGuard } from './guards/auth.guard';
 import { ForgetPasswordComponent } from './Components/forget-password/forget-password.component';
+import { PayOnlineComponent } from './auth-login/pay-online/pay-online.component';
 
 const routes: Routes = [
   {path:'home', component:HomeComponent},
@@ -34,6 +35,7 @@ const routes: Routes = [
   {path:'signUp', component:SignUpComponent},
   {path:'forgetPassword', component:ForgetPasswordComponent},
   {path:'manageAddress', component:ManageAddressComponent},
+  {path:'payOnline', component:PayOnlineComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 
 ];

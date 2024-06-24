@@ -13,7 +13,7 @@
         <span style="color: grey;">{{review.customer}}</span>
         <h2 class="text-xl font-semibold">{{review.title}}</h2>
         <p class="mt-2">{{review.comments}}</p>
-        <!-- <p class="mt-2">Rating: {{review.rating}}</p> -->
+
         <div class="rating flex mt-2">
           <ng-container *ngFor="let star of generateStars(review.rating); let i = index">
             <i class="fa" [ngClass]="{'fa-star text-orange-400': star, 'fa-star-o text-orange-400': !star}"></i>

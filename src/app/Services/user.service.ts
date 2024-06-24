@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { baserUrl } from '../enviroment/enviroment';
 import { Observable, catchError, throwError } from 'rxjs';
@@ -24,6 +24,12 @@ export class UserService {
     addUserReview(data:any):Observable<any>
     {
       return this.http.post<any>(`${this.baseUrl}review`,data)
+    }
+    createInvoice(invoiceData: any): Observable<Blob> {
+      const headers = new HttpHeaders({
+        'Accept': 'application/pdf'
+      });
+      return this.http.post(`${this.baseUrl}createinvoice`, invoiceData, { headers, responseType: 'blob' });
     }
 
     private handleError(error: any): Observable<never> {

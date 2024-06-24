@@ -12,8 +12,6 @@ import { SubscriptionService } from '../../Services/subscription.service';
 export class CartComponent implements OnInit {
   items: any[] = [];
   quantities: { [key: string]: number } = {};
-  itemName: string = '';
-  itemPrice: number = 0;
   totalPrice: number = 0;
   totalAmount: number = 0;
   discount: number = 1;
@@ -22,16 +20,19 @@ export class CartComponent implements OnInit {
   overallPrice: number = 0;
   selectedPlan: number = 0;
   subscriptionPrice: number = 0;
-  selectedDay: string = '';
-  productPrice:number=0;
-  subPrice:number=0;
-  userId:any
+  productPrice: number = 0;
+  subPrice: number = 0;
+  userId: any;
+  subscriptionType: string | null = '';
+  subscriptionCategory: string | null = '';
+  date: any;
 
-  constructor(private cartService: CartserviceService,
-     private router: Router,
-     private prod: ProductsService,
-     private sub:SubscriptionService
-    ) {}
+  constructor(
+    private cartService: CartserviceService,
+    private router: Router,
+    private prod: ProductsService,
+    private sub: SubscriptionService
+  ) {}
 
   ngOnInit(): void {
     this.loadStoredData();
@@ -71,20 +72,20 @@ export class CartComponent implements OnInit {
       this.cartService.getCart().subscribe({
         next: data => {
           this.items = data.filter((item: any) => item.user_id === userId);
-          this.items.forEach((item: any) => {
+          const productDetailsRequests = this.items.map(item =>
+            this.prod.getProductById(item.product_id).toPromise().then(productDetails => {
+              item.productDetails = productDetails;
+              item.productPrice = productDetails.price;
+            })
+          );
 
-            this.prod.getProductById(item.product_id).subscribe({
-              next: (productDetails: any) => {
-                item.productDetails = productDetails;
-                this.productPrice=productDetails.price
-                                console.log('Product details:', this.productPrice);
-              },
-              error: err => {
-                console.error('Error fetching product details:', err);
-              }
-            });
+          Promise.all(productDetailsRequests).then(() => {
+            console.log('All product details fetched:', this.items);
+            localStorage.setItem('cartItem', JSON.stringify(this.items));
+            this.calculateTotalPrice();
+          }).catch(err => {
+            console.error('Error fetching product details:', err);
           });
-          this.calculateTotalPrice();
         },
         error: err => {
           console.error('Error fetching cart data:', err);
@@ -94,6 +95,7 @@ export class CartComponent implements OnInit {
       this.loadStoredData();
     }
   }
+
 
   calculateTotalPrice(): void {
     this.totalPrice = this.items.reduce((sum, item) => {
@@ -188,93 +190,86 @@ export class CartComponent implements OnInit {
     console.log('Adding subscription for plan:', plan, 'with ID:', subscriptionId);
   }
 
-  subscriptionType:string|null=''
   selectChangeHandler(event: Event): void {
     const selectedDay = (event.target as HTMLSelectElement).value;
     let price = 0;
 
     if (selectedDay === '9909ce77-02fe-49a5-840f-dad31e903a56') {
       console.log('1 Month selected');
-      price = this.productPrice * 30*0.9;
-      this.subPrice=price
-      this.subscriptionType='9909ce77-02fe-49a5-840f-dad31e903a56'
-      console.log('Price',  this.subPrice);
+      price = this.productPrice * 30 * 0.9;
+      this.subPrice = price;
+      this.subscriptionType = '9909ce77-02fe-49a5-840f-dad31e903a56';
+      console.log('Price', this.subPrice);
     } else if (selectedDay === '7264f7c3-73b2-41c1-b0bc-83c28e19e97f') {
       console.log('6 Months selected');
-      price = this.productPrice * 180*0.9;
-      this.subPrice=price
-      this.subscriptionType='7264f7c3-73b2-41c1-b0bc-83c28e19e97f'
-      console.log('Price',  this.subPrice);
+      price = this.productPrice * 180 * 0.9;
+      this.subPrice = price;
+      this.subscriptionType = '7264f7c3-73b2-41c1-b0bc-83c28e19e97f';
+      console.log('Price', this.subPrice);
     } else if (selectedDay === 'e3f1d7db-fe68-4b82-8d02-6d7b9cd7f26d') {
       console.log('9 Months selected');
-      price = this.productPrice * 270*0.9;
-      this.subPrice=price
-      this.subscriptionType='e3f1d7db-fe68-4b82-8d02-6d7b9cd7f26d'
-      console.log('Price',  this.subPrice);
+      price = this.productPrice * 270 * 0.9;
+      this.subPrice = price;
+      this.subscriptionType = 'e3f1d7db-fe68-4b82-8d02-6d7b9cd7f26d';
+      console.log('Price', this.subPrice);
     } else if (selectedDay === 'df8acba7-11bb-494d-b238-815c63ed4d33') {
       console.log('12 Months selected');
-      price = this.productPrice * 360*0.9;
-      this.subPrice=price
-      this.subscriptionType='df8acba7-11bb-494d-b238-815c63ed4d33'
-      console.log('Price',this.subPrice);
+      price = this.productPrice * 360 * 0.9;
+      this.subPrice = price;
+      this.subscriptionType = 'df8acba7-11bb-494d-b238-815c63ed4d33';
+      console.log('Price', this.subPrice);
     }
 
     const totalPriceInput = document.getElementById('totalPrice') as HTMLInputElement;
     totalPriceInput.value = price.toString();
+  }
 
-}
-subscriptionCategory:string|null=''
-date:any
-getDateValue(): void {
-  const DateInput = document.getElementById('pickdate') as HTMLInputElement;
-  this.subscriptionCategory='ea0e2c6a-a4ce-48a7-bf2c-c05c48d5497a'
-  if (DateInput) {
-    this.date = DateInput.value;
-    this.userId = localStorage.getItem('userId');
+  getDateValue(): void {
+    const DateInput = document.getElementById('pickdate') as HTMLInputElement;
+    this.subscriptionCategory = 'ea0e2c6a-a4ce-48a7-bf2c-c05c48d5497a';
+    if (DateInput) {
+      this.date = DateInput.value;
+      this.userId = localStorage.getItem('userId');
 
-    console.log('Selected date is: ' + this.date);
-    console.log('Price', this.subPrice);
-    console.log('userId', this.userId);
-    console.log('subCategory', this.subscriptionCategory);
-    console.log('subtype', this.subscriptionType);
+      console.log('Selected date is: ' + this.date);
+      console.log('Price', this.subPrice);
+      console.log('userId', this.userId);
+      console.log('subCategory', this.subscriptionCategory);
+      console.log('subtype', this.subscriptionType);
 
-    if (this.userId) {
-      const payload = {
-        user_id: this.userId,
-        price: this.subPrice,
-        suscription_type: this.subscriptionType,
-        purchased_date: this.date
-      };
-console.log(this.subscriptionType)
-      console.log('Payload:', payload);
+      if (this.userId) {
+        const payload = {
+          user_id: this.userId,
+          price: this.subPrice,
+          suscription_type: this.subscriptionType,
+          purchased_date: this.date
+        };
 
-      this.sub.addSubscription(payload).subscribe({
-        next: (response) => {
-          console.log('Subscription added successfully', response);
+        console.log('Payload:', payload);
 
-          console.log('Subscription added successfully', response.id);
-          if(response)
-            {
-              const allSubscriptionForPayload={
-                user_id:this.userId,
-                active_subscription_id:response.id,
-                cancelled_subscription_id:null,
-                paused_subscription_id:null
-              }
-              this.sub.addInAllSubscription(allSubscriptionForPayload).subscribe(data=>{
+        this.sub.addSubscription(payload).subscribe({
+          next: (response) => {
+            console.log('Subscription added successfully', response);
 
-              })
+            if (response) {
+              const allSubscriptionForPayload = {
+                user_id: this.userId,
+                active_subscription_id: response.id,
+                cancelled_subscription_id: null,
+                paused_subscription_id: null
+              };
+              this.sub.addInAllSubscription(allSubscriptionForPayload).subscribe(data => {
+                console.log('All subscription data added successfully:', data);
+              });
             }
-
-
-        },
-        error: (error) => {
-          console.error('Error adding subscription', error);
-        }
-      });
-    } else {
-      console.error('User ID is not available');
+          },
+          error: (error) => {
+            console.error('Error adding subscription', error);
+          }
+        });
+      } else {
+        console.error('User ID is not available');
+      }
     }
   }
-}
 }
