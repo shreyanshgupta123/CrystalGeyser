@@ -14,12 +14,10 @@ export class SubscriptionService {
   {
     return this.http.get(`${baserUrl}Subscription`)
   }
-
 getActiveSubscriptionById(id:any):Observable<any>
 {
   return this.http.get(`${baserUrl}activesubscription/${id}`)
 }
-
   addSubscription(subscriptionData: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
