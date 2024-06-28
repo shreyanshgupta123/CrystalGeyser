@@ -67,34 +67,12 @@ export class MySubscriptionsComponent implements OnInit, OnDestroy {
   }
 
   pausedSubscription(id: string): void {
-    this.forPaused = id;
-    console.log('This is allsub id=', this.forPaused);
 
-    this.subService.addPausedSubscription(id).pipe(
-      switchMap(data => {
-        console.log('This is paused id', data.id);
-        if (data.id) {
-          const updatedata = {
-            active_subscription_id: null,
-            cancelled_subscription_id: null,
-            paused_subscription_id: data.id
-          };
-          return this.subService.Updateactivesubscription(updatedata, this.forPaused).pipe(
-            tap(updated => {
-              console.log('This is updated:', updated);
-            })
-          );
-        } else {
-          throw new Error('No paused subscription ID returned');
-        }
-      })
-    ).subscribe(
-      () => {
-        this.getActiveUser();
-        this.getPausedSubscription();
-      },
-      error => console.error('Error pausing subscription', error)
-    );
+console.log(id)
+    this.subService.DeleteActiveSubscription(id).subscribe(data=>{
+      console.log('This is deleted:', data);
+
+    })
   }
 
   cancelOrder(id: string): void {
