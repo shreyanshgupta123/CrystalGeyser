@@ -67,7 +67,15 @@ getActiveSubscriptionById(id:any):Observable<any>
   {
     return this.http.get(`${this.baseUrl}activeSubscription/${id}`)
   }
-  updateAllsubscriptionbyId(){}
+DeleteActiveSubscription(id:any):Observable<any>
+{
+
+return this.http.delete(`${this.baseUrl}activeSubscription/${id}`)
+}
+Updateactivesubscription(data: any, id: any): Observable<any> {
+  return this.http.put(`${this.baseUrl}allsubscriptions/${id}`, data);
+}
+
 }
 
 

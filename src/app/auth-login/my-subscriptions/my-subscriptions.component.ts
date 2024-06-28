@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, forkJoin } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { SubscriptionService } from '../../Services/subscription.service';
 import { AuthServiceService } from '../../Services/auth-service.service';
@@ -25,6 +25,7 @@ export class MySubscriptionsComponent implements OnInit, OnDestroy {
   userId: string | null = null;
   toastVisible = false;
   toastVisible2 = false;
+  forPaused: any;
 
   constructor(
     private subService: SubscriptionService,
@@ -44,52 +45,55 @@ export class MySubscriptionsComponent implements OnInit, OnDestroy {
   }
 
   getActiveUser(): void {
-    this.subscription.add(
-      this.authService.getUserDetails(this.userId!).pipe(
-        tap(data => {
-          this.ActivesubscriptionsList = data.subscription;
-          localStorage.setItem('ActiveSubscription', JSON.stringify(this.ActivesubscriptionsList));
-        }),
-        switchMap(data => {
-          const activeSubscriptionObservables = data.subscription.map((element: any) =>
-            this.subService.getActiveSubscriptionById(element.active_subscription_id)
-          );
-          return forkJoin(activeSubscriptionObservables);
-        })
-      ).subscribe(
-        actSubscriptions => {
-          this.ActivesubscriptionsList = actSubscriptions as SubscriptionModel[];
-          localStorage.setItem('Activesub', JSON.stringify(this.ActivesubscriptionsList));
-        },
-        error => console.error('Error fetching active subscriptions', error)
-      )
+    this.authService.getUserDetails(this.userId!).subscribe(
+      data => {
+        console.log("this is=", data.subscription);
+        if (Array.isArray(data.subscription)) {
+          this.ActivesubscriptionsList = [];
+          data.subscription.forEach((element: any) => {
+            if (element.active_subscription_id) {
+              this.subService.getActiveSubscriptionById(element.active_subscription_id).subscribe(activeData => {
+                console.log("activeOne", activeData);
+                this.ActivesubscriptionsList.push(activeData);
+              });
+            }
+          });
+        } else {
+          console.error('Subscriptions data is not an array', data.subscription);
+        }
+      },
+      error => console.error('Error fetching user details', error)
     );
   }
 
   pausedSubscription(id: string): void {
-    this.subscription.add(
-      this.subService.getActiveSubscriptionById(id).subscribe(
-        data => {
-          const pausedsubobject = {
-            from_date: data.purchased_date,
-            expired_date: data.new_expired_date,
-            user_id: this.userId,
-            subscription_id: data.id,
-            is_paused: true
+    this.forPaused = id;
+    console.log('This is allsub id=', this.forPaused);
+
+    this.subService.addPausedSubscription(id).pipe(
+      switchMap(data => {
+        console.log('This is paused id', data.id);
+        if (data.id) {
+          const updatedata = {
+            active_subscription_id: null,
+            cancelled_subscription_id: null,
+            paused_subscription_id: data.id
           };
-   
-          this.subscription.add(
-            this.subService.addPausedSubscription(pausedsubobject).subscribe(
-              response => {
-                console.log('Subscription paused successfully', response);
-                this.getPausedSubscription();
-              },
-              error => console.error('Error pausing subscription', error)
-            )
+          return this.subService.Updateactivesubscription(updatedata, this.forPaused).pipe(
+            tap(updated => {
+              console.log('This is updated:', updated);
+            })
           );
-        },
-        error => console.error('Error fetching subscription by id', error)
-      )
+        } else {
+          throw new Error('No paused subscription ID returned');
+        }
+      })
+    ).subscribe(
+      () => {
+        this.getActiveUser();
+        this.getPausedSubscription();
+      },
+      error => console.error('Error pausing subscription', error)
     );
   }
 
@@ -121,7 +125,11 @@ export class MySubscriptionsComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.subService.getPausedSubscription().subscribe(
         data => {
-          this.PausedsubscriptionsList = data as SubscriptionModel[];
+          if (Array.isArray(data)) {
+            this.PausedsubscriptionsList = data as SubscriptionModel[];
+          } else {
+            console.error('Paused subscriptions data is not an array', data);
+          }
         },
         error => console.error('Error fetching paused subscriptions', error)
       )
