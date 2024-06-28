@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, forkJoin, Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { Subscription, forkJoin, Observable, of } from 'rxjs';
+import { switchMap, tap, catchError } from 'rxjs/operators';
 import { SubscriptionService } from '../../Services/subscription.service';
 import { AuthServiceService } from '../../Services/auth-service.service';
 
@@ -11,6 +11,7 @@ interface SubscriptionModel {
   new_expired_date: string;
   price: number;
   subscription_type: string;
+  subscription_id: string;
 }
 
 @Component({
@@ -54,20 +55,25 @@ export class MySubscriptionsComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(
       userDetails$.pipe(
-        tap(data => console.log("this is=", data.subscription)),
+        tap(data => console.log("User details: ", data.subscription)),
         switchMap(data => {
           if (Array.isArray(data.subscription)) {
             const activeSubs$: Observable<SubscriptionModel>[] = data.subscription.map((element: any) => {
               if (element.active_subscription_id) {
-                return this.subService.getActiveSubscriptionById(element.active_subscription_id);
+                return this.subService.getActiveSubscriptionById(element.active_subscription_id)
+                  .pipe(
+                    catchError(err => {
+                      console.error('Error fetching active subscription by id', err);
+                      return of(null);
+                    })
+                  );
               }
-              return null;
-            }).filter((obs:any): obs is Observable<SubscriptionModel> => obs !== null);
-
+              return of(null);
+            }).filter((obs: any): obs is Observable<SubscriptionModel> => obs !== null);
             return forkJoin(activeSubs$);
           } else {
             console.error('Subscriptions data is not an array', data.subscription);
-            return [];
+            return of([]);
           }
         })
       ).subscribe(
@@ -77,14 +83,28 @@ export class MySubscriptionsComponent implements OnInit, OnDestroy {
     );
   }
 
-  pauseSubscription(id: string): void {
+  pauseSubscription(id: string, sub: string): void {
+    const fornull = {
+      active_subscription_id: null,
+      paused_subscription_id: id,
+      cancelled_subscription_id: null,
+    };
+
     this.subscriptions.add(
-      this.subService.DeleteActiveSubscription(id).subscribe(
+      this.subService.Updateactivesubscription(sub, fornull).pipe(
+        tap(data => console.log('Subscription updated:', data)),
+        switchMap(() => this.subService.DeleteActiveSubscription(id)),
+        catchError(error => {
+          console.error('Error deleting subscription', error);
+          return of(null);
+        })
+      ).subscribe(
         data => {
-          console.log('This is deleted:', data);
-          this.loadUserSubscriptions();
-        },
-        error => console.error('Error deleting subscription', error)
+          if (data) {
+            console.log('Subscription deleted:', data);
+            this.loadUserSubscriptions();
+          }
+        }
       )
     );
   }
@@ -98,12 +118,20 @@ export class MySubscriptionsComponent implements OnInit, OnDestroy {
             subscription_type: data.subscription_type,
             purchasedDate: data.purchased_date
           };
-          return this.subService.cancelSubscription(cancelOrderData, id);
+          return this.subService.cancelSubscription(cancelOrderData, id)
+            .pipe(
+              catchError(err => {
+                console.error('Error cancelling subscription', err);
+                return of(null);
+              })
+            );
         })
       ).subscribe(
         response => {
-          console.log('Subscription cancelled successfully', response);
-          this.loadUserSubscriptions();
+          if (response) {
+            console.log('Subscription cancelled successfully', response);
+            this.loadUserSubscriptions();
+          }
         },
         error => console.error('Error cancelling subscription', error)
       )
@@ -112,15 +140,19 @@ export class MySubscriptionsComponent implements OnInit, OnDestroy {
 
   private getPausedSubscriptions(): void {
     this.subscriptions.add(
-      this.subService.getPausedSubscription().subscribe(
+      this.subService.getPausedSubscription().pipe(
+        catchError(error => {
+          console.error('Error fetching paused subscriptions', error);
+          return of([]);
+        })
+      ).subscribe(
         data => {
           if (Array.isArray(data)) {
             this.PausedsubscriptionsList = data as SubscriptionModel[];
           } else {
             console.error('Paused subscriptions data is not an array', data);
           }
-        },
-        error => console.error('Error fetching paused subscriptions', error)
+        }
       )
     );
   }
