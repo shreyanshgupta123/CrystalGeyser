@@ -107,11 +107,11 @@ console.log('pausedsub',data.id)
 this.subService.Updateactivesubscription(fornull,sub).subscribe(
   data=>{
 console.log(data)
-this.subService.DeleteActiveSubscription(id).subscribe(
-  data=>{
-console.log('Finally Deleted',data)
-  }
-)
+// this.subService.DeleteActiveSubscription(id).subscribe(
+//   data=>{
+// console.log('Finally Deleted',data)
+//   }
+// )
   }
 )
       }
