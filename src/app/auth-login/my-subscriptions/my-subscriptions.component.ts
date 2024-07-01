@@ -82,37 +82,51 @@ export class MySubscriptionsComponent implements OnInit, OnDestroy {
       )
     );
   }
-
   pauseSubscription(id: string, sub: string): void {
-    if (!id || !sub) {
-      console.error('Invalid parameters for pauseSubscription:', { id, sub });
-      return;
-    }
-
-    const fornull = {
-      active_subscription_id: null,
-      paused_subscription_id: id,
-      cancelled_subscription_id: null,
-    };
-
-    this.subscriptions.add(
-      this.subService.Updateactivesubscription(fornull, sub).pipe(
-        tap(data => console.log('Subscription updated:', data)),
-        switchMap(() => this.subService.DeleteActiveSubscription(id)),
-        catchError(error => {
-          console.error('Error deleting subscription', error);
-          return of(null);
-        })
-      ).subscribe(
-        data => {
-          if (data) {
-            console.log('Subscription deleted:', data);
-            this.loadUserSubscriptions();
-          }
-        }
-      )
-    );
+let actid=id
+console.log(sub,id);
+this.subService.getActiveSubscriptionByid(id).subscribe(
+  data=>{
+     const createPausedSubscription={
+       from_date: this.formatDate(data.purchased_date),
+       expired_date: this.formatDate(data.expired_date),
+       user_id: this.userId,
+       subscription_id: id,
+       is_paused: true
+     };
+     this.subService.addPausedSubscription(createPausedSubscription).subscribe(
+      data=>{
+console.log('pausedsub',data.id)
+        const fornull = {
+          active_subscription_id: null,
+          cancelled_subscription_id: null,
+          paused_subscription_id: data.id,
+          user_id:this.userId
+        };
+        console.log(fornull)
+this.subService.Updateactivesubscription(fornull,sub).subscribe(
+  data=>{
+console.log(data)
+this.subService.DeleteActiveSubscription(id).subscribe(
+  data=>{
+console.log('Finally Deleted',data)
   }
+)
+  }
+)
+      }
+     )
+  }
+)
+
+
+
+
+  }
+  private formatDate(dateString: string): string {
+    return dateString.split('T')[0];
+  }
+
 
   cancelOrder(id: string): void {
     this.subscriptions.add(
