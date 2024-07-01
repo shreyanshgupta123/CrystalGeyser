@@ -84,6 +84,11 @@ export class MySubscriptionsComponent implements OnInit, OnDestroy {
   }
 
   pauseSubscription(id: string, sub: string): void {
+    if (!id || !sub) {
+      console.error('Invalid parameters for pauseSubscription:', { id, sub });
+      return;
+    }
+
     const fornull = {
       active_subscription_id: null,
       paused_subscription_id: id,
@@ -91,7 +96,7 @@ export class MySubscriptionsComponent implements OnInit, OnDestroy {
     };
 
     this.subscriptions.add(
-      this.subService.Updateactivesubscription(sub, fornull).pipe(
+      this.subService.Updateactivesubscription(fornull, sub).pipe(
         tap(data => console.log('Subscription updated:', data)),
         switchMap(() => this.subService.DeleteActiveSubscription(id)),
         catchError(error => {
