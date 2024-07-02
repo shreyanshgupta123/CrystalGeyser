@@ -74,6 +74,9 @@ Updateactivesubscription(data: any, id: any): Observable<any> {
   return this.http.put(`${this.baseUrl}allsubscriptions/${id}`, data);
 }
 
+getPausedSubscriptionById(id:any):Observable<any>{
+  return this.http.get(`${this.baseUrl}pausedsubscription/${id}`)
+}
 }
 
 

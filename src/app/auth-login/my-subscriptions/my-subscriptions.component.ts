@@ -3,7 +3,6 @@ import { Subscription, forkJoin, Observable, of } from 'rxjs';
 import { switchMap, tap, catchError } from 'rxjs/operators';
 import { SubscriptionService } from '../../Services/subscription.service';
 import { AuthServiceService } from '../../Services/auth-service.service';
-
 interface SubscriptionModel {
   active_subscription_id: string;
   id: string;
@@ -12,8 +11,17 @@ interface SubscriptionModel {
   price: number;
   subscription_type: string;
   subscription_id: string;
+  validity_duration:{
+    days: number;
+  }
 }
-
+interface SubscriptionModel2 {
+  expired_date:string;
+  from_date:string;
+  paused_days:string;
+  id:string;
+  price:string;
+}
 @Component({
   selector: 'app-my-subscriptions',
   templateUrl: './my-subscriptions.component.html',
@@ -21,53 +29,53 @@ interface SubscriptionModel {
 })
 export class MySubscriptionsComponent implements OnInit, OnDestroy {
   ActivesubscriptionsList: SubscriptionModel[] = [];
-  PausedsubscriptionsList: SubscriptionModel[] = [];
+  PausedsubscriptionsList: SubscriptionModel2[] = [];
   private subscriptions: Subscription = new Subscription();
   userId: string | null = null;
   toastVisible = false;
   toastVisible2 = false;
-
   constructor(
     private subService: SubscriptionService,
     private authService: AuthServiceService,
   ) {}
-
   ngOnInit(): void {
     this.userId = localStorage.getItem('userId');
     if (this.userId) {
       this.loadUserSubscriptions();
     }
   }
-
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
-
   private loadUserSubscriptions(): void {
     this.getUserDetails();
     this.getPausedSubscriptions();
   }
-
   private getUserDetails(): void {
     if (this.userId) {
       this.authService.getUserDetails(this.userId).subscribe(
         data => {
-          console.log('userDetail', data.subscription);
           data.subscription.forEach((element: any) => {
-            console.log(element);
             if (element.active_subscription_id) {
-              console.log('activesub', element.active_subscription_id);
               this.subService.getActiveSubscriptionByid(element.active_subscription_id).subscribe(
                 data3 => {
-                  console.log('Active subscription data:', data3);
                   this.ActivesubscriptionsList.push(data3);
-                  console.log('Updated ActivesubscriptionsList:', this.ActivesubscriptionsList);
+                  console.log(this.ActivesubscriptionsList)
                 },
                 error => {
                   console.error('Error fetching active subscription:', error);
                 }
               );
-            }
+            } else if(element.paused_subscription_id)
+              {
+     console.log(element.paused_subscription_id)
+     this.subService.getPausedSubscriptionById(element.paused_subscription_id).subscribe(data=>{
+console.log(data)
+this.PausedsubscriptionsList.push(data)
+
+
+     })
+              }
           });
         },
         error => {
@@ -76,8 +84,7 @@ export class MySubscriptionsComponent implements OnInit, OnDestroy {
       );
     }
   }
-
-  pauseSubscription(id: string, sub: string): void {
+  pauseSubscription(id: string, sub: string,priceOfItem:any): void {
     let actid = id;
     console.log(sub, id);
     this.subService.getActiveSubscriptionByid(id).subscribe(
@@ -87,7 +94,8 @@ export class MySubscriptionsComponent implements OnInit, OnDestroy {
           expired_date: this.formatDate(data.expired_date),
           user_id: this.userId,
           subscription_id: id,
-          is_paused: true
+          is_paused: true,
+          price:priceOfItem
         };
         this.subService.addPausedSubscription(createPausedSubscription).subscribe(
           data => {
@@ -157,7 +165,7 @@ export class MySubscriptionsComponent implements OnInit, OnDestroy {
       ).subscribe(
         data => {
           if (Array.isArray(data)) {
-            this.PausedsubscriptionsList = data as SubscriptionModel[];
+            this.PausedsubscriptionsList = data as SubscriptionModel2[];
           } else {
             console.error('Paused subscriptions data is not an array', data);
           }
