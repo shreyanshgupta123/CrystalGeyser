@@ -49,7 +49,7 @@ export class MySubscriptionsComponent implements OnInit, OnDestroy {
   }
   private loadUserSubscriptions(): void {
     this.getUserDetails();
-    this.getPausedSubscriptions();
+
   }
   private getUserDetails(): void {
     if (this.userId) {
@@ -66,14 +66,12 @@ export class MySubscriptionsComponent implements OnInit, OnDestroy {
                   console.error('Error fetching active subscription:', error);
                 }
               );
-            } else if(element.paused_subscription_id)
+            } else if(element.paused_subscription_id && !element.active_subscription_id)
               {
      console.log(element.paused_subscription_id)
      this.subService.getPausedSubscriptionById(element.paused_subscription_id).subscribe(data=>{
 console.log(data)
-this.PausedsubscriptionsList.push(data)
-
-
+this.PausedsubscriptionsList.push(data);
      })
               }
           });
@@ -128,49 +126,7 @@ this.PausedsubscriptionsList.push(data)
   }
 
   cancelOrder(id: string): void {
-    this.subscriptions.add(
-      this.subService.subscriptionById(id).pipe(
-        switchMap(data => {
-          const cancelOrderData = {
-            price: data.price,
-            subscription_type: data.subscription_type,
-            purchasedDate: data.purchased_date
-          };
-          return this.subService.cancelSubscription(cancelOrderData, id)
-            .pipe(
-              catchError(err => {
-                console.error('Error cancelling subscription', err);
-                return of(null);
-              })
-            );
-        })
-      ).subscribe(
-        response => {
-          if (response) {
-            console.log('Subscription cancelled successfully', response);
-            this.loadUserSubscriptions();
-          }
-        },
-        error => console.error('Error cancelling subscription', error)
-      )
-    );
+    
   }
-  private getPausedSubscriptions(): void {
-    this.subscriptions.add(
-      this.subService.getPausedSubscription().pipe(
-        catchError(error => {
-          console.error('Error fetching paused subscriptions', error);
-          return of([]);
-        })
-      ).subscribe(
-        data => {
-          if (Array.isArray(data)) {
-            this.PausedsubscriptionsList = data as SubscriptionModel2[];
-          } else {
-            console.error('Paused subscriptions data is not an array', data);
-          }
-        }
-      )
-    );
-  }
+
 }
