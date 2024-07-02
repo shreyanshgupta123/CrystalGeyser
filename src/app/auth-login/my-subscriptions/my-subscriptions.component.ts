@@ -147,7 +147,6 @@ export class MySubscriptionsComponent implements OnInit, OnDestroy {
       )
     );
   }
-
   private getPausedSubscriptions(): void {
     this.subscriptions.add(
       this.subService.getPausedSubscription().pipe(
