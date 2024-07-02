@@ -65,18 +65,22 @@ getActiveSubscriptionById(id:any):Observable<any>
   {
     return this.http.get(`${this.baseUrl}activeSubscription/${id}`)
   }
-DeleteActiveSubscription(id:any):Observable<any>
+ DeleteActiveSubscription(id:any):Observable<any>
 {
 
 return this.http.delete(`${this.baseUrl}activesubscription/${id}`)
 }
-Updateactivesubscription(data: any, id: any): Observable<any> {
+ Updateactivesubscription(data: any, id: any): Observable<any> {
   return this.http.put(`${this.baseUrl}allsubscriptions/${id}`, data);
 }
 
-getPausedSubscriptionById(id:any):Observable<any>{
+ getPausedSubscriptionById(id:any):Observable<any>{
   return this.http.get(`${this.baseUrl}pausedsubscription/${id}`)
 }
+addCanceledSubscription(data:any):Observable<any>{
+  return this.http.get(`${this.baseUrl}cancelledsubscription`,data)
+}
+
 }
 
 

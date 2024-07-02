@@ -24,6 +24,13 @@ interface SubscriptionModel2 {
   price: string;
 }
 
+interface SubscriptionModel3{
+  price: string,
+  user_id:string,
+  purchased_date: string,
+  reason: string
+}
+
 @Component({
   selector: 'app-my-subscriptions',
   templateUrl: './my-subscriptions.component.html',
@@ -147,7 +154,10 @@ export class MySubscriptionsComponent implements OnInit, OnDestroy {
             reason: this.cancellationReason
           };
           console.log(createCanceledSubscription);
-          // Proceed to store the createCanceledSubscription object as needed
+          this.subService.addCanceledSubscription(createCanceledSubscription).subscribe(
+            data=>{
+          console.log('order cancelled response-',data);
+          })
           const dialog: any = document.getElementById('my_modal_3');
           dialog.close();
         }
