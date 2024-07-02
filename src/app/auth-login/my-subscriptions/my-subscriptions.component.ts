@@ -90,7 +90,7 @@ export class MySubscriptionsComponent implements OnInit, OnDestroy {
               this.subService.getPausedSubscriptionById(element.paused_subscription_id).subscribe(data => {
                 console.log(data);
                 this.PausedsubscriptionsList.push(data);
-                this. allsubid=data.all_subscription_id
+                this.allsubid=data.all_subscription_id
               });
             } else if (element.cancelled_subscription_id) {
               this.subService.getCanceledSubscriptionById(element.cancelled_subscription_id).subscribe(
