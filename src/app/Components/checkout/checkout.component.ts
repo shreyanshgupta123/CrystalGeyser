@@ -223,7 +223,7 @@ export class CheckoutComponent implements OnInit {
           const createOrder = {
             user_id: this.userId,
             product_id: item.product_id,
-            price: item.productDetails.price * item.quantity,
+            price: totalPriceNumber,
             unit: item.quantity,
             payment_method: "UPI"
           };
