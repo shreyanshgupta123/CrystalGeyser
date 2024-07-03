@@ -218,12 +218,12 @@ export class CheckoutComponent implements OnInit {
           invoice_nr: 256
         };
 
-        // Loop through each item and create an order for each product ID
+
         allItems.forEach((item: any) => {
           const createOrder = {
             user_id: this.userId,
-            product_id: item.product_id, // Pass one product ID at a time
-            price: item.productDetails.price * item.quantity, // Calculate the price for the item
+            product_id: item.product_id,
+            price: item.productDetails.price * item.quantity,
             unit: item.quantity,
             payment_method: "UPI"
           };

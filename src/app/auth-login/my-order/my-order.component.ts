@@ -134,4 +134,9 @@ export class MyOrderComponent {
       }
     );
   }
+
+  canceledOrder(id:any)
+  {
+    console.log(id)
+  }
 }
