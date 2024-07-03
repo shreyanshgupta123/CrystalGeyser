@@ -1,7 +1,7 @@
 
 <div role="tablist" class="tabs tabs-bordered">
 
-  <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Current Order" checked (click)="selectOrder('current')" />
+  <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Current Order" checked  />
   <div role="tabpanel" class="tab-content p-10 ">
 
     <div class="overflow-auto h-96">
@@ -16,7 +16,7 @@
               <p class="mb-3 font-normal font-bold text-gray-700 dark:text-gray-400">Units: {{currentOrder.unit}}</p>
               <p class="mb-3 font-normal font-bold text-gray-700 dark:text-gray-400">Payment Method: {{currentOrder.payment_method}}</p>
               <p class="mb-3 font-normal font-bold text-gray-700 dark:text-gray-400" style="color:green">Expected Date: {{currentOrder.expected_delivery|date}}</p>
-              <button class="btn" (click)="canceledOrder(currentOrder.id)">Cancel order</button>
+              <button class="btn" (click)="canceledOrder(currentOrder.id,currentOrder.product_id,currentOrder.price,currentOrder.unit,currentOrder.expected_delivery,currentOrder.payment_method)">Cancel order</button>
             </div>
           </a>
 
@@ -30,7 +30,7 @@
   </div>
 
   <!-- Delivered Order Tab -->
-  <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Delivered Order" (click)="selectOrder('delivered')" />
+  <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Delivered Order" />
   <div role="tabpanel" class="tab-content p-10 ">
     <ng-container *ngIf="orderDetails2 && orderDetails2.length > 0; else noDeliveredOrders">
       <div *ngFor="let deliveredOrder of orderDetails2" class="mt-2">
@@ -54,7 +54,7 @@
   </div>
 
   <!-- Canceled Order Tab -->
-  <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Canceled Order" (click)="selectOrder('canceled')" />
+  <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Canceled Order"  />
   <div role="tabpanel" class="tab-content p-10 ">
     <ng-container *ngIf="orderDetails3 && orderDetails3.length > 0; else noCancelledOrders">
       <div *ngFor="let cancelledOrder of orderDetails3" class="mt-2">

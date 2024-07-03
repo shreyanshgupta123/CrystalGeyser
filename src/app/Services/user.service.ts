@@ -39,6 +39,16 @@ addOrder(data:any):Observable<any>
 {
   return this.http.post<any>(`${this.baseUrl}currentorders`,data)
 }
+
+deleteCurrentOrder(id:any):Observable<any>
+{
+  return this.http.delete(`${this.baseUrl}currentorders/${id}`)
+}
+addcanceledOrder(data:any):Observable<any>
+{
+return this.http.post(`${this.baseUrl}cancelledorders`,data)
+}
+
     private handleError(error: any): Observable<never> {
       console.error('An error occurred:', error);
       return throwError('Something went wrong; please try again later.');

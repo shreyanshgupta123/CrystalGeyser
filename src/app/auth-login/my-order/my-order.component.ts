@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthServiceService } from '../../Services/auth-service.service';
 import { ProductsService } from '../../Services/products.service';
 import { forkJoin, map } from 'rxjs';
 import { CancelledOrder, CurrentOrder, DeliveredOrder, Products } from '../../Interface/products.models';
+import { UserService } from '../../Services/user.service';
 
 @Component({
   selector: 'app-my-order',
   templateUrl: './my-order.component.html',
   styleUrls: ['./my-order.component.css']
 })
-export class MyOrderComponent {
+export class MyOrderComponent implements OnInit {
   userOrder: any[] = [];
   id: string | null;
   orderDetails: CurrentOrder[] = [];
@@ -20,7 +21,8 @@ export class MyOrderComponent {
   isLoading:boolean=false
   constructor(
     private auth: AuthServiceService,
-    private product: ProductsService
+    private product: ProductsService,
+    private userserv:UserService
   ) {
     this.id = localStorage.getItem('userId');
     this.userId = this.id; // Store userId for filtering
@@ -31,22 +33,13 @@ export class MyOrderComponent {
       console.error('User order data not found in localStorage.');
     }
   }
-
-  selectOrder(select: string) {
-    switch (select) {
-      case 'current':
-        this.handleOrderType();
-        break;
-      case 'delivered':
-        this.handleOrderType2();
-        break;
-      case 'canceled':
-        this.handleOrderType3();
-        break;
-      default:
-        break;
-    }
+  ngOnInit(): void {
+    this.handleOrderType()
+    this.handleOrderType2()
+    this.handleOrderType3()
   }
+
+
 
   private handleOrderType() {
     this.product.OrderByListCurrent().subscribe(
@@ -61,10 +54,10 @@ export class MyOrderComponent {
             })
           );
         });
-
         forkJoin(productObservables).subscribe(
           (ordersWithProducts: CurrentOrder[]) => {
             this.orderDetails = ordersWithProducts;
+            console.log('This is the response',this.orderDetails)
           },
           (error: any) => {
             console.error('Error fetching product details for current orders:', error);
@@ -86,6 +79,7 @@ export class MyOrderComponent {
           return this.product.getProductById(order.product_id).pipe(
             map(product => {
               order.product = product;
+
               return order;
             })
           );
@@ -105,7 +99,6 @@ export class MyOrderComponent {
       }
     );
   }
-
   private handleOrderType3() {
     this.product.OrderByListCancelled().subscribe(
       (cancelledOrders: unknown) => {
@@ -135,8 +128,25 @@ export class MyOrderComponent {
     );
   }
 
-  canceledOrder(id:any)
+  canceledOrder(id:any,productId:any,price:any,Unit:any,date:any,paymentmeth:any):void
   {
-    console.log(id)
-  }
+const createCanceledOrder={
+  user_id:this.userId,
+  product_id:productId,
+  price:price,
+  unit:Unit,
+  expected_delivery:date,
+  payment_method:paymentmeth,
+  cancellation_reason:"not available at the location"
+}
+
+console.log(createCanceledOrder);
+
+this.userserv.addcanceledOrder(createCanceledOrder).subscribe(
+  {next: (data: any) => {
+     console.log( 'Canceled the Order',data);
+     this.userserv.deleteCurrentOrder(id).subscribe({
+  next: (data) => {
+ console.log(data)
+   }})}})}
 }
