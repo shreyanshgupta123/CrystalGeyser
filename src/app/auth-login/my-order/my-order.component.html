@@ -1,7 +1,11 @@
+
 <div role="tablist" class="tabs tabs-bordered">
-  <!-- Current Order Tab -->
+
   <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Current Order" checked (click)="selectOrder('current')" />
   <div role="tabpanel" class="tab-content p-10 ">
+    <!-- <div >
+      <span class="loading loading-spinner loading-lg"></span>
+    </div> -->
     <ng-container *ngIf="orderDetails && orderDetails.length > 0; else noCurrentOrders">
       <div *ngFor="let currentOrder of orderDetails" class="mt-2">
         <a href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">

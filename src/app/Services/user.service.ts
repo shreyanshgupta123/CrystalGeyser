@@ -31,7 +31,14 @@ export class UserService {
       });
       return this.http.post(`${this.baseUrl}createinvoice`, invoiceData, { headers, responseType: 'blob' });
     }
-
+getCurrentOrder():Observable<any>
+{
+  return this.http.get<any>(`${this.baseUrl}currentorders`)
+}
+addOrder(data:any):Observable<any>
+{
+  return this.http.post<any>(`${this.baseUrl}currentorders`,data)
+}
     private handleError(error: any): Observable<never> {
       console.error('An error occurred:', error);
       return throwError('Something went wrong; please try again later.');

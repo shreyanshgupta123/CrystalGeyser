@@ -189,22 +189,20 @@ export class CheckoutComponent implements OnInit {
     const items = localStorage.getItem('cartitem');
     const totalPrice = localStorage.getItem('TotalAmount');
     const totalPriceNumber = Number(totalPrice);
-this.totalamount=totalPriceNumber
-// console.log(items)
+    this.totalamount = totalPriceNumber;
+
     if (address && items) {
       const selectedAddress = JSON.parse(address);
       const allItems = JSON.parse(items);
 
       if (selectedAddress && selectedAddress.id) {
-
         const formattedItems = allItems.map((item: any) => ({
           item: item.productDetails.productname,
           description: item.description,
           quantity: item.quantity,
           amount: item.productDetails.price
-
         }));
-// console.log(allItems)
+
         const createInvoice = {
           shipping: {
             name: selectedAddress.name,
@@ -220,7 +218,27 @@ this.totalamount=totalPriceNumber
           invoice_nr: 256
         };
 
+        // Loop through each item and create an order for each product ID
+        allItems.forEach((item: any) => {
+          const createOrder = {
+            user_id: this.userId,
+            product_id: item.product_id, // Pass one product ID at a time
+            price: item.productDetails.price * item.quantity, // Calculate the price for the item
+            unit: item.quantity,
+            payment_method: "UPI"
+          };
+
+          console.log('This is create order-', createOrder);
+
+          this.userService.addOrder(createOrder).subscribe({
+            next: (data) => {
+              console.log(data);
+            }
+          });
+        });
+
         console.log(createInvoice);
+
         this.userService.createInvoice(createInvoice).subscribe(
           data => {
             const blob = new Blob([data], { type: 'application/pdf' });
@@ -242,6 +260,8 @@ this.totalamount=totalPriceNumber
       console.error('No selected address or items found in localStorage.');
     }
   }
+
+
 
 
 

@@ -17,7 +17,7 @@ export class MyOrderComponent {
   orderDetails2: DeliveredOrder[] = [];
   products: Products | undefined;
   userId: string | null;
-
+  isLoading:boolean=false
   constructor(
     private auth: AuthServiceService,
     private product: ProductsService
