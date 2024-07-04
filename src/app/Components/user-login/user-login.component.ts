@@ -44,7 +44,7 @@ export class UserLoginComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.loginForm && this.loginForm.valid) { 
+    if (this.loginForm && this.loginForm.valid) {
       this.isLoading = true;
       this.showForm = false;
       this.auth.Login(this.loginForm.value).subscribe(
@@ -64,6 +64,7 @@ export class UserLoginComponent implements OnInit {
             timer(800).pipe(take(1)).subscribe(() => {
               this.isLogIn = false;
               this.router.navigate(['/home']).then(() => {
+                localStorage.setItem('role','Admin')
                 window.location.reload();
               });
             });
