@@ -2,6 +2,7 @@ import { Component, AfterViewInit, OnInit, ElementRef, Renderer2, signal } from 
 import { Router } from '@angular/router';
 import { ProductsService } from '../../Services/products.service';
 import { FormControl } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,14 +11,15 @@ import { FormControl } from '@angular/forms';
 })
 export class NavbarComponent implements AfterViewInit, OnInit {
   isAdmin: boolean = false;
-  cartItemCount: number = 0; 
+  cartItemCount: number = 0;
   searchTerm: string = '';
 searchData:any[]=[]
   constructor(
     private router: Router,
     private el: ElementRef,
     private renderer: Renderer2,
-    private prod:ProductsService
+    private prod:ProductsService,
+    private cookies:CookieService
   ) {}
   onInputChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
@@ -50,13 +52,20 @@ searchData:any[]=[]
   authloginnav() {
     if (typeof window !== 'undefined') {
       const role = localStorage.getItem('role');
-      this.isAdmin = role === 'Admin';
+      const role2=this.cookies.get('role')
+      if(role||role2)
+        {
+          this.isAdmin = role === 'Admin';
+        }
+
     }
   }
 
   logOut() {
     if (typeof window !== 'undefined') {
       sessionStorage.removeItem('authToken');
+      this.cookies.delete('authToken')
+      this.cookies.deleteAll()
       localStorage.clear();
       this.router.navigate(['home']);
       window.location.reload();
