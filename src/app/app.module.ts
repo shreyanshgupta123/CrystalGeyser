@@ -28,6 +28,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ForgetPasswordComponent } from './Components/forget-password/forget-password.component';
 import { UserReviewComponent } from './Components/user-review/user-review.component';
+import { DateFormatterPipe } from './date-formatter.pipe';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { UserReviewComponent } from './Components/user-review/user-review.compon
     SignUpComponent,
     ForgetPasswordComponent,
     UserReviewComponent,
+    DateFormatterPipe,
   ],
   imports: [
     BrowserModule,
