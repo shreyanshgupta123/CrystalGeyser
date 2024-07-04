@@ -32,7 +32,7 @@ export class ForgetPasswordComponent implements OnInit {
     if (this.resetPasswordForm.valid) {
       const { password, confirmPassword } = this.resetPasswordForm.value;
       if (password === confirmPassword) {
-        this.auth.resetPassword({ token: this.tokenForPassword!, newPassword: password }).subscribe(
+        this.auth.resetpassword({ token: this.tokenForPassword!, newPassword: password }).subscribe(
           response => {
             console.log("Password changed successfully");
             this.router.navigate(['userlogin']);

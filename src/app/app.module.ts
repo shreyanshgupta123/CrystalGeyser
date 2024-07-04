@@ -15,7 +15,7 @@ import { ShowselectedProductComponent } from './Components/showselected-product/
 import { RelatedProductsComponent } from './Components/related-products/related-products.component';
 import { CheckoutComponent } from './Components/checkout/checkout.component';
 import { UserLoginComponent } from './Components/user-login/user-login.component';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { AuthLoginModule } from './auth-login/auth-login.module';
 import { DistilledWaterComponent } from './Components/CategorywiseProducts/distilled-water/distilled-water.component';
 import { MineralWaterComponent } from './Components/CategorywiseProducts/mineral-water/mineral-water.component';
@@ -28,9 +28,6 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ForgetPasswordComponent } from './Components/forget-password/forget-password.component';
 import { UserReviewComponent } from './Components/user-review/user-review.component';
-import { CookieService } from 'ngx-cookie-service';
-import { AuthServiceService } from './Services/auth-service.service';
-import { AuthInterceptorService } from './interceptors/api-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -70,11 +67,7 @@ import { AuthInterceptorService } from './interceptors/api-interceptor.service';
   providers: [
     provideClientHydration(),
     ToastrService,
-    CookieService,
-      AuthServiceService,
-      { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
-    ],
-
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

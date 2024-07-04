@@ -42,25 +42,23 @@ export class AuthServiceService {
       catchError(this.handleError)
     );
   }
-
-  getAllUsers(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}users`).pipe(
-      catchError(this.handleError)
-    );
-  }
-
+getAllUsers():Observable<any>
+{
+  return this.http.get<any>(`${this.baseUrl}users`).pipe(
+    catchError(this.handleError)
+  );
+}
   getUserDetails(id: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}users/${id}`).pipe(
       catchError(this.handleError)
     );
   }
-
-  getSubscriptionDetails(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}subscription`).pipe(
-      catchError(this.handleError)
-    );
+  getSubscriptionDetails():Observable<any>
+  {
+return this.http.get<any>(`${baserUrl}subscription`).pipe(
+  catchError(this.handleError)
+)
   }
-
   updateUserDetails(userId: string, userDetails: any): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}users/${userId}`, userDetails);
   }
@@ -74,30 +72,29 @@ export class AuthServiceService {
       catchError(this.handleError)
     );
   }
-
   createAlternateAddress(data: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}alternateaddress`, data);
   }
-
   deleteAlternateAddress(id: any): Observable<any> {
     const url = `${this.baseUrl}alternateaddress/${id}`;
     return this.http.delete<any>(url);
   }
-
-  forgotEmail(data: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}forgetpassword`, data).pipe(
+  forgotEmail(data:any):Observable<any>{
+    return this.http.post(`${baserUrl}forgetpassword`,data).pipe(
       catchError(this.handleError)
     );
   }
-
-  resetPassword(data: { token: string, newPassword: string }): Observable<any> { // Ensure method name is 'resetPassword'
-    return this.http.post<any>(`${this.baseUrl}forgetpassword/resetpassword`, data).pipe(
+  resetpassword(data: { token: string, newPassword: string }): Observable<any> {
+    return this.http.post(`${this.baseUrl}forgetpassword/resetpassword`, data).pipe(
       catchError(this.handleError)
     );
   }
-
   private handleError(error: any): Observable<never> {
     console.error('An error occurred:', error);
     return throwError('Something went wrong; please try again later.');
   }
+
+
+
+
 }
