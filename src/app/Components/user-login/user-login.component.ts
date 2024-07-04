@@ -15,13 +15,11 @@ export interface Email {
 })
 export class UserLoginComponent implements OnInit {
   loginForm!: FormGroup;
-  role: string = '';
   isLoading = false;
-  showForm: boolean = true;
-  userId: any;
-  presentEmailAddress: any;
-  Email: any = {};
+  showForm = true;
   isLogIn = false;
+  presentEmailAddress: string = '';
+  userId: any;
 
   constructor(
     private fb: FormBuilder,
@@ -35,19 +33,18 @@ export class UserLoginComponent implements OnInit {
 
   initForm() {
     this.loginForm = this.fb.group({
-      username: ['', [Validators.required]],
+      username: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
   }
 
-  emailForm() {
-    this.Email = this.fb.group({
-      email: this.presentEmailAddress
-    });
+  openForgotPasswordModal() {
+    // Implement logic to open forgot password modal here if needed
+    // Example: document.getElementById('my_modal_5')?.showModal();
   }
 
   onSubmit() {
-    if (this.loginForm.valid) {
+    if (this.loginForm && this.loginForm.valid) { 
       this.isLoading = true;
       this.showForm = false;
       this.auth.Login(this.loginForm.value).subscribe(
@@ -57,9 +54,6 @@ export class UserLoginComponent implements OnInit {
             console.log('Token stored in session storage:', result.token);
             this.isLoading = false;
             this.showForm = true;
-
-            this.role = result.role || 'Admin';
-            localStorage.setItem('role', this.role);
 
             if (result.userId) {
               localStorage.setItem('userId', result.userId);
