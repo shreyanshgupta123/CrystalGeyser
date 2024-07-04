@@ -59,7 +59,6 @@ export class UserLoginComponent implements OnInit {
               localStorage.setItem('userId', result.userId);
               console.log('User ID stored in local storage:', result.userId);
             }
-
             this.isLogIn = true;
             timer(800).pipe(take(1)).subscribe(() => {
               this.isLogIn = false;
